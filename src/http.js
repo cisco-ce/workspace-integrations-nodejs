@@ -102,8 +102,11 @@ function xCommand(accessToken, deviceId, command, arguments, multiline) {
   const url = commandUrl + command;
   const body = {
     deviceId,
-    arguments,
   };
+
+  if (arguments) {
+    body.arguments = arguments;
+  }
 
   if (multiline) {
     body.body = multiline;
