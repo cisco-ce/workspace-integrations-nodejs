@@ -1,15 +1,13 @@
 {
   "name": "workspace-integrations",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Webex Workspace Integrations SDK",
   "main": "src/index.js",
   "author": "Tore Bjolseth <Cisco>",
   "license": "ISC",
-  "scripts": {
-  },
+  "scripts": {},
   "dependencies": {
     "node-fetch": "^2.6.7"
   },
-  "devDependencies": {
-  }
+  "devDependencies": {}
 }
