@@ -25,7 +25,7 @@ function sleep(ms) {
 }
 
 function removePath(path, object) {
-  const paths = path.split('.');
+  const paths = path.replace(/ /g, '.').split('.');
   let res = object;
   paths.forEach(key => {
     if (key !== '*') {
