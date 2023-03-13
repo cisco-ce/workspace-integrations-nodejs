@@ -87,6 +87,10 @@ class XAPI {
     return this.appInfo.publicLocationIds;
   }
 
+  getAppInfo() {
+    return this.appInfo;
+  }
+
   deviceDetails(deviceId) {
     const token = this.getAccessToken();
     return http.deviceDetails(token, deviceId);
