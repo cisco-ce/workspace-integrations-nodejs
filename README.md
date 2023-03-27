@@ -115,7 +115,7 @@ For the SDK to work, you typically need to add the following API scopes to your 
 * spark:xapi_statuses
 * spark:xapi_commands
 
-You can also update device configurations if you use **spark-admin:devices_write**, but this is not recommended (and admins will probably be hesitatant to allow integrations that require this).
+You can also update device configurations if you use **spark-admin:devices_write**, but this is not recommended (and admins will probably be hesitant to allow integrations that require this).
 
 ## Limitations
 
@@ -124,6 +124,8 @@ It's important to be aware of the following limitations:
 * There's a limited set of statuses and events you can subscribe to, such as room analytics and user interface extensions actions (see Control Hub for the full list) - though you can still query all of them.
 
 * On personal devices, you cannot use APIs that are listed as privacy impacting (see roomos.cisco.com/xapi to verify the APIs).
+
+* If your integration has been allowed for only certain locations, you will still be able to list all the devices in the org, but only invoke commands and statuses for the device in the allowed locations. Other devices will return 403 Forbidden.
 
 ## Useful resources
 
