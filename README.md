@@ -11,10 +11,10 @@ What this SDK gives you:
 * Automatically refreshes the access token when necessary
 * Object-oriented API, no need to deal with HTTP calls
 * JSXAPI-like syntax for
-  * querying devices for status and config values
-  * invoking command on devices
-  * subscribing to events and status changes on the devices
-* A few samples to get you started
+  * Querying devices for status
+  * Getting and setting device configurations
+  * Invoking command on devices
+  * Subscribing to events and status changes on the devices
 
 ## Installation
 
