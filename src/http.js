@@ -130,6 +130,26 @@ function xConfig(accessToken, deviceId, path) {
   return get(accessToken, url);
 }
 
+function xConfigSet(accessToken, deviceId, path, value) {
+  const url = `${configUrl}?deviceId=${deviceId}`;
+  const headers = {
+    Authorization: 'Bearer ' + accessToken,
+    'Content-Type': 'application/json-patch+json',
+  };
+  const body = [{
+    op: 'replace',
+    path: path + '/sources/configured/value',
+    value,
+  }];
+  const options = {
+    headers,
+    body: JSON.stringify(body),
+    method: 'PATCH',
+  };
+
+  return fetch(url, options);
+}
+
 async function getDevices(accessToken, locationId, filters) {
   let hasMore = false;
   let result = [];
@@ -166,6 +186,7 @@ module.exports = {
   xCommand,
   xStatus,
   xConfig,
+  xConfigSet,
   pollDeviceData,
   getDevices,
   getLocations,

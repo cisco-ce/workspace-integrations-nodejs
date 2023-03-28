@@ -84,6 +84,15 @@ xapi.status.on('RoomAnalytics', (deviceId, name, value) => {
 // Read a config:
 xapi.config.get(deviceId, 'RoomAnalytics.PeoplePresenceDetector')
   .then(mode => console.log('Detector:', mode));
+
+// Set a config
+// NOTE: Requires the spark-admin:devices_write scope to be set in the manifest
+try {
+  await xapi.config.set(deviceId, 'RoomAnalytics.PeoplePresenceDetector', 'On');
+}
+catch(e) {
+  console.log('Not able to set config', e);
+}
 ```
 
 ## Discovering devices
@@ -115,7 +124,7 @@ For the SDK to work, you typically need to add the following API scopes to your 
 * spark:xapi_statuses
 * spark:xapi_commands
 
-You can also update device configurations if you use **spark-admin:devices_write**, but this is not recommended (and admins will probably be hesitant to allow integrations that require this).
+You can also update device configurations if you use **spark-admin:devices_write**, but this is not recommended for public/global integrations(admins will probably be hesitant to allow integrations that require this).
 
 ## Limitations
 

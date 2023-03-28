@@ -73,6 +73,15 @@ class XAPI {
         // console.log('tree:', JSON.stringify(tree, null, 2));
         return tree;
       },
+
+      set: async (deviceId, path, value) => {
+        if(!isStr(deviceId) || !isStr(path)) {
+          throw new Error('xCommand: missing deviceId or path');
+        }
+        const token = this.getAccessToken();
+        const name = path.replace(/ /g, '.');
+        return await http.xConfigSet(token, deviceId, name, value);
+      }
     };
   }
 
