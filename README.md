@@ -141,4 +141,5 @@ It's important to be aware of the following limitations:
 * [Workspace Integrations Guide](https://developer.webex.com/docs/api/guides/workspace-integrations-guide)
 * [Introduction to the xAPI](https://roomos.cisco.com/doc/TechDocs/xAPI)
 * [RoomOS xAPI reference](https://roomos.cisco.com/xapi)
+* [Manifest editor](https://cisco-ce.github.io/workspace-integrations-editor/)
 
