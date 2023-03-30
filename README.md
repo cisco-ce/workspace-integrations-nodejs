@@ -59,6 +59,8 @@ Notice that unlike macros and the JSXAPI, the workspace integration also needs t
 
 Be aware that any API used in a workspace integration also needs to be specified in the manifest. Specifiying it in code is not enough be itself, and the SDK will not throw any errors if you for example subscribe to a status change that is not listed in the manifest.
 
+You can find a graphical editor for the manifest that makes this easier on [https://cisco-ce.github.io/workspace-integrations-editor/](https://cisco-ce.github.io/workspace-integrations-editor/).
+
 A couple of more syntax examples (the `xapi` and `deviceId` is found similar to the above example):
 
 ```
