@@ -21,7 +21,7 @@ class XAPI {
     this.eventListeners = [];
     this.statusListeners = [];
 
-    this.command = (deviceId, path, params, multiline) => {
+    this.command = async (deviceId, path, params, multiline) => {
       if(!isStr(deviceId) || !isStr(path)) {
         throw new Error('xCommand: missing deviceId or path');
       }
@@ -30,7 +30,8 @@ class XAPI {
       }
       const token = this.getAccessToken();
       const cmd = path.replace(/ /g, '.');
-      return http.xCommand(token, deviceId, cmd, params, multiline);
+      const res = await http.xCommand(token, deviceId, cmd, params, multiline);
+      return res?.result;
     };
 
     this.status = {

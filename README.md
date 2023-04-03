@@ -65,8 +65,8 @@ A couple of more syntax examples (the `xapi` and `deviceId` is found similar to 
 
 ```
 // Get current volume:
-xapi.status.get(deviceId, 'Audio Volume')
-  .then(volume => console.log('Volume:', volume));
+const value = await xapi.status.get(deviceId, 'Audio Volume');
+console.log('Volume:', volume);
 
 
 // Subscribe to analytics data
@@ -76,7 +76,17 @@ xapi.status.on('RoomAnalytics', (deviceId, name, value) => {
 });
 ```
 
-## Multi-line content
+
+
+## Command details
+
+Sometimes you may need the result of commands. This is returned as a normal async answer.
+
+```
+// Search the phone book:
+const res = await xapi.command(device, 'Phonebook Search', { PhonebookType: 'Local', Limit: 10 });
+console.log('phonebook', res.Contact);
+```
 
 Commands with multi-line content (such as images, xml or other data blobs) can be set using the fourth parameter:
 
@@ -96,8 +106,8 @@ Note: setting a configuration requires the **spark-admin:devices_write** scope t
 
 ```
 // Read a config:
-xapi.config.get(deviceId, 'RoomAnalytics.PeoplePresenceDetector')
-  .then(mode => console.log('Detector:', mode));
+const mode = await xapi.config.get(deviceId, 'RoomAnalytics.PeoplePresenceDetector')
+console.log('Detector:', mode);
 
 // Set a config
 // NOTE:
