@@ -130,17 +130,18 @@ function xConfig(accessToken, deviceId, path) {
   return get(accessToken, url);
 }
 
-function xConfigSet(accessToken, deviceId, path, value) {
+function xConfigSet(accessToken, deviceId, configs) {
   const url = `${configUrl}?deviceId=${deviceId}`;
   const headers = {
     Authorization: 'Bearer ' + accessToken,
     'Content-Type': 'application/json-patch+json',
   };
-  const body = [{
+  const body = configs.map(config => ({
     op: 'replace',
-    path: path + '/sources/configured/value',
-    value,
-  }];
+    path: config.path + '/sources/configured/value',
+    value: config.value,
+  }));
+
   const options = {
     headers,
     body: JSON.stringify(body),

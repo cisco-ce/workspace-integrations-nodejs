@@ -68,33 +68,56 @@ A couple of more syntax examples (the `xapi` and `deviceId` is found similar to 
 xapi.status.get(deviceId, 'Audio Volume')
   .then(volume => console.log('Volume:', volume));
 
-// Save a macro (multi-line data):
-const macroContent =  '// macro data here\n //Line 2';
-try {
-  xapi.command(deviceId, 'Macros Macro Save', { Name: 'mymacro' }, macroContent);
-}
-catch(e) {
-  console.log('Not able to write macro', e);
-}
 
 // Subscribe to analytics data
 // Note: Don't use star as wildcard, it supports partial match similar to JSXAPI
 xapi.status.on('RoomAnalytics', (deviceId, name, value) => {
   console.log('Room Analytics updated', name, value);
 });
+```
 
+## Multi-line content
+
+Commands with multi-line content (such as images, xml or other data blobs) can be set using the fourth parameter:
+
+```
+const data = 'const data = 1; \n const moreData = 2;';
+try {
+  xapi.command(deviceId, 'Macros Macro Save', { Name: 'mymacro' }, data);
+}
+catch(e) {
+  console.log('Not able to write macro', e);
+}
+```
+
+## Configurations
+
+Note: setting a configuration requires the **spark-admin:devices_write** scope to be set in the manifest.
+
+```
 // Read a config:
 xapi.config.get(deviceId, 'RoomAnalytics.PeoplePresenceDetector')
   .then(mode => console.log('Detector:', mode));
 
 // Set a config
-// NOTE: Requires the spark-admin:devices_write scope to be set in the manifest
+// NOTE:
 try {
   await xapi.config.set(deviceId, 'RoomAnalytics.PeoplePresenceDetector', 'On');
 }
 catch(e) {
   console.log('Not able to set config', e);
 }
+```
+
+You can also set multiple configs in one go, by passing an object instead of a path:
+
+```
+const configs = {
+  'Audio.Ultrasound.MaxVolume': 0,
+  'Audio.DefaultVolume': 33,
+  'Audio.SoundsAndAlerts.RingVolume': 66,
+};
+await xapi.config.set(device, configs);
 ```
 
 ## Discovering devices

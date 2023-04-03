@@ -75,12 +75,16 @@ class XAPI {
       },
 
       set: async (deviceId, path, value) => {
-        if(!isStr(deviceId) || !isStr(path)) {
+        if(!isStr(deviceId) || !path) {
           throw new Error('xCommand: missing deviceId or path');
         }
         const token = this.getAccessToken();
-        const name = path.replace(/ /g, '.');
-        return await http.xConfigSet(token, deviceId, name, value);
+        const name = isStr(path) ? path.replace(/ /g, '.') : path;
+        const configs = typeof path === 'object'
+          ? Object.entries(path).map(([p, value]) => ({ path: p, value }))
+          : [ { path: name, value } ];
+
+        return await http.xConfigSet(token, deviceId, configs);
       }
     };
   }
