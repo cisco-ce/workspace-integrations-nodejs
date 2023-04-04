@@ -30,7 +30,7 @@ npm install --save workspace-integrations
 
 Show a message on the device screen each time the people count changes:
 
-```
+```js
 const wi = require('workspace-integrations');
 
 // You get this when you create the integration on ControlHub > Workspaces > Integrations
@@ -63,7 +63,7 @@ You can find a graphical editor for the manifest that makes this easier on [http
 
 A couple of more syntax examples (the `xapi` and `deviceId` is found similar to the above example):
 
-```
+```js
 // Get current volume:
 const value = await xapi.status.get(deviceId, 'Audio Volume');
 console.log('Volume:', volume);
@@ -82,7 +82,7 @@ xapi.status.on('RoomAnalytics', (deviceId, name, value) => {
 
 Sometimes you may need the result of commands. This is returned as a normal async answer.
 
-```
+```js
 // Search the phone book:
 const res = await xapi.command(device, 'Phonebook Search', { PhonebookType: 'Local', Limit: 10 });
 console.log('phonebook', res.Contact);
@@ -90,7 +90,7 @@ console.log('phonebook', res.Contact);
 
 Commands with multi-line content (such as images, xml or other data blobs) can be set using the fourth parameter:
 
-```
+```js
 const data = 'const data = 1; \n const moreData = 2;';
 try {
   await xapi.command(deviceId, 'Macros Macro Save', { Name: 'mymacro' }, data);
@@ -104,7 +104,7 @@ catch(e) {
 
 Note: setting a configuration requires the **spark-admin:devices_write** scope to be set in the manifest.
 
-```
+```js
 // Read a config:
 const mode = await xapi.config.get(deviceId, 'RoomAnalytics.PeoplePresenceDetector')
 console.log('Detector:', mode);
@@ -121,7 +121,7 @@ catch(e) {
 
 You can also set multiple configs in one go, by passing an object instead of a path:
 
-```
+```js
 const configs = {
   'Audio.Ultrasound.MaxVolume': 0,
   'Audio.DefaultVolume': 33,
@@ -136,7 +136,7 @@ Note that the configuration apis do not actually need to be specified in the man
 
 The SDK also allow you to find devices in your organisation.
 
-```
+```js
 // Show all devices in your org:
 const devices = await xapi.getDevices();
 const names = devices.map(d => `${d.displayName} (${d.product} ${d.type})`);
