@@ -55,7 +55,7 @@ function onConnect(xapi) {
     xapi.command(deviceId, 'UserInterface Message Alert Display', args);
   }
 }
-``
+```
 
 Be aware that any status, event or command used in a workspace integration also needs to be specified in the manifest. Specifiying it in code is not enough be itself, and the SDK will not throw any errors if you for example subscribe to a status change that is not listed in the manifest.
 
