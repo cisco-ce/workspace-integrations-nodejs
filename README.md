@@ -2,7 +2,9 @@
 
 Node.js SDK for creating [Webex Workspace Integrations](https://developer.webex.com/docs/api/guides/workspace-integrations-guide).
 
-The SDK is designed to be as similar to the [macros](https://roomos.cisco.com/doc/TechDocs/MacroTutorial) and [JSXAPI](https://github.com/cisco-ce/jsxapi) syntax as possible, so developers that are experienced with that can easily start using Workspace Integrations too, and possibly port macros etc.
+The workspace integrations is a cloud based framework that lets you connect to the Cisco devices, receive sensor data, invoke commands, read status values and update configs in a secure and controlled manner, without installing anything on the devices.
+
+The SDK is designed to be similar to the [macros](https://roomos.cisco.com/doc/TechDocs/MacroTutorial) and [JSXAPI](https://github.com/cisco-ce/jsxapi) syntax, so developers that are experienced with that can easily start using Workspace Integrations too.
 
 What this SDK gives you:
 
@@ -10,11 +12,11 @@ What this SDK gives you:
 * Automatically handles access tokens for you
 * Automatically refreshes the access token when necessary
 * Object-oriented API, no need to deal with HTTP calls
-* JSXAPI-like syntax for
-  * Querying devices for status
+* Access device data:
+  * Querying for status
   * Getting and setting device configurations
-  * Invoking command on devices
-  * Subscribing to events and status changes on the devices
+  * Invoking commands
+  * Subscribing to events and status changes
 
 ## Installation
 
@@ -53,11 +55,9 @@ function onConnect(xapi) {
     xapi.command(deviceId, 'UserInterface Message Alert Display', args);
   }
 }
-```
+``
 
-Notice that unlike macros and the JSXAPI, the workspace integration also needs to specify device id.
-
-Be aware that any API used in a workspace integration also needs to be specified in the manifest. Specifiying it in code is not enough be itself, and the SDK will not throw any errors if you for example subscribe to a status change that is not listed in the manifest.
+Be aware that any status, event or command used in a workspace integration also needs to be specified in the manifest. Specifiying it in code is not enough be itself, and the SDK will not throw any errors if you for example subscribe to a status change that is not listed in the manifest.
 
 You can find a graphical editor for the manifest that makes this easier on [https://cisco-ce.github.io/workspace-integrations-editor/](https://cisco-ce.github.io/workspace-integrations-editor/).
 
@@ -93,7 +93,7 @@ Commands with multi-line content (such as images, xml or other data blobs) can b
 ```
 const data = 'const data = 1; \n const moreData = 2;';
 try {
-  xapi.command(deviceId, 'Macros Macro Save', { Name: 'mymacro' }, data);
+  await xapi.command(deviceId, 'Macros Macro Save', { Name: 'mymacro' }, data);
 }
 catch(e) {
   console.log('Not able to write macro', e);
@@ -130,6 +130,8 @@ const configs = {
 await xapi.config.set(device, configs);
 ```
 
+Note that the configuration apis do not actually need to be specified in the manifest. Unlike status, commands and statuses there is no granular control.
+
 ## Discovering devices
 
 The SDK also allow you to find devices in your organisation.
@@ -159,17 +161,17 @@ For the SDK to work, you typically need to add the following API scopes to your 
 * spark:xapi_statuses
 * spark:xapi_commands
 
-You can also update device configurations if you use **spark-admin:devices_write**, but this is not recommended for public/global integrations(admins will probably be hesitant to allow integrations that require this).
+You can also update device configurations if you use **spark-admin:devices_write*.
 
 ## Limitations
 
-It's important to be aware of the following limitations:
+Pleade be aware of the following limitations:
 
 * There's a limited set of statuses and events you can subscribe to, such as room analytics and user interface extensions actions (see Control Hub for the full list) - though you can still query all of them.
 
 * On personal devices, you cannot use APIs that are listed as privacy impacting (see roomos.cisco.com/xapi to verify the APIs).
 
-* If your integration has been allowed for only certain locations, you will still be able to list all the devices in the org, but only invoke commands and statuses for the device in the allowed locations. Other devices will return 403 Forbidden.
+* If your integration has been allowed for only certain locations, you will still be able to list all the devices in the org and manipulate configs, but only invoke commands and statuses for the device in the allowed locations. Other devices will return 403 Forbidden.
 
 ## Useful resources
 
