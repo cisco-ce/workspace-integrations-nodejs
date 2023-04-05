@@ -49,11 +49,11 @@ wi
 function onConnect(xapi) {
   xapi.event.on('RoomAnalytics PeopleCount Current', (deviceId, name, value) => {
    const msg = `Number of people in the room: ${value}`;
-   showMessageOnScreen(deviceId, msg);
+   showMessageOnScreen(xapi, deviceId, msg);
   };
 }
 
-function showMessageOnScreen(deviceId, text) {
+function showMessageOnScreen(xapi, deviceId, text) {
    const args = {
      Text: text,
      Duration: 5,
