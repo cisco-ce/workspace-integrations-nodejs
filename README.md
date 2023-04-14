@@ -175,11 +175,11 @@ Workspace integrations support two different method of receiving data from the d
 
 1. Long polling
 
-The integration is itself responsible for continuously asking Webex for updates. This integration does not require a public web server, and can therefore be run inside a protected intranet.
+The integration is itself responsible for continuously asking Webex for updates. This integration does not require a public web server, and can therefore be run inside a protected intranet. It's a simple mechanism that is handled entirely by the SDK itself.
 
 2. Web hooks
 
-The integration is hosted on a public site (must be https), and receives the device data as web hooks from Webex. Typically needed if you want to provide a public integration that customers can pay for and use, without any hosting anything themselves.
+The integration is hosted on a public site (must be https), and receives the device data as web hooks from Webex. Typically needed if you want to provide a public integration that customers can pay for and use, without hosting anything themselves.
 
 ## Web hooks
 
@@ -192,24 +192,27 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const wi = require('workspace-integrations');
 
-const creds = require('./creds.json');
-
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-const port = 5555;
+const port = 80;
 
 // This is the public URL you manage.
 const url = 'https://acme.com';
 
-const deployment = {
-  "actionsUrl": url + "/api/webexnotify", // you can choose the route yourself
-  "webhook": {
-    "targetUrl": url + "/api/webhooks", // you can choose the route yourself
-    "type": "hmac_signature",
-    "secret": "somethingmorethan20chars"
+const creds = {
+  clientId: 'xxx',
+  clientSecret: 'yyy',
+  jwt: 'zzz',
+  deployment: {
+    webhook: {
+      targetUrl: url + "/api/webhooks", // you can choose the route yourself
+      type: "hmac_signature",
+      secret: "somethingmorethan20chars"
+    },
+    actionsUrl: url + "/api/webexnotify", // (optional) you can choose the route yourself
   }
 };
 
