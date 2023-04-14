@@ -29,23 +29,30 @@ class Connector {
   }
 
   async connect(options) {
-    const { clientId, clientSecret, oauthUrl, refreshToken, appUrl, deployment } = options;
+    const {
+      clientId,
+      clientSecret,
+      oauthUrl,
+      refreshToken,
+      appUrl,
+      deployment,
+    } = options;
 
     const { access_token, expires_in } = await http.getAccessToken(
       clientId, clientSecret, oauthUrl, refreshToken);
     // console.log({ access_token, expires_in });
 
-    const appInfo = await http.initIntegration(access_token, appUrl);
+    const appInfo = await http.initIntegration(access_token, appUrl, deployment);
 
     const xapi = new XAPI(access_token, appInfo);
 
     if (deployment === 'longpolling') {
+      console.log('Integration is using long polling for events and status updates');
       const pollUrl = appInfo.queue?.pollUrl;
       xapi.pollData(pollUrl);
     }
     else {
-      console.log('SDK currently only supports long polling');
-      process.exit(1);
+      console.log('Integrations is using web hooks for events and status updates');
     }
 
     const timeToRefresh = expires_in - (60 * 15);

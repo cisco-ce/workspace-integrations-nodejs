@@ -1,9 +1,7 @@
 # TODO
 
+* Error handling not working when connecting with invalid token
 * Support web hooks too
-* Create npm registry
-* Readme file (with a few samples)
-
 
 * Optionally discard old (>5 sec) messages?
 * Extract return values better for subscriptions, similar to what jsxapi does

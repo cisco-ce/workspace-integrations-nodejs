@@ -17,6 +17,7 @@ What this SDK gives you:
   * Getting and setting device configurations
   * Invoking commands
   * Subscribing to events and status changes
+* Support for both long polling and web hook for events and status updates
 
 ## Installation
 
@@ -167,6 +168,84 @@ For the SDK to work, you typically need to add the following API scopes to your 
 * spark:xapi_commands
 
 You can also update device configurations if you use **spark-admin:devices_write*.
+
+## Long polling and web hooks
+
+Workspace integrations support two different method of receiving data from the devices / Webex:
+
+1. Long polling
+
+The integration is itself responsible for continuously asking Webex for updates. This integration does not require a public web server, and can therefore be run inside a protected intranet.
+
+2. Web hooks
+
+The integration is hosted on a public site (must be https), and receives the device data as web hooks from Webex. Typically needed if you want to provide a public integration that customers can pay for and use, without any hosting anything themselves.
+
+## Web hooks
+
+It is also possible to use the web hook deployment model with the SDK. In this case, you need to provide the web server yourself, then feed the incoming web hook data from Webex to the SDK using `xapi.processIncomingData`. The SDK will then deliver the events and status update to your listeneres, exactly in the same way as with long polling.
+
+The following example shows how to do this with a simple Express web server, but you can of course use any web server you prefer.
+
+```
+const express = require('express');
+const bodyParser = require('body-parser');
+const wi = require('workspace-integrations');
+
+const creds = require('./creds.json');
+
+const app = express();
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+const port = 5555;
+
+// This is the public URL you manage.
+const url = 'https://acme.com';
+
+const deployment = {
+  "actionsUrl": url + "/api/webexnotify", // you can choose the route yourself
+  "webhook": {
+    "targetUrl": url + "/api/webhooks", // you can choose the route yourself
+    "type": "hmac_signature",
+    "secret": "somethingmorethan20chars"
+  }
+};
+
+let xapi;
+
+// the route here must be the same as you specify in deployment above
+app.all('/api/webhooks', (req, res) => {
+  const { method, body, headers } = req;
+  if (xapi) {
+    xapi.processIncomingData(body);
+  }
+
+  res.send('ok');
+});
+
+
+app.listen(port, () => console.log('http server on port', port));
+
+function onConnect(_xapi) {
+  console.log('connected, xapi ready');
+  xapi = _xapi;
+  xapi.event.on('', (device, path, data) => console.log('SDK event:', path, data, device));
+  xapi.status.on('', (device, path, data) => console.log('SDK status:', path, data, device));
+}
+
+function initIntegration() {
+  creds.deployment = deployment;
+  wi.connect(creds)
+    .on('ready', onConnect)
+    .on('error', e => console.log('Error!', e))
+}
+
+initIntegration();
+```
+
+**Tip**: For testing web hooks during development, you can use https://ngrok.com/.
 
 ## Limitations
 

@@ -68,16 +68,22 @@ function getAccessToken(clientId, clientSecret, oauthUrl, refreshToken) {
   return fetch(oauthUrl, options);
 }
 
-function initIntegration(accessToken, appUrl) {
+function initIntegration(accessToken, appUrl, deployment) {
 
   const headers = header(accessToken);
-
   const body = {
     "provisioningState": "completed",
-    "queue": {
-      "state": "enabled"
-    }
   };
+
+  if (deployment.webhook) {
+    body.webhook = deployment.webhook;
+    body.actionsUrl = deployment.actionsUrl;
+  }
+  else {
+    body.queue = {
+      "state": "enabled"
+    };
+  }
 
   const options = {
     headers,
