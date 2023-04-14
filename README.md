@@ -187,7 +187,7 @@ It is also possible to use the web hook deployment model with the SDK. In this c
 
 The following example shows how to do this with a simple Express web server, but you can of course use any web server you prefer.
 
-```
+```js
 const express = require('express');
 const bodyParser = require('body-parser');
 const wi = require('workspace-integrations');
