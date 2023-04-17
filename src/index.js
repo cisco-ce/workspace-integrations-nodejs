@@ -22,7 +22,6 @@ class Connector {
     const { access_token, expires_in } = await http.getAccessToken(
       clientId, clientSecret, oauthUrl, refreshToken);
     xapi.setAccessToken(access_token);
-    const now = new Date().toString().split('(').shift();
     // console.log(`\n${now} ACCESS TOKEN UPDATED / ${access_token}\n`);
     const nextTime = expires_in - (60 * 15);
     setTimeout(() => this.refreshToken(creds, xapi), nextTime * 1000);
@@ -38,12 +37,21 @@ class Connector {
       deployment,
     } = options;
 
-    const { access_token, expires_in } = await http.getAccessToken(
-      clientId, clientSecret, oauthUrl, refreshToken);
-    // console.log({ access_token, expires_in });
+    let tokenData;
+    let appInfo;
 
-    const appInfo = await http.initIntegration(access_token, appUrl, deployment);
+    try {
+      tokenData = await http.getAccessToken(clientId, clientSecret, oauthUrl, refreshToken);
+      appInfo = await http.initIntegration(tokenData.access_token, appUrl, deployment);
+    }
+    catch(e) {
+      if (this.onError) {
+        this.onError('Not able to initialise integration. Incorrect credentials?');
+      }
+      return;
+    }
 
+    const { access_token, expires_in } = tokenData;
     const xapi = new XAPI(access_token, appInfo);
 
     if (deployment === 'longpolling') {
