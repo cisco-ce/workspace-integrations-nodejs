@@ -3,23 +3,28 @@
  */
 
 // Needs to be on low version to support CommonJS / require
-const nodefetch = require('node-fetch');
+// @ts-ignore
+import nodefetch from 'node-fetch';
 
 const commandUrl = 'https://webexapis.com/v1/xapi/command/';
 const statusUrl = 'https://webexapis.com/v1/xapi/status/';
 const configUrl = 'https://webexapis.com/v1/deviceConfigurations/';
 const deviceUrl = 'https://webexapis.com/v1/devices/';
 
-function header(accessToken) {
+function header(accessToken: string) {
   return {
     Authorization: 'Bearer ' + accessToken,
     'Content-Type': 'application/json',
   };
 }
 
-function toUrlParams(object) {
+interface StringObject {
+  [name: string]: string | number;
+}
+
+function toUrlParams(object: StringObject) {
   if (!object) return '';
-  const list = [];
+  const list:any = [];
   Object.keys(object).forEach((key) => {
     list.push(`${key}=${object[key]}`);
   });
@@ -27,7 +32,7 @@ function toUrlParams(object) {
 }
 
 // Modify fetch to throw error if http result is not 2xx, and return json always
-async function fetch(...args) {
+async function fetch(...args: any) {
   // console.log('fetch:', ...args);
   const res = await nodefetch(...args);
   if (!res.ok) {
@@ -37,7 +42,7 @@ async function fetch(...args) {
   return await res.json();
 }
 
-function get(accessToken, url) {
+function get(accessToken: string, url: string) {
   const headers = header(accessToken);
   const options = {
     headers,
@@ -46,7 +51,7 @@ function get(accessToken, url) {
   return fetch(url, options);
 }
 
-function getAccessToken(clientId, clientSecret, oauthUrl, refreshToken) {
+function getAccessToken(clientId: string, clientSecret: string, oauthUrl: string, refreshToken: string) {
 
   const headers = {
     'Content-Type': 'application/json',
@@ -68,11 +73,27 @@ function getAccessToken(clientId, clientSecret, oauthUrl, refreshToken) {
   return fetch(oauthUrl, options);
 }
 
-function initIntegration(accessToken, appUrl, deployment) {
+interface Webhook {
+  targetUrl: string;
+  type: string;
+  secret: string;
+}
+
+interface Deployment {
+  webhook: Webhook,
+  actionsUrl: string,
+}
+
+interface Config {
+  path: string;
+  value: string | number | boolean;
+}
+
+function initIntegration(accessToken: string, appUrl: string, deployment: Deployment) {
 
   const headers = header(accessToken);
-  const body = {
-    "provisioningState": "completed",
+  const body: any = {
+    provisioningState: "completed",
   };
 
   if (deployment.webhook) {
@@ -94,24 +115,30 @@ function initIntegration(accessToken, appUrl, deployment) {
   return fetch(appUrl, options);
 }
 
-async function getLocations(accessToken, appUrl) {
+async function getLocations(accessToken: string, appUrl: string) {
   const res = await get(accessToken, appUrl);
   return res.publicLocationIds;
 }
 
-function pollDeviceData(url, accessToken) {
+function pollDeviceData(url: string, accessToken: string) {
   const headers = header(accessToken);
   return fetch(url, { headers });
 }
 
-function xCommand(accessToken, deviceId, command, arguments, multiline) {
+function xCommand(
+  accessToken: string,
+  deviceId: string,
+  command: string,
+  args: StringObject,
+  multiline: string
+) {
   const url = commandUrl + command;
-  const body = {
+  const body: any = {
     deviceId,
   };
 
-  if (arguments) {
-    body.arguments = arguments;
+  if (args) {
+    body.arguments = args;
   }
 
   if (multiline) {
@@ -126,17 +153,17 @@ function xCommand(accessToken, deviceId, command, arguments, multiline) {
   return fetch(url, options);
 }
 
-function xStatus(accessToken, deviceId, path) {
+function xStatus(accessToken: string, deviceId: string, path: string) {
   const url = `${statusUrl}?deviceId=${deviceId}&name=${path}`;
   return get(accessToken, url);
 }
 
-function xConfig(accessToken, deviceId, path) {
+function xConfig(accessToken: string, deviceId: string, path: string) {
   const url = `${configUrl}?deviceId=${deviceId}&key=${path}`;
   return get(accessToken, url);
 }
 
-function xConfigSet(accessToken, deviceId, configs) {
+function xConfigSet(accessToken: string, deviceId: string, configs: Config[]) {
   const url = `${configUrl}?deviceId=${deviceId}`;
   const headers = {
     Authorization: 'Bearer ' + accessToken,
@@ -157,9 +184,9 @@ function xConfigSet(accessToken, deviceId, configs) {
   return fetch(url, options);
 }
 
-async function getDevices(accessToken, locationId, filters) {
+async function getDevices(accessToken: string, locationId: string, filters: any) {
   let hasMore = false;
-  let result = [];
+  let result: any[] = [];
   let start = 0;
   const max = 999;
   const params = toUrlParams(filters);
@@ -168,7 +195,7 @@ async function getDevices(accessToken, locationId, filters) {
     const url = `${deviceUrl}?includeLocation=true&max=${max}&start=${start}&${params}` ;
     const res = await get(accessToken, url);
 
-    let list = res.items;
+    let list: any[] = res.items;
     hasMore = list.length >= max;
 
     if (locationId) {
@@ -182,12 +209,12 @@ async function getDevices(accessToken, locationId, filters) {
   return result;
 }
 
-function deviceDetails(accessToken, deviceId) {
+function deviceDetails(accessToken: string, deviceId: string) {
   const url = deviceUrl + deviceId;
   return get(accessToken, url);
 }
 
-module.exports = {
+export default {
   getAccessToken,
   initIntegration,
   xCommand,

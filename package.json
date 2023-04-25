@@ -2,17 +2,26 @@
   "name": "workspace-integrations",
   "version": "0.2.1",
   "description": "Webex Workspace Integrations SDK",
-  "main": "src/index.js",
   "author": "Tore Bjolseth <Cisco>",
   "license": "ISC",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "homepage": "https://github.com/cisco-ce/workspace-integrations",
+  "keywords": ["Webex", "Cisco", "RoomOS", "Video", "Collaboration", "Workspace Integrations"],
   "repository": {
     "type": "git",
     "url": "https://github.com/cisco-ce/workspace-integrations"
   },
-  "scripts": {},
+  "files": ["lib/**/*"],
+  "scripts": {
+    "build": "tsc",
+    "prepare" : "npm run build",
+    "clean": "tsc --build --clean"
+  },
   "dependencies": {
     "node-fetch": "^2.6.7"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "typescript": "^5.0.4"
+  }
 }

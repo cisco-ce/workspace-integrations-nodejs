@@ -1,30 +1,30 @@
-function pathMatch(_actual, _pattern) {
+function pathMatch(_actual: string, _pattern: string) {
   const actual = _actual.replace(/ /g, '.').toLowerCase();
   const pattern = _pattern.replace(/ /g, '.').toLowerCase();
   return actual.includes(pattern);
 }
 
-function isStr(a) {
+function isStr(a: any) {
   return typeof a === 'string';
 }
 
-function isFun(a) {
+function isFun(a: any) {
   return typeof a === 'function';
 }
 
-function isObj(a) {
+function isObj(a: any) {
   return typeof a === 'object';
 }
 
-function shortName(deviceId) {
+function shortName(deviceId: string) {
   return deviceId.slice(0, 8) + '...' + deviceId.slice(-8);
 }
 
-function sleep(ms) {
+function sleep(ms: number) {
   return new Promise(res => setTimeout(res, ms));
 }
 
-function removePath(path, object) {
+function removePath(path: string, object: any) {
   const paths = path.replace(/ /g, '.').split('.');
   let res = object;
   paths.forEach(key => {
@@ -35,7 +35,7 @@ function removePath(path, object) {
   return res;
 }
 
-function makeBranch(tree, key, value) {
+function makeBranch(tree: any, key: string, value: any) {
   const paths = key.split('.');
   let parent = tree;
   paths.forEach((path, i) => {
@@ -45,6 +45,7 @@ function makeBranch(tree, key, value) {
       parent[path] = value;
     }
     else if (isList) {
+      // @ts-ignore
       const [_full, name, index] = path.match(/(.*)\[(\d+)\]/);
       if (!parent[name]) {
         parent[name] = [];
@@ -60,7 +61,7 @@ function makeBranch(tree, key, value) {
   });
 }
 
-function toTree(config) {
+function toTree(config: any) {
   const tree = {};
   const keys = Object.keys(config);
   keys.forEach((key) => {
@@ -69,7 +70,7 @@ function toTree(config) {
   return tree;
 }
 
-module.exports = {
+export {
   toTree,
   removePath,
   sleep,

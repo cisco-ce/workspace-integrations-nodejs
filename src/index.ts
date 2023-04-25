@@ -1,22 +1,25 @@
-const XAPI = require('./xapi');
-const http = require('./http');
+import XAPI from './xapi';
+import http from './http';
 
-function atob(base64) {
+import { Options, ReadyHandler, ErrorHandler } from './types';
+
+function atob(base64: string) {
+  // @ts-ignore
   return Buffer.from(base64, 'base64').toString('ascii');
 }
 
-function parseJwt(jwt) {
+function parseJwt(jwt: string) {
   const payloadB64 = jwt.split('.')[1];
   return JSON.parse(atob(payloadB64));
 }
 
 class Connector {
 
-  onError = null;
-  onReady = null;
+  private onError: ErrorHandler | null = null;
+  private onReady: ReadyHandler | null = null;
 
   // Periodically (typically every 24h) we need to refresh the token
-  async refreshToken(creds, xapi) {
+  async refreshToken(creds: any, xapi: XAPI) {
     const { clientId, clientSecret, oauthUrl, refreshToken } = creds;
 
     const { access_token, expires_in } = await http.getAccessToken(
@@ -27,7 +30,7 @@ class Connector {
     setTimeout(() => this.refreshToken(creds, xapi), nextTime * 1000);
   }
 
-  async connect(options) {
+  async connect(options: any) {
     const {
       clientId,
       clientSecret,
@@ -71,31 +74,29 @@ class Connector {
     }
   }
 
-  on(type, callback) {
+  on(type: string, callback: ReadyHandler | ErrorHandler) {
     if (type === 'ready') {
-      this.onReady = callback;
+      this.onReady = callback as ReadyHandler;
     }
     else if (type === 'error') {
-      this.onError = callback;
+      this.onError = callback as ErrorHandler;
     }
     return this;
   }
 }
 
-function connect(options) {
+export function connect(options: Options) {
   const { clientId, clientSecret, jwt } = options;
 
   if (!clientId || !clientSecret || !jwt) {
     throw new Error('Missing clientId, clientSecret or jwt in options');
   }
 
-  const creds = Object.assign(options, parseJwt(jwt));
-  const connector = new Connector(creds);
+  Object.assign(options, parseJwt(jwt));
+  const connector = new Connector();
 
   // call after client has set error handler etc
   setTimeout(() => connector.connect(options), 0);
 
   return connector;
 }
-
-module.exports = { connect };

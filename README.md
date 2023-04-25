@@ -125,7 +125,7 @@ catch(e) {
 }
 ```
 
-You can also set multiple configs in one go, by passing an object instead of a path:
+You can also set multiple configs in one go with the `setMany` function:
 
 ```js
 const configs = {
@@ -133,7 +133,7 @@ const configs = {
   'Audio.DefaultVolume': 33,
   'Audio.SoundsAndAlerts.RingVolume': 66,
 };
-await xapi.config.set(device, configs);
+await xapi.config.setMany(device, configs);
 ```
 
 Note that the configuration apis do not actually need to be specified in the manifest. Unlike status, commands and statuses there is no granular control.
@@ -249,6 +249,10 @@ initIntegration();
 ```
 
 **Tip**: For testing web hooks during development, you can use https://ngrok.com/.
+
+## Type script support
+
+The SDK has TypeScript definitions and should work out of the box. If you are using vanilla JS and not TypeScript, you should still be able to get auto completions in Visual Studio Code or any other editors that support the .d.ts type definitions.
 
 ## Limitations
 
