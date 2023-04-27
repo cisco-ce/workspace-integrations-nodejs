@@ -130,6 +130,11 @@ class XAPI_Impl implements XAPI {
     return http.deviceDetails(token, deviceId);
   }
 
+  getWorkspace(workspaceId: string) {
+    const token = this.getAccessToken();
+    return http.getWorkspace(token, workspaceId);
+  }
+
   processIncomingData(data: DataObject) {
     const { deviceId, type } = data;
     const props = data?.changes?.updated;

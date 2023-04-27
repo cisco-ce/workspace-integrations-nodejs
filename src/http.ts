@@ -6,10 +6,12 @@
 // @ts-ignore
 import nodefetch from 'node-fetch';
 
+// TODO: this url actually needs to be different for fedramp, pick from jwt:webexapisBaseUrl
 const commandUrl = 'https://webexapis.com/v1/xapi/command/';
 const statusUrl = 'https://webexapis.com/v1/xapi/status/';
 const configUrl = 'https://webexapis.com/v1/deviceConfigurations/';
 const deviceUrl = 'https://webexapis.com/v1/devices/';
+const workspaceUrl = 'https://webexapis.com/v1/workspaces/';
 
 function header(accessToken: string) {
   return {
@@ -209,6 +211,11 @@ async function getDevices(accessToken: string, locationId: string, filters: any)
   return result;
 }
 
+function getWorkspace(accessToken: string, workspaceId: string) {
+  const url = workspaceUrl + workspaceId;
+  return get(accessToken, url);
+}
+
 function deviceDetails(accessToken: string, deviceId: string) {
   const url = deviceUrl + deviceId;
   return get(accessToken, url);
@@ -217,6 +224,7 @@ function deviceDetails(accessToken: string, deviceId: string) {
 export default {
   getAccessToken,
   initIntegration,
+  getWorkspace,
   xCommand,
   xStatus,
   xConfig,
