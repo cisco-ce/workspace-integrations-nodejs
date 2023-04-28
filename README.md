@@ -63,7 +63,7 @@ function showMessageOnScreen(xapi, deviceId, text) {
 }
 ```
 
-Be aware that any status, event or command used in a workspace integration also needs to be specified in the manifest. Specifiying it in code is not enough be itself, and the SDK will not throw any errors if you for example subscribe to a status change that is not listed in the manifest.
+Be aware that any status, event or command used in a workspace integration also needs to be specified in the manifest. Specifying it in code is not enough be itself, and the SDK will not throw any errors if you for example subscribe to a status change that is not listed in the manifest.
 
 You can find a graphical editor for the manifest that makes this easier on [https://cisco-ce.github.io/workspace-integrations-editor/](https://cisco-ce.github.io/workspace-integrations-editor/).
 
@@ -140,7 +140,7 @@ Note that the configuration apis do not actually need to be specified in the man
 
 ## Discovering devices
 
-The SDK also allow you to find devices in your organisation.
+The SDK also allow you to find devices in your organization.
 
 ```js
 // Show all devices in your org:
@@ -183,7 +183,7 @@ The integration is hosted on a public site (must be https), and receives the dev
 
 ## Web hooks
 
-It is also possible to use the web hook deployment model with the SDK. In this case, you need to provide the web server yourself, then feed the incoming web hook data from Webex to the SDK using `xapi.processIncomingData`. The SDK will then deliver the events and status update to your listeneres, exactly in the same way as with long polling.
+It is also possible to use the web hook deployment model with the SDK. In this case, you need to provide the web server yourself, then feed the incoming web hook data from Webex to the SDK using `xapi.processIncomingData`. The SDK will then deliver the events and status update to your listeners, exactly in the same way as with long polling.
 
 The following example shows how to do this with a simple Express web server, but you can of course use any web server you prefer.
 
@@ -256,7 +256,7 @@ The SDK has TypeScript definitions and should work out of the box. If you are us
 
 ## Limitations
 
-Pleade be aware of the following limitations:
+Please be aware of the following limitations:
 
 * There's a limited set of statuses and events you can subscribe to, such as room analytics and user interface extensions actions (see Control Hub for the full list) - though you can still query all of them.
 

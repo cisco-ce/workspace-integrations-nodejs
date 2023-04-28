@@ -1,9 +1,9 @@
 # Getting started
 
-Pre requisites
+Requirements
 
-* Install node and npm (which versions min?)
-* Create a location in control hub for testing
+* Node and npm installed
+* Access to Control Hub
 
 ## Setting up and running a sample
 

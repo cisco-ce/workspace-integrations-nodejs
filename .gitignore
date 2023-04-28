@@ -3,3 +3,4 @@ lib/
 sample.ts
 wip/
 creds.json
+.vscode
