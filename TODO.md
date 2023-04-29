@@ -1,14 +1,22 @@
 # TODO
 
+
+Refactor
+- Make http lib stateful
+  - set webex api url (in case of fedramp)
+  - store token
+  - move token from xapi to http
+  - make xapi a sub module
+
 TODO
-- dont have apis in xapi that are webex (not xapi)
+- don't have apis in xapi that are webex (not xapi)
 - add some sdk functions for fetching and caching workspace / devices
 - when failing to connect, show actual response from api
-- when asking for apis you dont have access to, fail better than today
+- when asking for apis you don't have access to, fail better than today
 - add support for ignoring sync updates in sdk
 - add an easy way for consumer to use token etc and use webex apis not supported by - - add some helper function for common stuff such as
   - showing alert on screen
-  - dialling
+  - dialing
   - sending webex message
 - Support user agent similar to toms sdk
 
@@ -26,7 +34,7 @@ TODO
 * Show sensor data for room (noise, air quality, …)
 * Quick dial
 * Control a Philips hue light
-* How is this room utilised (show head count plot for whole week)
+* How is this room utilized (show head count plot for whole week)
 * Something involving configs/ advanced bulk configurations
 * Show map with meeting rooms, and whether there are people there or not, and whether booked or not
 * Something relevant for MTR

@@ -14,14 +14,23 @@
  *     cd samples/room-capacity-monitor
  *     CREDS=./creds.json node index.js
  *
- * Voila: Your integration should now start and start receiving device data.
+ * Voila: Your integration should now connect and start receiving device data.
  */
 
 
 // const wi = require('workspace-integrations');
 const wi = require('../../lib/index.js');
 
-const creds = require(process.env.CREDS);
+// TODO: We may want to set or at least check if xconfig peoplecount outofcall is on
+
+let creds;
+try {
+  creds = require(process.env.CREDS);
+}
+catch(e) {
+  console.log('You need to specify a valid creds file with CREDS=...', e);
+  process.exit(1);
+}
 
 let xapi;
 const workspaces = {};
