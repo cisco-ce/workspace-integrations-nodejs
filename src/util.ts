@@ -70,6 +70,16 @@ function toTree(config: any) {
   return tree;
 }
 
+function atob(base64: string) {
+  // @ts-ignore
+  return Buffer.from(base64, 'base64').toString('ascii');
+}
+
+function parseJwt(jwt: string) {
+  const payloadB64 = jwt.split('.')[1];
+  return JSON.parse(atob(payloadB64));
+}
+
 export {
   toTree,
   removePath,
@@ -79,4 +89,5 @@ export {
   isStr,
   isObj,
   isFun,
+  parseJwt,
 };

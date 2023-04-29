@@ -1,8 +1,16 @@
-export interface Options {
+interface Webhook {
+  targetUrl: string;
+  type: string;
+  secret: string;
+}
+
+export interface Deployment {
   clientId: string,
   clientSecret: string,
   jwt: string;
-  deployment: string;
+  notifications: 'webhook' | 'longpolling' | 'none';
+  webhook?: Webhook;
+  actionsUrl?: string;
 }
 
 export type EventListener = (
@@ -36,6 +44,12 @@ export interface Config {
   get: (deviceId: string, path: string) => Promise<DataObject>;
   set: (deviceId: string, path: string | DataObject, value: any) => Promise<DataObject>;
   setMany: (deviceId: string, values: DataObject) => Promise<DataObject>;
+}
+
+export interface Integration {
+  connect(deployment: Deployment): Promise<any>;
+  getAppInfo(): DataObject;
+  onError(handler: ErrorHandler): any;
 }
 
 export interface XAPI {

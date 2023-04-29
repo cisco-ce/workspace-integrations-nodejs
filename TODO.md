@@ -7,6 +7,9 @@ Refactor
   - store token
   - move token from xapi to http
   - make xapi a sub module
+- divide apis into sections (workspaces, devices, xapi, ...)
+- add linter and other goodies from https://itnext.io/step-by-step-building-and-publishing-an-npm-typescript-package-44fe7164964c
+- generate docs with typedoc
 
 TODO
 - don't have apis in xapi that are webex (not xapi)

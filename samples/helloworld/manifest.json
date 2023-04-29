@@ -1,0 +1,49 @@
+{
+  "id": "b743980a-a072-4179-b57b-91b9292543ac",
+  "manifestVersion": 1,
+  "displayName": "Room capacity monitor",
+  "vendor": "Webex Labs",
+  "email": "workspace-integrations-feedback@cisco.com",
+  "description": "Monitors the number of people in the room and shows a warning message on screen if capacity is exceeded.",
+  "descriptionUrl": "",
+  "availability": "org_private",
+  "tocUrl": "",
+  "apiAccess": [
+    {
+      "scope": "spark-admin:devices_read",
+      "access": "required",
+      "role": "id_readonly_admin"
+    },
+    {
+      "scope": "spark-admin:workspaces_read",
+      "access": "required",
+      "role": "id_readonly_admin"
+    },
+    {
+      "scope": "spark:xapi_statuses",
+      "access": "required"
+    },
+    {
+      "scope": "spark:xapi_commands",
+      "access": "required"
+    }
+  ],
+  "xapiAccess": {
+    "status": [
+      {
+        "path": "RoomAnalytics.PeopleCount.Current",
+        "access": "required"
+      }
+    ],
+    "commands": [
+      {
+        "path": "UserInterface.Message.Alert.Display",
+        "access": "required"
+      }
+    ],
+    "events": []
+  },
+  "provisioning": {
+    "type": "manual"
+  }
+}
