@@ -5,29 +5,19 @@ interface Webhook {
 }
 
 export interface Deployment {
-  clientId: string,
-  clientSecret: string,
+  clientId: string;
+  clientSecret: string;
   jwt: string;
   notifications: 'webhook' | 'longpolling' | 'none';
   webhook?: Webhook;
   actionsUrl?: string;
 }
 
-export type EventListener = (
-  deviceId: string,
-  path: string,
-  event: DataObject,
-  data: DataObject
-) => void;
+export type EventListener = (deviceId: string, path: string, event: DataObject, data: DataObject) => void;
 
 export type StatusListener = EventListener;
 
-export type Command = (
-  deviceId: string,
-  path: string,
-  params: DataObject,
-  multiline: string
-) => Promise<DataObject>;
+export type Command = (deviceId: string, path: string, params: DataObject, multiline: string) => Promise<DataObject>;
 
 export type DataObject = Record<string, any>;
 
@@ -66,7 +56,5 @@ export interface XAPI {
   setAccessToken(token: string): void;
 }
 
-export type ErrorHandler = (error : string) => any;
+export type ErrorHandler = (error: string) => any;
 export type ReadyHandler = (xapi: XAPI) => any;
-
-

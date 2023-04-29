@@ -21,13 +21,13 @@ function shortName(deviceId: string) {
 }
 
 function sleep(ms: number) {
-  return new Promise(res => setTimeout(res, ms));
+  return new Promise((res) => setTimeout(res, ms));
 }
 
 function removePath(path: string, object: any) {
   const paths = path.replace(/ /g, '.').split('.');
   let res = object;
-  paths.forEach(key => {
+  paths.forEach((key) => {
     if (key !== '*') {
       res = res[key];
     }
@@ -43,8 +43,7 @@ function makeBranch(tree: any, key: string, value: any) {
     const isList = path.includes('[');
     if (isLeaf && !isList) {
       parent[path] = value;
-    }
-    else if (isList) {
+    } else if (isList) {
       // @ts-ignore
       const [_full, name, index] = path.match(/(.*)\[(\d+)\]/);
       if (!parent[name]) {
@@ -53,8 +52,7 @@ function makeBranch(tree: any, key: string, value: any) {
       const obj = { id: index };
       parent[name].push(obj);
       parent = obj;
-    }
-    else if (!parent[path]) {
+    } else if (!parent[path]) {
       parent[path] = {};
       parent = parent[path];
     }
@@ -80,14 +78,4 @@ function parseJwt(jwt: string) {
   return JSON.parse(atob(payloadB64));
 }
 
-export {
-  toTree,
-  removePath,
-  sleep,
-  shortName,
-  pathMatch,
-  isStr,
-  isObj,
-  isFun,
-  parseJwt,
-};
+export { toTree, removePath, sleep, shortName, pathMatch, isStr, isObj, isFun, parseJwt };

@@ -1,33 +1,16 @@
-import http from'./http';
+import http from './http';
 
-import {
-  toTree,
-  removePath,
-  sleep,
-  pathMatch,
-  isStr,
-  isObj,
-} from './util';
+import { toTree, removePath, sleep, pathMatch, isStr, isObj } from './util';
 
-import {
-  DataObject,
-  EventListener,
-  StatusListener,
-  Command,
-  Status,
-  Event,
-  Config,
-  XAPI,
-} from './types';
+import { DataObject, EventListener, StatusListener, Command, Status, Event, Config, XAPI } from './types';
 
 const waitAfterError = 5000;
 
-class XAPI_Impl implements XAPI {
-
+class XapiImpl implements XAPI {
   private accessToken: string;
   private appInfo: DataObject;
-  private eventListeners: Array<{ path: string, callback: EventListener }>;
-  private statusListeners: Array<{ path: string, callback: StatusListener }>;
+  private eventListeners: Array<{ path: string; callback: EventListener }>;
+  private statusListeners: Array<{ path: string; callback: StatusListener }>;
   public command: Command;
   public status: Status;
   public event: Event;
@@ -40,7 +23,7 @@ class XAPI_Impl implements XAPI {
     this.statusListeners = [];
 
     this.command = async (deviceId, path, params, multiline) => {
-      if(!isStr(deviceId) || !isStr(path)) {
+      if (!isStr(deviceId) || !isStr(path)) {
         throw new Error('xCommand: missing deviceId or path');
       }
       if (params && !isObj(params)) {
@@ -54,7 +37,7 @@ class XAPI_Impl implements XAPI {
 
     this.status = {
       get: async (deviceId, path) => {
-        if(!isStr(deviceId) || !isStr(path)) {
+        if (!isStr(deviceId) || !isStr(path)) {
           throw new Error('xCommand: missing deviceId or path');
         }
         const token = this.getAccessToken();
@@ -81,7 +64,7 @@ class XAPI_Impl implements XAPI {
 
     this.config = {
       get: async (deviceId, path) => {
-        if(!isStr(deviceId) || !isStr(path)) {
+        if (!isStr(deviceId) || !isStr(path)) {
           throw new Error('xCommand: missing deviceId or path');
         }
 
@@ -94,19 +77,19 @@ class XAPI_Impl implements XAPI {
       },
 
       set: async (deviceId, path, value) => {
-        if(!isStr(deviceId) || !path) {
+        if (!isStr(deviceId) || !path) {
           throw new Error('xCommand: missing deviceId or path');
         }
         const token = this.getAccessToken();
         const name = isStr(path) ? path.replace(/ /g, '.') : path;
-        return await http.xConfigSet(token, deviceId, [ { path: name, value } ]);
+        return await http.xConfigSet(token, deviceId, [{ path: name, value }]);
       },
 
       setMany: async (deviceId, values: DataObject) => {
         const list = Object.entries(values).map(([p, value]) => ({ path: p, value }));
         const token = this.getAccessToken();
         return await http.xConfigSet(token, deviceId, list);
-      }
+      },
     };
   }
 
@@ -148,8 +131,7 @@ class XAPI_Impl implements XAPI {
         });
         // console.log('status', `${shortName(deviceId)} => ${key}: ${value} (${timestamp})`);
       }
-    }
-    else if (type === 'events') {
+    } else if (type === 'events') {
       data.events.forEach((e: DataObject) => {
         const path = e.key;
         const event = e.value;
@@ -159,12 +141,10 @@ class XAPI_Impl implements XAPI {
           }
         });
         // console.log('event', shortName(deviceId), path, JSON.toString(event), timestamp);
-      })
-    }
-    else if (type === 'healthCheck') {
+      });
+    } else if (type === 'healthCheck') {
       console.log('xapi: got healt check message');
-    }
-    else {
+    } else {
       console.log('unknown data', data);
     }
   }
@@ -178,14 +158,13 @@ class XAPI_Impl implements XAPI {
   }
 
   async pollData(pollUrl: string) {
-    while(true) {
+    while (true) {
       try {
         const token = this.getAccessToken();
         const data = await http.pollDeviceData(pollUrl, token);
         // console.log('got device data');
         data.messages.forEach((msg: DataObject) => this.processIncomingData(msg));
-      }
-      catch(e) {
+      } catch (e) {
         console.log('Error polling', e);
         await sleep(waitAfterError);
       }
@@ -193,4 +172,4 @@ class XAPI_Impl implements XAPI {
   }
 }
 
-export default XAPI_Impl;
+export default XapiImpl;
