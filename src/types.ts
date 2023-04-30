@@ -4,10 +4,23 @@ interface Webhook {
   secret: string;
 }
 
+/**
+ * Your configs for initialising your Workspace Integration. The clientId, clientSecret and jwt is
+ * found when you deploy and active the integration in Control Hub.
+ */
 export interface Deployment {
   clientId: string;
   clientSecret: string;
   jwt: string;
+
+  /**
+   * How you want your integration to receive device notifications such as events and status updates.
+   *
+   * - webhook: Webex posts the notification to a public web server that you control
+   * - longpolling: Your integration using [long polling](https://javascript.info/long-polling)
+   *   to get notifications.
+   * - none: you won't receive any notifications
+   */
   notifications: 'webhook' | 'longpolling' | 'none';
   webhook?: Webhook;
   actionsUrl?: string;
