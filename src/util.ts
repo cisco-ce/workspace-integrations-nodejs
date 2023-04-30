@@ -68,6 +68,19 @@ function toTree(config: any) {
   return tree;
 }
 
+interface StringObject {
+  [name: string]: string | number;
+}
+
+function toUrlParams(object: StringObject) {
+  if (!object) return '';
+  const list: any = [];
+  Object.keys(object).forEach((key) => {
+    list.push(`${key}=${object[key]}`);
+  });
+  return list.join('&');
+}
+
 function atob(base64: string) {
   // @ts-ignore
   return Buffer.from(base64, 'base64').toString('ascii');
@@ -78,4 +91,4 @@ function parseJwt(jwt: string) {
   return JSON.parse(atob(payloadB64));
 }
 
-export { toTree, removePath, sleep, shortName, pathMatch, isStr, isObj, isFun, parseJwt };
+export { toTree, removePath, sleep, shortName, pathMatch, isStr, isObj, isFun, parseJwt, toUrlParams };

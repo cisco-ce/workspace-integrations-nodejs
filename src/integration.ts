@@ -1,11 +1,25 @@
-import { Integration, ErrorHandler, Deployment, DataObject } from './types';
+import { Integration, ErrorHandler, Devices, Deployment, DataObject, Workspaces } from './types';
 import { parseJwt } from './util';
 import Http from './http';
+import DevicesImpl from './devices';
+import WorkspacesImpl from './workspaces';
 
 class IntegrationImpl implements Integration {
+  private http: Http;
+  public devices: Devices;
+  public workspaces: Workspaces;
+
   private errorHandler: ErrorHandler | null = null;
-  private appInfo: DataObject = {};
-  private http: Http | null = null;
+  private appInfo: DataObject;
+  private jwt: DataObject;
+
+  constructor(appInfo: DataObject, accessToken: string, jwt: DataObject) {
+    this.appInfo = appInfo;
+    this.jwt = jwt;
+    this.http = new Http(jwt.webexapisBaseUrl, accessToken);
+    this.devices = new DevicesImpl(this.http);
+    this.workspaces = new WorkspacesImpl(this.http);
+  }
 
   onError(handler: ErrorHandler) {
     this.errorHandler = handler;
@@ -15,29 +29,26 @@ class IntegrationImpl implements Integration {
     return this.appInfo;
   }
 
-  async connect(options: Deployment) {
+  static async connect(options: Deployment) {
     const { clientId, clientSecret, notifications } = options;
 
-    const { oauthUrl, refreshToken, appUrl, webexapisBaseUrl } = parseJwt(options.jwt);
+    const jwt = parseJwt(options.jwt);
+    const { oauthUrl, refreshToken, appUrl } = jwt;
 
-    let tokenData;
+    let tokenData = await Http.getAccessToken(clientId, clientSecret, oauthUrl, refreshToken);
 
-    tokenData = await Http.getAccessToken(clientId, clientSecret, oauthUrl, refreshToken);
-    console.log('got access token', tokenData);
-
-    this.appInfo = await Http.initIntegration({
+    const appInfo = await Http.initIntegration({
       accessToken: tokenData.access_token,
       appUrl,
       notifications,
     });
 
     const { access_token, expires_in } = tokenData;
-
-    this.http = new Http(webexapisBaseUrl, access_token);
+    const integration = new IntegrationImpl(appInfo, access_token, jwt);
 
     if (notifications === 'longpolling') {
       console.log('Integration is using long polling for events and status updates');
-      const pollUrl = this.appInfo.queue?.pollUrl;
+      const pollUrl = appInfo.queue?.pollUrl;
       // xapi.pollData(pollUrl);
     } else if (notifications === 'webhook') {
       console.log('Integrations is using web hooks for events and status updates');
@@ -47,9 +58,9 @@ class IntegrationImpl implements Integration {
 
     const timeToRefresh = expires_in - 60 * 15;
     console.log('token will be refreshed in ', (timeToRefresh / 60).toFixed(0), 'minutes');
-    setTimeout(() => this.refreshToken(options), timeToRefresh * 1000);
+    setTimeout(() => integration.refreshToken(options), timeToRefresh * 1000);
 
-    return true;
+    return integration;
   }
 
   async refreshToken(creds: any) {

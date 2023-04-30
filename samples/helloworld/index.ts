@@ -8,16 +8,26 @@ import(process.env.CREDS)
   .catch(() => console.log('You need to specify credentials file'));
 
 async function start(creds: Deployment) {
+  let integration;
   try {
-    const integration = await connect(creds);
+    integration = await connect(creds);
     integration.onError(console.error);
     console.log('connected!');
     // console.log('connected!', await integration.getAppInfo());
+  }
+  catch(e) {
+    console.log('Not able to connect', e);
+    return;
+  }
 
-    // const devices = await integration.devices.get({ tag: 'wi-demo' });
+  try {
+    const devices = await integration.devices.getDevices(); //'', { tag: 'wi-demo' });
+    console.log('Found', devices.length, 'devices');
+    const workspaces = await integration.workspaces.getWorkspaces();
+    console.log('Found', workspaces.length, 'workspaces');
     // integration.xapi.command(devices, 'UserInterface Message Alert Display', { Text: 'Hello World' });
   }
   catch(e) {
-    console.log('Not able to connect');
+    console.log(e);
   }
 }

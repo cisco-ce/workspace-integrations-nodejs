@@ -5,7 +5,9 @@
 // node-fetch Needs to be on low version to support CommonJS / require
 // @ts-ignore
 import nodefetch from 'node-fetch';
-import { DataObject } from './types';
+import { urlJoin } from 'url-join-ts';
+
+import { DataObject, Http } from './types';
 
 // TODO: this url actually needs to be different for fedramp, pick from jwt:webexapisBaseUrl
 const commandUrl = 'https://webexapis.com/v1/xapi/command/';
@@ -30,15 +32,6 @@ function header(accessToken: string) {
   };
 }
 
-function toUrlParams(object: StringObject) {
-  if (!object) return '';
-  const list: any = [];
-  Object.keys(object).forEach((key) => {
-    list.push(`${key}=${object[key]}`);
-  });
-  return list.join('&');
-}
-
 // Modify fetch to throw error if http result is not 2xx, and return json always
 async function fetch(...args: any) {
   // console.log('fetch:', ...args);
@@ -59,7 +52,7 @@ function get(accessToken: string, url: string) {
   return fetch(url, options);
 }
 
-class Http {
+class HttpImpl implements Http {
   private baseUrl: string = '';
   private accessToken: string = '';
 
@@ -117,6 +110,11 @@ class Http {
 
     return fetch(appUrl, options);
   };
+
+  get(partialUrl: string) {
+    const url = urlJoin(this.baseUrl + partialUrl);
+    return get(this.accessToken, url);
+  }
 
   getLocations = async (accessToken: string, appUrl: string) => {
     const res = await get(accessToken, appUrl);
@@ -183,33 +181,6 @@ class Http {
     return fetch(url, options);
   };
 
-  getDevices = async (locationId: string, filters: any) => {
-    const accessToken = this.accessToken;
-
-    let hasMore = false;
-    let result: any[] = [];
-    let start = 0;
-    const max = 999;
-    const params = toUrlParams(filters);
-
-    do {
-      const url = `${deviceUrl}?includeLocation=true&max=${max}&start=${start}&${params}`;
-      const res = await get(accessToken, url);
-
-      let list: any[] = res.items;
-      hasMore = list.length >= max;
-
-      if (locationId) {
-        list = list.filter((device) => device.location && device.location.id === locationId);
-      }
-
-      result = result.concat(list);
-      start += max;
-    } while (hasMore);
-
-    return result;
-  };
-
   getWorkspace = (accessToken: string, workspaceId: string) => {
     const url = workspaceUrl + workspaceId;
     return get(accessToken, url);
@@ -221,4 +192,4 @@ class Http {
   };
 }
 
-export default Http;
+export default HttpImpl;

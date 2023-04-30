@@ -37,9 +37,22 @@ export interface Config {
 }
 
 export interface Integration {
-  connect(deployment: Deployment): Promise<any>;
   getAppInfo(): DataObject;
   onError(handler: ErrorHandler): any;
+  devices: Devices;
+  workspaces: Workspaces;
+}
+
+export interface Workspaces {
+  getWorkspaces(filters?: DataObject): Promise<any[]>;
+}
+
+export interface Devices {
+  getDevices(filters?: DataObject): Promise<any[]>;
+}
+
+export interface Http {
+  get(url: string): Promise<any>;
 }
 
 export interface XAPI {
