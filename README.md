@@ -32,25 +32,24 @@ npm install --save workspace-integrations
 Show a message on the device screen each time the people count changes:
 
 ```js
-const wi = require('workspace-integrations');
+const connect = require('workspace-integrations');
 
-// You get this when you create the integration on ControlHub > Workspaces > Integrations
+// You get this when you deploy and activate the integration on ControlHub > Workspaces > Integrations
 const creds = {
-  clientId: 'xxx',
-  clientSecret: 'yyy',
-  jwt: 'zzz',
+  clientId: "C12ba...",
+  clientSecret: "fdbcd00...",
+  jwt: "eyJraWQiOiJQSnM..."
   deployment: 'longpolling',
 };
 
-wi
-  .connect(creds)
-  .on('ready', onConnect)
-  .on('error', e => console.log('An error occured', e));
+connect(creds)
+  .then(integration => onConnect)
+  .catch(() => console.log('Something went wrong'));
 
-function onConnect(xapi) {
-  xapi.event.on('RoomAnalytics PeopleCount Current', (deviceId, name, value) => {
-   const msg = `Number of people in the room: ${value}`;
-   showMessageOnScreen(xapi, deviceId, msg);
+function onConnect(integration) {
+  integration.xapi.event.on('RoomAnalytics PeopleCount Current', (deviceId, name, value) => {
+    const msg = `Number of people in the room: ${value}`;
+    showMessageOnScreen(integration.xapi, deviceId, msg);
   };
 }
 
@@ -71,13 +70,13 @@ A couple of more syntax examples (the `xapi` and `deviceId` is found similar to 
 
 ```js
 // Get current volume:
-const value = await xapi.status.get(deviceId, 'Audio Volume');
+const value = await integration.xapi.status.get(deviceId, 'Audio Volume');
 console.log('Volume:', volume);
 
 
 // Subscribe to analytics data
 // Note: Don't use star as wildcard, it supports partial match similar to JSXAPI
-xapi.status.on('RoomAnalytics', (deviceId, name, value) => {
+integration.xapi.status.on('RoomAnalytics', (deviceId, name, value) => {
   console.log('Room Analytics updated', name, value);
 });
 ```
@@ -90,7 +89,7 @@ Sometimes you may need the result of commands. This is returned as a normal asyn
 
 ```js
 // Search the phone book:
-const res = await xapi.command(device, 'Phonebook Search', { PhonebookType: 'Local', Limit: 10 });
+const res = await integration.xapi.command(device, 'Phonebook Search', { PhonebookType: 'Local', Limit: 10 });
 console.log('phonebook', res.Contact);
 ```
 
@@ -99,7 +98,7 @@ Commands with multi-line content (such as images, xml or other data blobs) can b
 ```js
 const data = 'const data = 1; \n const moreData = 2;';
 try {
-  await xapi.command(deviceId, 'Macros Macro Save', { Name: 'mymacro' }, data);
+  await integration.xapi.command(deviceId, 'Macros Macro Save', { Name: 'mymacro' }, data);
 }
 catch(e) {
   console.log('Not able to write macro', e);
@@ -112,13 +111,13 @@ Note: setting a configuration requires the **spark-admin:devices_write** scope t
 
 ```js
 // Read a config:
-const mode = await xapi.config.get(deviceId, 'RoomAnalytics.PeoplePresenceDetector')
+const mode = await integration.xapi.config.get(deviceId, 'RoomAnalytics.PeoplePresenceDetector')
 console.log('Detector:', mode);
 
 // Set a config
 // NOTE:
 try {
-  await xapi.config.set(deviceId, 'RoomAnalytics.PeoplePresenceDetector', 'On');
+  await integration.xapi.config.set(deviceId, 'RoomAnalytics.PeoplePresenceDetector', 'On');
 }
 catch(e) {
   console.log('Not able to set config', e);
@@ -133,7 +132,7 @@ const configs = {
   'Audio.DefaultVolume': 33,
   'Audio.SoundsAndAlerts.RingVolume': 66,
 };
-await xapi.config.setMany(device, configs);
+await integration.xapi.config.setMany(device, configs);
 ```
 
 Note that the configuration apis do not actually need to be specified in the manifest. Unlike status, commands and statuses there is no granular control.
@@ -144,15 +143,16 @@ The SDK also allow you to find devices in your organization.
 
 ```js
 // Show all devices in your org:
-const devices = await xapi.getDevices();
+const devices = await integration.devices.getDevices();
 const names = devices.map(d => `${d.displayName} (${d.product} ${d.type})`);
 console.log(names);
 
+// TODO
 // Get the devices in the location that your integration has been enabled for
-xapi.getLocations().forEach(async (locationId) => {
-  const devices = await xapi.getDevices(locationId, { type: 'roomdesk' });
-  console.log(devices);
-});
+// xapi.getLocations().forEach(async (locationId) => {
+//   const devices = await xapi.getDevices(locationId, { type: 'roomdesk' });
+//   console.log(devices);
+// });
 
 // the filterting options (like 'roomdesk') are the same as described on
 // https://developer.webex.com/docs/api/v1/devices/list-devices
@@ -190,7 +190,7 @@ The following example shows how to do this with a simple Express web server, but
 ```js
 const express = require('express');
 const bodyParser = require('body-parser');
-const wi = require('workspace-integrations');
+const connect = require('workspace-integrations');
 
 const app = express();
 
@@ -206,46 +206,41 @@ const creds = {
   clientId: 'xxx',
   clientSecret: 'yyy',
   jwt: 'zzz',
-  deployment: {
-    webhook: {
-      targetUrl: url + "/api/webhooks", // you can choose the route yourself
-      type: "hmac_signature",
-      secret: "somethingmorethan20chars"
-    },
-    actionsUrl: url + "/api/webexnotify", // (optional) you can choose the route yourself
-  }
+  deployment: 'webhook',
+  webhook: {
+    targetUrl: url + "/api/webhooks", // you can choose the route yourself
+    type: "hmac_signature",
+    secret: "somethingmorethan20chars"
+  },
+  actionsUrl: url + "/api/webexnotify", // (optional) you can choose the route yourself
 };
 
-let xapi;
+let integration;
 
 // the route here must be the same as you specify in deployment above
 app.all('/api/webhooks', (req, res) => {
   const { method, body, headers } = req;
-  if (xapi) {
-    xapi.processIncomingData(body);
+  if (integration) {
+    integration.processNotifications(body);
   }
 
   res.send('ok');
 });
 
-
 app.listen(port, () => console.log('http server on port', port));
 
-function onConnect(_xapi) {
+function onConnect(_integration) {
   console.log('connected, xapi ready');
-  xapi = _xapi;
-  xapi.event.on('', (device, path, data) => console.log('SDK event:', path, data, device));
-  xapi.status.on('', (device, path, data) => console.log('SDK status:', path, data, device));
+  integration = _integration;
+
+  // this shows that subscriptions are working, just like for long polling:
+  integration.xapi.event.on('', (device, path, data) => console.log('SDK event:', path, data, device));
+  integration.xapi.status.on('', (device, path, data) => console.log('SDK status:', path, data, device));
 }
 
-function initIntegration() {
-  creds.deployment = deployment;
-  wi.connect(creds)
-    .on('ready', onConnect)
-    .on('error', e => console.log('Error!', e))
-}
-
-initIntegration();
+connect(creds)
+  .then(onConnect)
+  .catch(e => console.log('Error!', e))
 ```
 
 **Tip**: For testing web hooks during development, you can use https://ngrok.com/.

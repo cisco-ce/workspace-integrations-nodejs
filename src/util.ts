@@ -68,6 +68,10 @@ function toTree(config: any) {
   return tree;
 }
 
+function emptyObj(obj: Object) {
+  return !Object.keys(obj).length;
+}
+
 interface StringObject {
   [name: string]: string | number;
 }
@@ -91,4 +95,4 @@ function parseJwt(jwt: string) {
   return JSON.parse(atob(payloadB64));
 }
 
-export { toTree, removePath, sleep, shortName, pathMatch, isStr, isObj, isFun, parseJwt, toUrlParams };
+export { toTree, removePath, sleep, shortName, pathMatch, isStr, isObj, isFun, parseJwt, toUrlParams, emptyObj };

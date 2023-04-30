@@ -1,5 +1,5 @@
-import { Devices, Http } from './types';
-import { toUrlParams } from './util';
+import { Devices, Http } from '../types';
+import { toUrlParams } from '../util';
 
 class DevicesImpl implements Devices {
   private http: Http;

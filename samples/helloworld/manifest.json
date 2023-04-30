@@ -1,10 +1,10 @@
 {
   "id": "b743980a-a072-4179-b57b-91b9292543ac",
-  "manifestVersion": 1,
-  "displayName": "Room capacity monitor",
+  "manifestVersion": 3,
+  "displayName": "Hello World",
   "vendor": "Webex Labs",
   "email": "workspace-integrations-feedback@cisco.com",
-  "description": "Monitors the number of people in the room and shows a warning message on screen if capacity is exceeded.",
+  "description": "Hello World example for workspace integrations SDK",
   "descriptionUrl": "",
   "availability": "org_private",
   "tocUrl": "",
@@ -26,12 +26,20 @@
     {
       "scope": "spark:xapi_commands",
       "access": "required"
+    },
+    {
+      "scope": "spark-admin:devices_write",
+      "access": "required"
     }
   ],
   "xapiAccess": {
     "status": [
       {
         "path": "RoomAnalytics.PeopleCount.Current",
+        "access": "required"
+      },
+      {
+        "path": "Audio.*",
         "access": "required"
       }
     ],

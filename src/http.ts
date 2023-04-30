@@ -9,13 +9,6 @@ import { urlJoin } from 'url-join-ts';
 
 import { DataObject, Http } from './types';
 
-// TODO: this url actually needs to be different for fedramp, pick from jwt:webexapisBaseUrl
-const commandUrl = 'https://webexapis.com/v1/xapi/command/';
-const statusUrl = 'https://webexapis.com/v1/xapi/status/';
-const configUrl = 'https://webexapis.com/v1/deviceConfigurations/';
-const deviceUrl = 'https://webexapis.com/v1/devices/';
-const workspaceUrl = 'https://webexapis.com/v1/workspaces/';
-
 interface Config {
   path: string;
   value: string | number | boolean;
@@ -126,8 +119,8 @@ class HttpImpl implements Http {
     return fetch(url, { headers });
   };
 
-  xCommand = (accessToken: string, deviceId: string, command: string, args: StringObject, multiline: string) => {
-    const url = commandUrl + command;
+  xCommand = (deviceId: string, command: string, args?: StringObject, multiline?: string) => {
+    const url = urlJoin(this.baseUrl, 'xapi/command', command);
     const body: any = {
       deviceId,
     };
@@ -140,7 +133,7 @@ class HttpImpl implements Http {
       body.body = multiline;
     }
 
-    const headers = header(accessToken);
+    const headers = header(this.accessToken);
     const options = {
       headers,
       method: 'POST',
@@ -150,20 +143,20 @@ class HttpImpl implements Http {
     return fetch(url, options);
   };
 
-  xStatus = (accessToken: string, deviceId: string, path: string) => {
-    const url = `${statusUrl}?deviceId=${deviceId}&name=${path}`;
-    return get(accessToken, url);
+  xStatus = (deviceId: string, path: string) => {
+    const url = urlJoin(this.baseUrl, '/xapi/status/', `?deviceId=${deviceId}&name=${path}`);
+    return get(this.accessToken, url);
   };
 
-  xConfig = (accessToken: string, deviceId: string, path: string) => {
-    const url = `${configUrl}?deviceId=${deviceId}&key=${path}`;
-    return get(accessToken, url);
+  xConfig = (deviceId: string, path: string) => {
+    const url = urlJoin(this.baseUrl, '/deviceConfigurations/', `?deviceId=${deviceId}&key=${path}`);
+    return get(this.accessToken, url);
   };
 
-  xConfigSet = (accessToken: string, deviceId: string, configs: Config[]) => {
-    const url = `${configUrl}?deviceId=${deviceId}`;
+  xConfigSet = (deviceId: string, configs: Config[]) => {
+    const url = urlJoin(this.baseUrl, '/deviceConfigurations/', `?deviceId=${deviceId}`);
     const headers = {
-      Authorization: 'Bearer ' + accessToken,
+      Authorization: 'Bearer ' + this.accessToken,
       'Content-Type': 'application/json-patch+json',
     };
     const body = configs.map((config) => ({
@@ -182,12 +175,12 @@ class HttpImpl implements Http {
   };
 
   getWorkspace = (accessToken: string, workspaceId: string) => {
-    const url = workspaceUrl + workspaceId;
+    const url = urlJoin(this.baseUrl, '/workspaces/', workspaceId);
     return get(accessToken, url);
   };
 
   deviceDetails = (accessToken: string, deviceId: string) => {
-    const url = deviceUrl + deviceId;
+    const url = urlJoin(this.baseUrl, '/devices/', deviceId);
     return get(accessToken, url);
   };
 }

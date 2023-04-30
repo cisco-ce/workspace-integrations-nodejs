@@ -1,5 +1,5 @@
-import { Workspaces, Http } from './types';
-import { toUrlParams } from './util';
+import { Workspaces, Http } from '../types';
+import { toUrlParams } from '../util';
 
 class WorkspacesImpl implements Workspaces {
   private http: Http;

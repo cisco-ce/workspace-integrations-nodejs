@@ -1,15 +1,13 @@
 # TODO
 
-
 Refactor
-- Make http lib stateful
-  - set webex api url (in case of fedramp)
-  - store token
-  - move token from xapi to http
-  - make xapi a sub module
-- divide apis into sections (workspaces, devices, xapi, ...)
-- add linter and other goodies from https://itnext.io/step-by-step-building-and-publishing-an-npm-typescript-package-44fe7164964c
-- generate docs with typedoc
+
+- Test refresh token mechanism
+- Document types
+- How to use http for own webex queries
+- Host docs on Github pages
+- Simplify config get returns. fix bug, something weird with get xConfig.*
+
 
 TODO
 - don't have apis in xapi that are webex (not xapi)

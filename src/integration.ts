@@ -1,13 +1,15 @@
 import { Integration, ErrorHandler, Devices, Deployment, DataObject, Workspaces } from './types';
 import { parseJwt, sleep } from './util';
 import Http from './http';
-import DevicesImpl from './devices';
-import WorkspacesImpl from './workspaces';
+import DevicesImpl from './apis/devices';
+import WorkspacesImpl from './apis/workspaces';
+import XapiImpl from './apis/xapi';
 
 class IntegrationImpl implements Integration {
   private http: Http;
   public devices: Devices;
   public workspaces: Workspaces;
+  public xapi: XapiImpl;
 
   private errorHandler: ErrorHandler | null = null;
   private appInfo: DataObject;
@@ -19,6 +21,7 @@ class IntegrationImpl implements Integration {
     this.http = new Http(jwt.webexapisBaseUrl, accessToken);
     this.devices = new DevicesImpl(this.http);
     this.workspaces = new WorkspacesImpl(this.http);
+    this.xapi = new XapiImpl(this.http);
   }
 
   onError(handler: ErrorHandler) {
@@ -42,13 +45,13 @@ class IntegrationImpl implements Integration {
         await sleep(WaitAfterError);
       }
       if (data) {
-        this.processNotifications(data);
+        this.processNotifications(data?.messages);
       }
     }
   }
 
   processNotifications(notifications: DataObject[]) {
-    // console.log('notification', notifications);
+    notifications.forEach((not) => this.xapi.processNotification(not));
   }
 
   static async connect(options: Deployment) {
