@@ -8,7 +8,7 @@ class DevicesImpl implements Devices {
     this.http = http;
   }
 
-  async getDevices( filters?: any) {
+  async getDevices(filters?: any) {
     let hasMore = false;
     let result: any[] = [];
     let start = 0;
@@ -19,7 +19,7 @@ class DevicesImpl implements Devices {
       const url = `/devices?max=${max}&start=${start}&${params}`;
       const res = await this.http.get(url);
 
-      let list: any[] = res.items;
+      const list: any[] = res.items;
       hasMore = list.length >= max;
       result = result.concat(list);
       start += max;

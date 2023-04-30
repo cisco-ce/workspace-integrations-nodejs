@@ -121,8 +121,8 @@ class HttpImpl implements Http {
     return res.publicLocationIds;
   };
 
-  pollDeviceData = (url: string, accessToken: string) => {
-    const headers = header(accessToken);
+  pollDeviceData = (url: string) => {
+    const headers = header(this.accessToken);
     return fetch(url, { headers });
   };
 

@@ -1,5 +1,5 @@
 import { Integration, ErrorHandler, Devices, Deployment, DataObject, Workspaces } from './types';
-import { parseJwt } from './util';
+import { parseJwt, sleep } from './util';
 import Http from './http';
 import DevicesImpl from './devices';
 import WorkspacesImpl from './workspaces';
@@ -29,13 +29,35 @@ class IntegrationImpl implements Integration {
     return this.appInfo;
   }
 
+  async pollData() {
+    const pollUrl = this.appInfo.queue?.pollUrl;
+
+    while (true) {
+      let data;
+      try {
+        data = await this.http.pollDeviceData(pollUrl);
+      } catch (e) {
+        console.log('Error polling', e);
+        const WaitAfterError = 5000;
+        await sleep(WaitAfterError);
+      }
+      if (data) {
+        this.processNotifications(data);
+      }
+    }
+  }
+
+  processNotifications(notifications: DataObject[]) {
+    // console.log('notification', notifications);
+  }
+
   static async connect(options: Deployment) {
     const { clientId, clientSecret, notifications } = options;
 
     const jwt = parseJwt(options.jwt);
     const { oauthUrl, refreshToken, appUrl } = jwt;
 
-    let tokenData = await Http.getAccessToken(clientId, clientSecret, oauthUrl, refreshToken);
+    const tokenData = await Http.getAccessToken(clientId, clientSecret, oauthUrl, refreshToken);
 
     const appInfo = await Http.initIntegration({
       accessToken: tokenData.access_token,
@@ -46,18 +68,19 @@ class IntegrationImpl implements Integration {
     const { access_token, expires_in } = tokenData;
     const integration = new IntegrationImpl(appInfo, access_token, jwt);
 
+    // TODO move to constructor
     if (notifications === 'longpolling') {
       console.log('Integration is using long polling for events and status updates');
-      const pollUrl = appInfo.queue?.pollUrl;
-      // xapi.pollData(pollUrl);
+      integration.pollData();
     } else if (notifications === 'webhook') {
       console.log('Integrations is using web hooks for events and status updates');
     } else {
       console.log('Integration is not subscribing to notifications');
     }
 
+    // TODO move to constructor
     const timeToRefresh = expires_in - 60 * 15;
-    console.log('token will be refreshed in ', (timeToRefresh / 60).toFixed(0), 'minutes');
+    // console.log('token will be refreshed in ', (timeToRefresh / 60).toFixed(0), 'minutes');
     setTimeout(() => integration.refreshToken(options), timeToRefresh * 1000);
 
     return integration;

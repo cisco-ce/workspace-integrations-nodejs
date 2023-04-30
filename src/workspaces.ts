@@ -1,7 +1,6 @@
 import { Workspaces, Http } from './types';
 import { toUrlParams } from './util';
 
-
 class WorkspacesImpl implements Workspaces {
   private http: Http;
 
@@ -9,7 +8,7 @@ class WorkspacesImpl implements Workspaces {
     this.http = http;
   }
 
-  async getWorkspaces( filters?: any) {
+  async getWorkspaces(filters?: any) {
     let hasMore = false;
     let result: any[] = [];
     let start = 0;
@@ -20,7 +19,7 @@ class WorkspacesImpl implements Workspaces {
       const url = `/workspaces?max=${max}&start=${start}&${params}`;
       const res = await this.http.get(url);
 
-      let list: any[] = res.items;
+      const list: any[] = res.items;
       hasMore = list.length >= max;
       result = result.concat(list);
       start += max;

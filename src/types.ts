@@ -39,6 +39,7 @@ export interface Config {
 export interface Integration {
   getAppInfo(): DataObject;
   onError(handler: ErrorHandler): any;
+  processNotifications(notification: DataObject[]): void;
   devices: Devices;
   workspaces: Workspaces;
 }
