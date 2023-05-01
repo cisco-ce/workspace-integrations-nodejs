@@ -37,7 +37,7 @@ class XapiImpl implements XAPI {
 
       const answer = res?.result;
       if (emptyObj(answer)) {
-        throw new Error('xStatus not found. Incorrect path, or did you not ask for it in the manifest?');
+        throw new Error('xStatus not found. Did you include the API in the manifest?');
       }
 
       if (answer) {
@@ -60,7 +60,7 @@ class XapiImpl implements XAPI {
       // console.log('config items', items);
 
       if (!Object.keys(items).length) {
-        throw new Error('xConfig not found on device');
+        throw new Error('xConfig not found on device. Did you include the API in the manifest?');
       }
       const tree = toTree(items);
       // console.log('tree:', JSON.stringify(tree, null, 2));

@@ -27,8 +27,8 @@ async function start(creds: Deployment) {
         const audio = await integration.xapi.status.get(id, 'Audio.Volume');
         console.log('Audio status', audio);
         // await integration.xapi.config.set(id, 'Audio.DefaultVolume', 66);
-        const volume = await integration.xapi.config.get(id, 'Audio.DefaultVolume');
-        console.log('Audio config', volume);
+        const volume = await integration.xapi.config.get(id, 'Conference');
+        console.log('config', volume);
 
         const params = { Text: 'Hello World', Duration: 5 };
         integration.xapi.command(id, 'UserInterface Message Alert Display', params);
