@@ -41,7 +41,7 @@ class XapiImpl implements XAPI {
       }
 
       if (answer) {
-        return removePath(path, answer);
+        return removePath(name, answer);
       }
     },
     on: (path: string, callback: StatusListener) => {
@@ -64,7 +64,7 @@ class XapiImpl implements XAPI {
       }
       const tree = toTree(items);
       // console.log('tree:', JSON.stringify(tree, null, 2));
-      return tree;
+      return removePath(name, tree);
     },
 
     set: async (deviceId: string, path: string, value: string | number) => {

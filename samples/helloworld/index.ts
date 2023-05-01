@@ -24,16 +24,19 @@ async function start(creds: Deployment) {
     const devices = await integration.devices.getDevices({ tag: 'wi-demo' });
     devices.forEach(async ({ id }) => {
       try {
-        const audio = await integration.xapi.status.get(id, 'Audio.Volume');
-        console.log('Audio status', audio);
+        const statusPath = 'Audio.*';
+        const status = await integration.xapi.status.get(id, statusPath);
+        console.log('Status', statusPath, ':', JSON.stringify(status, null, 2));
+
         // await integration.xapi.config.set(id, 'Audio.DefaultVolume', 66);
-        const volume = await integration.xapi.config.get(id, 'Conference');
-        console.log('config', volume);
+        const configPath = 'Audio.USB.Mode';
+        const cfg = await integration.xapi.config.get(id, configPath);
+        console.log('Config', configPath, ':', JSON.stringify(cfg, null, 2));
 
         const params = { Text: 'Hello World', Duration: 5 };
         integration.xapi.command(id, 'UserInterface Message Alert Display', params);
         const peopleCount = await integration.xapi.status.get(id, 'RoomAnalytics.PeopleCount.Current');
-        console.log('count', peopleCount);
+        console.log('People count', peopleCount);
         integration.xapi.status.on('RoomAnalytics.PeopleCount.Current', (_, path, value) => {
           console.log('people count changed:', path, value);
         });
