@@ -9,6 +9,10 @@ import { urlJoin } from 'url-join-ts';
 
 import { DataObject, Http } from './types';
 
+
+let dryMode = false;
+
+
 interface Config {
   path: string;
   value: string | number | boolean;
@@ -27,7 +31,9 @@ function header(accessToken: string) {
 
 // Modify fetch to throw error if http result is not 2xx, and return json always
 async function fetch(...args: any) {
-  // console.log('fetch:', ...args);
+  if (dryMode) {
+    return { url: args[0], options: args[1] };
+  }
   const res = await nodefetch(...args);
   if (!res.ok) {
     throw new Error(`Fetch failed: ${res.status} ${res.statusText}`);
@@ -52,6 +58,10 @@ class HttpImpl implements Http {
   constructor(baseUrl: string, accessToken: string) {
     this.baseUrl = baseUrl;
     this.accessToken = accessToken;
+  }
+
+  static setDryMode(dry: boolean) {
+    dryMode = dry;
   }
 
   setAccessToken(token: string) {
