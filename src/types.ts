@@ -14,7 +14,9 @@ interface Webhook {
   /** Must be https */
   targetUrl: string;
 
-  /**  Passing 'none' will delete the web hook*/
+  /**
+   * Passing 'none' will delete the web hook
+   */
   type: 'hmac_signature' | 'basic_authentication' | 'none';
 
   /** This will be sent with every web hook. You can use it to verify that the web hook came from Webex. */
@@ -38,7 +40,8 @@ export interface Deployment {
   jwt: string;
 
   /**
-   * How you want your integration to receive device notifications such as events and status updates.
+   * How you want your integration to receive device notifications such as events
+   * and status updates.
    *
    * - webhook: Webex posts the notification to a public web server that you control
    * - longpolling: Your integration using [long polling](https://javascript.info/long-polling)
@@ -48,7 +51,9 @@ export interface Deployment {
   notifications: 'webhook' | 'longpolling' | 'none';
   webhook?: Webhook;
 
-  /** Public URL endpoint to send signed JWT actions, such as health check, app update, deactivation etc*/
+  /**
+   * Public URL endpoint to send signed JWT actions, such as health check, app update, deactivation etc
+   */
   actionsUrl?: string;
 }
 
@@ -119,7 +124,7 @@ export interface Config {
  * as well as long polling for notifications, when that method is used.
  */
 export interface Integration {
-  getAppInfo(): DataObject;
+  getAppInfo(): AppInfo;
   onError(handler: ErrorHandler): any;
   processNotifications(notification: DataObject[]): void;
   devices: Devices;
@@ -156,3 +161,24 @@ export interface XAPI {
 
 export type ErrorHandler = (error: string) => any;
 export type ReadyHandler = (xapi: XAPI) => any;
+
+export interface AppInfo {
+  id: string;
+  manifestVersion: number;
+  scopes: string[];
+  roles: string[];
+  xapiAccessKeys: {
+    commands?: string[];
+    statuses?: string[];
+    events?: string[];
+  };
+  createdAt: string;
+  updatedAt: string;
+  provisioningState: string;
+  publicLocationIds: string[];
+  queue?: {
+    pollUrl: string;
+    state: string;
+  };
+  availability: string;
+}

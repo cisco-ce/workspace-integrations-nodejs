@@ -9,9 +9,7 @@ import { urlJoin } from 'url-join-ts';
 
 import { DataObject, Http } from './types';
 
-
 let dryMode = false;
-
 
 interface Config {
   path: string;

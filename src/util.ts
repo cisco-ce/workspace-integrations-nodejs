@@ -68,7 +68,7 @@ function toTree(config: any) {
   return tree;
 }
 
-function emptyObj(obj: Object) {
+function emptyObj(obj: object) {
   return !Object.keys(obj).length;
 }
 

@@ -1,4 +1,4 @@
-import { Integration, ErrorHandler, Devices, Deployment, DataObject, Workspaces } from './types';
+import { Integration, ErrorHandler, Devices, Deployment, DataObject, Workspaces, AppInfo } from './types';
 import { parseJwt, sleep } from './util';
 import Http from './http';
 import DevicesImpl from './apis/devices';
@@ -12,10 +12,10 @@ class IntegrationImpl implements Integration {
   public xapi: XapiImpl;
 
   private errorHandler: ErrorHandler | null = null;
-  private appInfo: DataObject;
+  private appInfo: AppInfo;
   private jwt: DataObject;
 
-  constructor(appInfo: DataObject, accessToken: string, jwt: DataObject) {
+  constructor(appInfo: AppInfo, accessToken: string, jwt: DataObject) {
     this.appInfo = appInfo;
     this.jwt = jwt;
     this.http = new Http(jwt.webexapisBaseUrl, accessToken);
@@ -34,6 +34,7 @@ class IntegrationImpl implements Integration {
 
   async pollData() {
     const pollUrl = this.appInfo.queue?.pollUrl;
+    if (!pollUrl) return;
 
     while (true) {
       let data;
