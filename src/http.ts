@@ -10,6 +10,7 @@ import { urlJoin } from 'url-join-ts';
 import { DataObject, Http } from './types';
 
 let dryMode = false;
+const httpLog: { url: string, options: DataObject }[] = [];
 
 interface Config {
   path: string;
@@ -28,11 +29,12 @@ function header(accessToken: string) {
 }
 
 // Modify fetch to throw error if http result is not 2xx, and return json always
-async function fetch(...args: any) {
+async function fetch(url: string, options: DataObject) {
   if (dryMode) {
-    return { url: args[0], options: args[1] };
+    httpLog.push({ url, options });
+    return;
   }
-  const res = await nodefetch(...args);
+  const res = await nodefetch(url, options);
   if (!res.ok) {
     throw new Error(`Fetch failed: ${res.status} ${res.statusText}`);
   }
@@ -60,6 +62,10 @@ class HttpImpl implements Http {
 
   static setDryMode(dry: boolean) {
     dryMode = dry;
+  }
+
+  static history() {
+    return httpLog;
   }
 
   setAccessToken(token: string) {

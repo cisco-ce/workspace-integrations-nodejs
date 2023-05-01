@@ -1,6 +1,7 @@
 // const wi = require('workspace-integrations');
-import { Deployment } from '../../src/types';
+import { Deployment, AppInfo } from '../../src/types';
 import Http from '../../src/http';
+import IntegrationImpl from '../../src/integration';
 
 // @ts-ignore
 import(process.env.CREDS)
@@ -9,6 +10,9 @@ import(process.env.CREDS)
 
 async function start(creds: Deployment) {
   Http.setDryMode(true);
-  const res = await Http.getAccessToken('acme', 'test', 'https://test', 'test');
-  console.log(res);
+  const fakeAppInfo = {} as AppInfo;
+  const fakeJwt = { webexapisBaseUrl: 'https://webexapis.com/v1'};
+  const integration = new IntegrationImpl(fakeAppInfo, 'token1234', fakeJwt);
+  integration.xapi.command('myDeskPro', 'Dial', { Number: 'chuck@cisco.com'});
+  console.log(Http.history());
 }
