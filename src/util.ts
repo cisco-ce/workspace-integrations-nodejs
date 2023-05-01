@@ -49,11 +49,21 @@ function makeBranch(tree: any, key: string, value: any) {
       if (!parent[name]) {
         parent[name] = [];
       }
-      const obj = { id: index };
-      parent[name].push(obj);
-      parent = obj;
-    } else if (!parent[path]) {
+      const existingObj = parent[name].find((n: any) => n.id === index);
+      if (!existingObj) {
+        const obj = { id: index };
+        parent[name].push(obj);
+        parent = obj;
+      }
+      else {
+        parent = existingObj;
+      }
+    }
+    else if (!parent[path]) {
       parent[path] = {};
+      parent = parent[path];
+    }
+    else {
       parent = parent[path];
     }
   });
@@ -62,6 +72,7 @@ function makeBranch(tree: any, key: string, value: any) {
 function toTree(config: any) {
   const tree = {};
   const keys = Object.keys(config);
+  keys.sort((k1, k2) => k1 < k2 ? -1 : 1);
   keys.forEach((key) => {
     makeBranch(tree, key, config[key].value);
   });
