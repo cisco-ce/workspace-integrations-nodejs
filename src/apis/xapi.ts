@@ -115,7 +115,8 @@ class XapiImpl implements XAPI {
     } else if (type === 'healthCheck') {
       console.log('xapi: got healt check message');
     } else {
-      console.log('Received unknown notifications', type, data);
+      // console.log('Received unknown notifications', type, data);
+      // handle: type: 'action', add listener for it
     }
   }
 }

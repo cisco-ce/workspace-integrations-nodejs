@@ -90,7 +90,7 @@ export type DataObject = Record<string, any>;
  * Device statuses are typicially states, sensor data etc that can change at any time.
  */
 export interface Status {
-  get: (deviceId: string, path: string) => Promise<DataObject>;
+  get: (deviceId: string, path: string) => Promise<DataObject | number | string>;
   on: (path: string, listener: StatusListener) => void;
 }
 
@@ -105,7 +105,7 @@ export interface Event {
 }
 
 export interface Config {
-  get: (deviceId: string, path: string) => Promise<DataObject>;
+  get: (deviceId: string, path: string) => Promise<DataObject | number | string>;
 
   /**
    * Requires the spark-admin:devices-write scope
