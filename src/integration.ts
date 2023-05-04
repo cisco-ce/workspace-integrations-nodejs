@@ -74,12 +74,7 @@ class IntegrationImpl implements Integration {
 
     // TODO move to constructor
     if (notifications === 'longpolling') {
-      console.log('Integration is using long polling for events and status updates');
       integration.pollData();
-    } else if (notifications === 'webhook') {
-      console.log('Integrations is using web hooks for events and status updates');
-    } else {
-      console.log('Integration is not subscribing to notifications');
     }
 
     // TODO move to constructor

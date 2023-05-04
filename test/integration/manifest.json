@@ -1,0 +1,86 @@
+{
+  "id": "b743980a-a072-4179-b57b-91b9292543ac",
+  "manifestVersion": 10,
+  "displayName": "Hello World",
+  "vendor": "Webex Labs",
+  "email": "workspace-integrations-feedback@cisco.com",
+  "description": "Hello World example for workspace integrations SDK",
+  "descriptionUrl": "",
+  "availability": "org_private",
+  "tocUrl": "",
+  "apiAccess": [
+    {
+      "scope": "spark-admin:devices_read",
+      "access": "required",
+      "role": "id_readonly_admin"
+    },
+    {
+      "scope": "spark-admin:workspaces_read",
+      "access": "required",
+      "role": "id_readonly_admin"
+    },
+    {
+      "scope": "spark:xapi_statuses",
+      "access": "required"
+    },
+    {
+      "scope": "spark:xapi_commands",
+      "access": "required"
+    },
+    {
+      "scope": "spark-admin:devices_write",
+      "access": "required"
+    }
+  ],
+  "xapiAccess": {
+    "status": [
+      {
+        "path": "RoomAnalytics.PeopleCount.Current",
+        "access": "required"
+      },
+      {
+        "path": "Audio.*",
+        "access": "required"
+      },
+      {
+        "path": "Standby.State",
+        "access": "required"
+      }
+    ],
+    "commands": [
+      {
+        "path": "UserInterface.Message.Alert.Display",
+        "access": "required"
+      },
+      {
+        "path": "Audio.Volume.Set",
+        "access": "required"
+      },
+      {
+        "path": "Standby.Activate",
+        "access": "required"
+      },
+      {
+        "path": "Standby.Deactivate",
+        "access": "required"
+      },
+      {
+        "path": "UserInterface.Message.Prompt.Display",
+        "access": "required"
+      },
+      {
+        "path": "UserInterface.Message.Prompt.Response",
+        "access": "required"
+      }
+    ],
+    "events": [
+      {
+        "path": "UserInterface.Message.Prompt.Response",
+        "access": "required"
+      }
+    ]
+  },
+  "provisioning": {
+    "type": "manual"
+  }
+}
