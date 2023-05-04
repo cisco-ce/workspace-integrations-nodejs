@@ -57,17 +57,27 @@ export interface Deployment {
   actionsUrl?: string;
 }
 
+
+export interface Notification {
+  appId: string;
+  deviceId: string;
+  workspaceId: string;
+  orgId: string;
+  timestamp: string;
+  type: 'status' | 'event' | 'healthCheck';
+}
+
 /**
  * Called when a device has an event that matches the path you are listening to.
  * Remember to add the path to the manifest xAPI event scope too.
  */
-export type EventListener = (deviceId: string, path: string, event: DataObject, data: DataObject) => void;
+export type EventListener = (deviceId: string, path: string, event: DataObject, data: Notification) => void;
 
 /**
  * Called when a device has a status update that matches the path you are listening to.
  * Remember to add the path to the manifest xAPI status scope too.
  */
-export type StatusListener = (deviceId: string, path: string, value: DataObject, data: DataObject) => void;
+export type StatusListener = (deviceId: string, path: string, value: DataObject, data: Notification) => void;
 
 /**
  * Invoke a command on a Cisco device. Returns result as a promise.
@@ -176,6 +186,7 @@ export interface AppInfo {
   updatedAt: string;
   provisioningState: string;
   publicLocationIds: string[];
+  features?: Array<"digital_signage" | "persistent_web_app">
   queue?: {
     pollUrl: string;
     state: string;

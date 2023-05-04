@@ -2,7 +2,7 @@ import Http from '../http';
 
 import { toTree, removePath, pathMatch, isStr, isObj, emptyObj } from '../util';
 
-import { DataObject, EventListener, StatusListener, XAPI } from '../types';
+import { DataObject, EventListener, StatusListener, Notification, XAPI } from '../types';
 
 class XapiImpl implements XAPI {
   private eventListeners: Array<{ path: string; callback: EventListener }>;
@@ -91,10 +91,11 @@ class XapiImpl implements XAPI {
     const { deviceId, type } = data;
     const props = data?.changes?.updated;
     if (type === 'status' && props) {
+      const notification = data as Notification;
       for (const [key, value] of Object.entries(props)) {
         this.statusListeners.forEach((listener) => {
           if (pathMatch(key, listener.path)) {
-            listener.callback(deviceId, key, value as DataObject, data);
+            listener.callback(deviceId, key, value as DataObject, notification);
           }
         });
         // console.log('status', `${shortName(deviceId)} => ${key}: ${value} (${timestamp})`);
@@ -104,8 +105,9 @@ class XapiImpl implements XAPI {
         const path = e.key;
         const event = e.value;
         this.eventListeners.forEach((listener) => {
+          const notification = data as Notification;
           if (pathMatch(path, listener.path)) {
-            listener.callback(deviceId, path, event, data);
+            listener.callback(deviceId, path, event, notification);
           }
         });
         // console.log('event', shortName(deviceId), path, JSON.toString(event), timestamp);

@@ -2,11 +2,11 @@
 
 Refactor
 
+- Add missing apis that was there before (workspace details, device details)
 - Test refresh token mechanism
 - Document types
 - How to use http for own webex queries
 - Host docs on Github pages
-- Simplify config get returns. fix bug, something weird with get xConfig.*
 
 
 TODO
