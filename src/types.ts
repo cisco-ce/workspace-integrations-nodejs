@@ -147,11 +147,54 @@ export interface Integration {
  * typically a meeting room, huddle room, or reception.
  */
 export interface Workspaces {
-  getWorkspaces(filters?: DataObject): Promise<any[]>;
+  getWorkspaces(filters?: DataObject): Promise<Workspace[]>;
+  getWorkspace(workspaceId: string): Promise<Workspace>;
+}
+
+export interface Workspace {
+  id: string;
+  orgId: string;
+  workspaceLocationId: string;
+  displayName: string;
+  sipAddress: string;
+  capacity?: number;
+  type: 'notSet' | 'focus' | 'huddle' | 'meetingRoom' | 'open' | 'desk' | 'other' | string;
+  notes?: string;
+  /** Whether the workspace supports hot desking or not */
+  hotdeskingStatus: 'on' | 'off';
+}
+
+export interface Device {
+  id: string;
+  displayName: string;
+  workspaceId: string;
+  workspaceLocationId: string;
+  orgId: string;
+  product: string;
+  /**
+   * - roomdesk: Cisco collaboration device (Board, Room Kit, Desk etc)
+   * - accessory: Cisco Navigator, etc
+   * - webexgo: Webex Calling device
+   */
+  type: 'roomdesk' | 'accessory' | 'webexgo' | 'unknown';
+  /** The person owning the device, if it's in personal mode. */
+  personId?: string;
+  tags: string[];
+  ip: string;
+  mac: string;
+  /** Network connectivity type (LAN, wifi, ...) */
+  activeInterface: string;
+  primarySipUrl: string;
+  errorCodes: string[];
+  serial: string;
+  software: string;
+  upgradeChannel: string;
+  connectionStatus: 'connected' | 'disconnected' | 'connected_with_issues' | string;
 }
 
 export interface Devices {
-  getDevices(filters?: DataObject): Promise<any[]>;
+  getDevices(filters?: DataObject): Promise<Device[]>;
+  getDevice(deviceId: string): Promise<Device>;
 }
 
 export interface Http {

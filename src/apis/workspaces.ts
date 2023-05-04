@@ -1,11 +1,14 @@
-import { Workspaces, Http } from '../types';
+import { Workspaces, Workspace, Http } from '../types';
 import { toUrlParams } from '../util';
+import Cache from '../cache';
 
 class WorkspacesImpl implements Workspaces {
   private http: Http;
+  private cache: Cache;
 
   constructor(http: Http) {
     this.http = http;
+    this.cache = new Cache();
   }
 
   async getWorkspaces(filters?: any) {
@@ -26,6 +29,11 @@ class WorkspacesImpl implements Workspaces {
     } while (hasMore);
 
     return result;
+  }
+
+  getWorkspace(workspaceId: string): Promise<Workspace> {
+    const url = '/workspaces/' + workspaceId;
+    return this.cache.fetch(this.http, url);
   }
 }
 

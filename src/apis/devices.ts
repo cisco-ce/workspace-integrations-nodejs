@@ -1,11 +1,14 @@
-import { Devices, Http } from '../types';
+import { Devices, Http, DataObject } from '../types';
 import { toUrlParams } from '../util';
+import Cache from '../cache';
 
 class DevicesImpl implements Devices {
   private http: Http;
+  private cache: Cache;
 
   constructor(http: Http) {
     this.http = http;
+    this.cache = new Cache();
   }
 
   async getDevices(filters?: any) {
@@ -26,6 +29,11 @@ class DevicesImpl implements Devices {
     } while (hasMore);
 
     return result;
+  }
+
+  async getDevice(deviceId: string) {
+    const url = '/devices/' + deviceId;
+    return this.cache.fetch(this.http, url);
   }
 }
 
