@@ -6,7 +6,6 @@ import WorkspacesImpl from './apis/workspaces';
 import XapiImpl from './apis/xapi';
 import { OAuthDetails } from './http';
 
-
 class IntegrationImpl implements Integration {
   private http: Http;
   public devices: Devices;
@@ -97,12 +96,16 @@ class IntegrationImpl implements Integration {
     const { clientId, clientSecret, oauthUrl, refreshToken } = this.oauth;
 
     try {
-      const { access_token, expires_in } = await Http.getAccessToken({ clientId, clientSecret, oauthUrl, refreshToken });
+      const { access_token, expires_in } = await Http.getAccessToken({
+        clientId,
+        clientSecret,
+        oauthUrl,
+        refreshToken,
+      });
       this.http.setAccessToken(access_token);
       const nextTime = expires_in - 60 * 15;
       // console.log('got new token', access_token, 'next in ', nextTime, 'sec');
       setTimeout(() => this.refreshToken(), nextTime * 1000);
-
     } catch (e) {
       if (this.errorHandler) {
         this.errorHandler('Not able to refresh token. ' + (e instanceof Error && e.message));

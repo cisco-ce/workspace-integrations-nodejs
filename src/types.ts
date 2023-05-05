@@ -57,7 +57,6 @@ export interface Deployment {
   actionsUrl?: string;
 }
 
-
 export interface Notification {
   appId: string;
   deviceId: string;
@@ -234,7 +233,7 @@ export interface AppInfo {
   updatedAt: string;
   provisioningState: string;
   publicLocationIds: string[];
-  features?: Array<"digital_signage" | "persistent_web_app">
+  features?: Array<'digital_signage' | 'persistent_web_app'>;
   queue?: {
     pollUrl: string;
     state: string;

@@ -1,4 +1,4 @@
-import { DataObject, Http } from "./types";
+import { DataObject, Http } from './types';
 
 const cacheSec = 60 * 60;
 /**
@@ -33,7 +33,7 @@ class Cache {
   }
 
   private set(resource: string, value: any) {
-    this.store[resource] =  {
+    this.store[resource] = {
       created: Date.now(),
       value,
     };

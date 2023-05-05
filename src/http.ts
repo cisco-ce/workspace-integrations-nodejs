@@ -10,7 +10,7 @@ import { urlJoin } from 'url-join-ts';
 import { DataObject, Http } from './types';
 
 let dryMode = false;
-const httpLog: { url: string, options: DataObject }[] = [];
+const httpLog: { url: string; options: DataObject }[] = [];
 
 interface Config {
   path: string;
@@ -75,14 +75,19 @@ class HttpImpl implements Http {
     return httpLog;
   }
 
-  webexApi(partialUrl: string, method: string = 'GET', body: any = null, contentType: string = 'application/json'): Promise<any> {
+  webexApi(
+    partialUrl: string,
+    method: string = 'GET',
+    body: any = null,
+    contentType: string = 'application/json',
+  ): Promise<any> {
     const headers = header(this.accessToken);
     if (contentType) {
       headers['Content-Type'] = contentType;
     }
     const options: DataObject = {
       method,
-      headers
+      headers,
     };
     if (body) {
       options.body = JSON.stringify(body);
@@ -124,7 +129,7 @@ class HttpImpl implements Http {
     };
 
     return fetch(oauthUrl, options);
-  };
+  }
 
   static initIntegration = (data: DataObject) => {
     const { accessToken, appUrl, webhook, notifications, actionsUrl } = data;
