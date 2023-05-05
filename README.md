@@ -292,7 +292,7 @@ Please be aware of the following limitations:
 
 ## Useful resources
 
-* [Workspace Integrations Guide](https://developer.webex.com/docs/api/guides/workspace-integrations-guide)
+* [Workspace Integrations Guide](https://developer.webex.com/docs/workspace-integrations)
 * [Introduction to the xAPI](https://roomos.cisco.com/doc/TechDocs/xAPI)
 * [RoomOS xAPI reference](https://roomos.cisco.com/xapi)
 * [Manifest editor](https://cisco-ce.github.io/workspace-integrations-editor/)
