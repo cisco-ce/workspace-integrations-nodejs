@@ -1,0 +1,4 @@
+/* remove the "defined in ...:line part */
+.tsd-sources {
+  display: none;
+}

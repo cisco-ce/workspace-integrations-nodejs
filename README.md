@@ -22,8 +22,6 @@ What this SDK gives you:
 
 [See full API reference here](https://cisco-ce.github.io/workspace-integrations/).
 
-[See source code on GitHub](https://github.com/cisco-ce/workspace-integrations/).
-
 ## Installation
 
 Install as any npm package:

@@ -29,7 +29,7 @@
     "prepublishOnly": "npm run lint",
     "preversion": "npm run lint",
     "build": "tsc",
-    "doc": "npx typedoc --out docs src/types.ts",
+    "doc": "typedoc --out docs src/types.ts --readme DOC.md --customCss ./doc.css",
     "clean": "tsc --build --clean"
   },
   "dependencies": {
