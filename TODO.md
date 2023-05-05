@@ -2,9 +2,8 @@
 
 Refactor
 
-- How to use http for own webex queries
 - Host docs on Github pages
-- Update readme
+- Add log library
 
 TODO
 - add support for ignoring sync updates in sdk

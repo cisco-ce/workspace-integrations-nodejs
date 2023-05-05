@@ -87,10 +87,10 @@ async function canReceiveEvents(int: Integration) {
     Duration: 10,
   };
   await int.xapi.command(device.id, 'UserInterface.Message.Prompt.Display', choices);
-  await sleep(1000);
+  await sleep(2000);
   const response = { FeedbackId: choices.FeedbackId, OptionId: 1 };
   await int.xapi.command(device.id, 'UserInterface.Message.Prompt.Response', response);
-  await sleep(1000);
+  await sleep(2000);
   equal(event?.FeedbackId, choices.FeedbackId, 'Got correct prompt event');
 }
 
