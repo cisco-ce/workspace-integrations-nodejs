@@ -4,6 +4,8 @@ import Http from './http';
 import DevicesImpl from './apis/devices';
 import WorkspacesImpl from './apis/workspaces';
 import XapiImpl from './apis/xapi';
+import { OAuthDetails } from './http';
+
 
 class IntegrationImpl implements Integration {
   private http: Http;
@@ -13,11 +15,9 @@ class IntegrationImpl implements Integration {
 
   private errorHandler: ErrorHandler | null = null;
   private appInfo: AppInfo;
-  private jwt: DataObject;
 
   constructor(appInfo: AppInfo, accessToken: string, jwt: DataObject) {
     this.appInfo = appInfo;
-    this.jwt = jwt;
     this.http = new Http(jwt.webexapisBaseUrl, accessToken);
     this.devices = new DevicesImpl(this.http);
     this.workspaces = new WorkspacesImpl(this.http);
@@ -61,7 +61,7 @@ class IntegrationImpl implements Integration {
     const jwt = parseJwt(options.jwt);
     const { oauthUrl, refreshToken, appUrl } = jwt;
 
-    const tokenData = await Http.getAccessToken(clientId, clientSecret, oauthUrl, refreshToken);
+    const tokenData = await Http.getAccessToken({ clientId, clientSecret, oauthUrl, refreshToken });
 
     const appInfo = await Http.initIntegration({
       accessToken: tokenData.access_token,
@@ -80,21 +80,24 @@ class IntegrationImpl implements Integration {
     // TODO move to constructor
     const timeToRefresh = expires_in - 60 * 15;
     // console.log('token will be refreshed in ', (timeToRefresh / 60).toFixed(0), 'minutes');
-    setTimeout(() => integration.refreshToken(options), timeToRefresh * 1000);
+    const oauth = { clientId, clientSecret, oauthUrl, refreshToken };
+    setTimeout(() => integration.refreshToken(oauth), timeToRefresh * 1000);
 
     return integration;
   }
 
-  async refreshToken(creds: any) {
+  async refreshToken(creds: OAuthDetails) {
     const { clientId, clientSecret, oauthUrl, refreshToken } = creds;
 
     try {
-      const { access_token, expires_in } = await Http.getAccessToken(clientId, clientSecret, oauthUrl, refreshToken);
+      const { access_token, expires_in } = await Http.getAccessToken({ clientId, clientSecret, oauthUrl, refreshToken });
+
       if (this.http) {
         this.http.setAccessToken(access_token);
       }
       const nextTime = expires_in - 60 * 15;
       setTimeout(() => this.refreshToken(creds), nextTime * 1000);
+
     } catch (e) {
       if (this.errorHandler) {
         this.errorHandler('Not able to refresh token. ' + (e instanceof Error && e.message));

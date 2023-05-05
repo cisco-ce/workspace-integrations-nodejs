@@ -21,6 +21,13 @@ interface StringObject {
   [name: string]: string | number;
 }
 
+export interface OAuthDetails {
+  clientId: string;
+  clientSecret: string;
+  oauthUrl: string;
+  refreshToken: string;
+}
+
 function header(accessToken: string) {
   return {
     Authorization: 'Bearer ' + accessToken,
@@ -72,7 +79,8 @@ class HttpImpl implements Http {
     this.accessToken = token;
   }
 
-  static getAccessToken = (clientId: string, clientSecret: string, oauthUrl: string, refreshToken: string) => {
+  static getAccessToken(oauth: OAuthDetails) {
+    const { clientId, clientSecret, oauthUrl, refreshToken } = oauth;
     const headers = {
       'Content-Type': 'application/json',
     };
