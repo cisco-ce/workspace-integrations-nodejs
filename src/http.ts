@@ -75,8 +75,33 @@ class HttpImpl implements Http {
     return httpLog;
   }
 
+  webexApi(partialUrl: string, method: string = 'GET', body: any = null, contentType: string = 'application/json'): Promise<any> {
+    const headers = header(this.accessToken);
+    if (contentType) {
+      headers['Content-Type'] = contentType;
+    }
+    const options: DataObject = {
+      method,
+      headers
+    };
+    if (body) {
+      options.body = JSON.stringify(body);
+    }
+    const url = urlJoin(this.baseUrl, partialUrl);
+
+    return fetch(url, options);
+  }
+
   setAccessToken(token: string) {
     this.accessToken = token;
+  }
+
+  getAccessToken(): string {
+    return this.accessToken;
+  }
+
+  fullUrl(partialUrl: string) {
+    return urlJoin(this.baseUrl, partialUrl);
   }
 
   static getAccessToken(oauth: OAuthDetails) {

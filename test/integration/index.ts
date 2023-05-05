@@ -15,6 +15,8 @@
 import connect from '../../src';
 import { Deployment, Integration } from '../../src/types';
 import { sleep } from '../../src/util';
+// @ts-ignore
+import fetch from 'node-fetch';
 
 // test will use this tag and use the first device with it for hot testing
 const testTag = 'wi-demo';
@@ -145,6 +147,11 @@ async function canRefreshToken(int: Integration) {
   await int.xapi.status.get(device.id, 'Audio.Volume');
 }
 
+async function canUseCustomApis(int: Integration) {
+  const data = await int.webexApi('people/');
+  assert(data?.items?.length > 5, 'Was able to do custom API call');
+}
+
 async function run() {
   // @ts-ignore
   const creds = await import('./creds.json');
@@ -160,6 +167,7 @@ async function run() {
   await getsStandbyNotifications(integration);
   await canReceiveEvents(integration);
   await canRefreshToken(integration);
+  await canUseCustomApis(integration);
   console.log('✅ All integration tests succeeded');
 }
 

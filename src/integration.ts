@@ -34,6 +34,10 @@ class IntegrationImpl implements Integration {
     return this.appInfo;
   }
 
+  webexApi(partialUrl: string, method?: string, body?: any, contentType?: string): Promise<any> {
+    return this.http.webexApi(partialUrl, method, body, contentType);
+  }
+
   async pollData() {
     const pollUrl = this.appInfo.queue?.pollUrl;
     if (!pollUrl) return;

@@ -1,6 +1,6 @@
 # Workspace Integrations
 
-Node.js SDK for creating [Webex Workspace Integrations](https://developer.webex.com/docs/api/guides/workspace-integrations-guide).
+Node.js SDK for creating [Webex Workspace Integrations](https://developer.webex.com/docs/workspace-integrations).
 
 The workspace integrations is a cloud based framework that lets you connect to the Cisco devices, receive sensor data, invoke commands, read status values and update configs in a secure and controlled manner, without installing anything on the devices.
 
@@ -9,8 +9,7 @@ The SDK is designed to be similar to the [macros](https://roomos.cisco.com/doc/T
 What this SDK gives you:
 
 * Quick and easy to set up, just plug in the integration credentials get from Control Hub
-* Automatically handles access tokens for you
-* Automatically refreshes the access token when necessary
+* Automatically handles OAuth and access tokens for you, including refreshing the token
 * Object-oriented API, no need to deal with HTTP calls
 * Access device data:
   * Querying for status
@@ -162,12 +161,12 @@ console.log(names);
 
 For the SDK to work, you typically need to add the following API scopes to your manifest:
 
-* spark-admin:devices_read
-* spark-admin:workspaces_read
-* spark:xapi_statuses
-* spark:xapi_commands
+* `spark-admin:workspaces_read` - Get list of workspaces, and workspace details
+* `spark-admin:devices_read` - Get list of devices, and device details
+* `spark:xapi_statuses` - Query and subscribe to xAPI status
+* `spark:xapi_commands` - Invoke xAPI commands
 
-You can also update device configurations if you use **spark-admin:devices_write*.
+You can also read and change device configurations if you use `spark-admin:devices_read` and `spark-admin:devices_write`.
 
 ## Long polling and web hooks
 
@@ -183,7 +182,7 @@ The integration is hosted on a public site (must be https), and receives the dev
 
 ## Web hooks
 
-It is also possible to use the web hook deployment model with the SDK. In this case, you need to provide the web server yourself, then feed the incoming web hook data from Webex to the SDK using `xapi.processIncomingData`. The SDK will then deliver the events and status update to your listeners, exactly in the same way as with long polling.
+It is also possible to use the web hook deployment model with the SDK. In this case, you need to provide the web server yourself, then feed the incoming web hook data from Webex to the SDK using `integration.processNotifications()`. The SDK will then deliver the events and status update to your listeners, exactly in the same way as with long polling.
 
 The following example shows how to do this with a simple Express web server, but you can of course use any web server you prefer.
 
@@ -247,7 +246,31 @@ connect(creds)
 
 ## Type script support
 
-The SDK has TypeScript definitions and should work out of the box. If you are using vanilla JS and not TypeScript, you should still be able to get auto completions in Visual Studio Code or any other editors that support the .d.ts type definitions.
+The SDK has TypeScript definitions and should work out of the box. If you are using vanilla JS and not TypeScript, you should still be able to get auto completions in Visual Studio Code or any other editors that support the `.d.ts` type definitions.
+
+
+## Custom Webex API calls
+
+This SDK contains Webex API wrappers mostly for dealing with devices (xAPI). However, there are a ton of other Webex APIs you may wish to use in your application. For this you need the base URL and the token, and the SDK can help you with this. You need to remember to add the relevant scopes to your manifest too.
+
+The SDK uses [node-fetch](https://www.npmjs.com/package/node-fetch) for the actual calls. In addition, it throws an error if the result of the HTTP query is not *ok* (HTTP 2xx status code).
+
+Here's an example of how to use the People API to lookup people in your organisation. This also requires the `spark-admin:people_read` scope.
+
+```js
+async function findPerson(integration, name) {
+  const url = 'people/?displayName=' + name;
+  const data = await integration.webexApi(url);
+  console.log('Found:', data.items);
+}
+```
+
+Behind the scenes, the SDK automatically:
+
+* Adds the Webex api base url (may change if the integration is FedRAMP)
+* Adds the access token to the header, and sets content type to JSON
+* Converts the result from JSON string to JavaScript object
+* Throws an exception if the call is unsuccessful
 
 ## Limitations
 

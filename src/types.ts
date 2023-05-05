@@ -138,6 +138,8 @@ export interface Integration {
   onError(handler: ErrorHandler): any;
   processNotifications(notification: DataObject[]): void;
   refreshToken(): void;
+  webexApi(partialUrl: string, method?: string, body?: any, contentType?: string): Promise<any>;
+
   devices: Devices;
   workspaces: Workspaces;
   xapi: XAPI;
@@ -204,6 +206,8 @@ export interface Http {
    * @param partialUrl URL without the https://webexapis.com/v1/ part
    */
   get(partialUrl: string): Promise<any>;
+  fullUrl(partialUrl: string): string;
+  getAccessToken(): string;
 }
 
 export interface XAPI {

@@ -1,6 +1,6 @@
 {
   "id": "b743980a-a072-4179-b57b-91b9292543ac",
-  "manifestVersion": 10,
+  "manifestVersion": "13",
   "displayName": "Hello World",
   "vendor": "Webex Labs",
   "email": "workspace-integrations-feedback@cisco.com",
@@ -29,6 +29,10 @@
     },
     {
       "scope": "spark-admin:devices_write",
+      "access": "required"
+    },
+    {
+      "scope": "spark-admin:people_read",
       "access": "required"
     }
   ],
