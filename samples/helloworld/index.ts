@@ -7,6 +7,11 @@ import(process.env.CREDS)
   .then(c => start(c))
   .catch(() => console.log('You need to specify credentials file'));
 
+function showAlertOnDevice(integration: Integration, deviceId: string, text: string) {
+  return integration.xapi.command(deviceId, 'UserInterface.Message.Alert.Display', {
+    Text: text, Duration: 5 });
+}
+
 async function start(creds: Deployment) {
   let integration: Integration;
   try {
@@ -22,34 +27,15 @@ async function start(creds: Deployment) {
 
   try {
     const devices = await integration.devices.getDevices({ tag: 'wi-demo' });
-    devices.forEach(async ({ id }) => {
-      try {
-        const statusPath = 'Audio.*';
-        const status = await integration.xapi.status.get(id, statusPath);
-        console.log('Status', statusPath, ':', JSON.stringify(status, null, 2));
+    if (!devices.length) {
+      console.error('No test device found');
+      return;
+    }
 
-        // await integration.xapi.config.set(id, 'Audio.DefaultVolume', 66);
-        const configPath = 'Audio.USB.Mode';
-        const cfg = await integration.xapi.config.get(id, configPath);
-        console.log('Config', configPath, ':', JSON.stringify(cfg, null, 2));
+    const device = devices[0];
 
-        const params = { Text: 'Hello World', Duration: 5 };
-        integration.xapi.command(id, 'UserInterface Message Alert Display', params);
-        const peopleCount = await integration.xapi.status.get(id, 'RoomAnalytics.PeopleCount.Current');
-        console.log('People count', peopleCount);
-        integration.xapi.status.on('RoomAnalytics.PeopleCount.Current', (_, path, value) => {
-          console.log('people count changed:', path, value);
-        });
-      }
-      catch(e) {
-        console.log(e);
-      }
-    });
-
-    // console.log('Found', devices.length, 'devices');
-    // const workspaces = await integration.workspaces.getWorkspaces();
-    // console.log('Found', workspaces.length, 'workspaces');
-
+    await showAlertOnDevice(integration, device.id, `Hey, I'm ${device.displayName}`);
+    console.log('Message shown on screen');
   }
   catch(e) {
     console.log(e);
