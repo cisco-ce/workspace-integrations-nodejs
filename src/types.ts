@@ -137,6 +137,7 @@ export interface Integration {
   getAppInfo(): AppInfo;
   onError(handler: ErrorHandler): any;
   processNotifications(notification: DataObject[]): void;
+  refreshToken(): void;
   devices: Devices;
   workspaces: Workspaces;
   xapi: XAPI;

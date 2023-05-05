@@ -15,13 +15,15 @@ class IntegrationImpl implements Integration {
 
   private errorHandler: ErrorHandler | null = null;
   private appInfo: AppInfo;
+  private oauth: OAuthDetails;
 
-  constructor(appInfo: AppInfo, accessToken: string, jwt: DataObject) {
+  constructor(appInfo: AppInfo, accessToken: string, jwt: DataObject, oauth: OAuthDetails) {
     this.appInfo = appInfo;
     this.http = new Http(jwt.webexapisBaseUrl, accessToken);
     this.devices = new DevicesImpl(this.http);
     this.workspaces = new WorkspacesImpl(this.http);
     this.xapi = new XapiImpl(this.http);
+    this.oauth = oauth;
   }
 
   onError(handler: ErrorHandler) {
@@ -70,7 +72,9 @@ class IntegrationImpl implements Integration {
     });
 
     const { access_token, expires_in } = tokenData;
-    const integration = new IntegrationImpl(appInfo, access_token, jwt);
+    const oauth = { clientId, clientSecret, oauthUrl, refreshToken };
+
+    const integration = new IntegrationImpl(appInfo, access_token, jwt, oauth);
 
     // TODO move to constructor
     if (notifications === 'longpolling') {
@@ -80,23 +84,20 @@ class IntegrationImpl implements Integration {
     // TODO move to constructor
     const timeToRefresh = expires_in - 60 * 15;
     // console.log('token will be refreshed in ', (timeToRefresh / 60).toFixed(0), 'minutes');
-    const oauth = { clientId, clientSecret, oauthUrl, refreshToken };
-    setTimeout(() => integration.refreshToken(oauth), timeToRefresh * 1000);
+    setTimeout(() => integration.refreshToken(), timeToRefresh * 1000);
 
     return integration;
   }
 
-  async refreshToken(creds: OAuthDetails) {
-    const { clientId, clientSecret, oauthUrl, refreshToken } = creds;
+  async refreshToken() {
+    const { clientId, clientSecret, oauthUrl, refreshToken } = this.oauth;
 
     try {
       const { access_token, expires_in } = await Http.getAccessToken({ clientId, clientSecret, oauthUrl, refreshToken });
-
-      if (this.http) {
-        this.http.setAccessToken(access_token);
-      }
+      this.http.setAccessToken(access_token);
       const nextTime = expires_in - 60 * 15;
-      setTimeout(() => this.refreshToken(creds), nextTime * 1000);
+      // console.log('got new token', access_token, 'next in ', nextTime, 'sec');
+      setTimeout(() => this.refreshToken(), nextTime * 1000);
 
     } catch (e) {
       if (this.errorHandler) {

@@ -138,6 +138,13 @@ async function errorOnInvalidXapis(int: Integration) {
   }
 }
 
+async function canRefreshToken(int: Integration) {
+  const device = await orgHasTestDevice(int);
+  await int.xapi.status.get(device.id, 'Audio.Volume');
+  await int.refreshToken();
+  await int.xapi.status.get(device.id, 'Audio.Volume');
+}
+
 async function run() {
   // @ts-ignore
   const creds = await import('./creds.json');
@@ -152,6 +159,7 @@ async function run() {
   await errorOnInvalidXapis(integration);
   await getsStandbyNotifications(integration);
   await canReceiveEvents(integration);
+  await canRefreshToken(integration);
   console.log('✅ All integration tests succeeded');
 }
 
