@@ -10,8 +10,8 @@ The SDK is designed to be similar to the [macros](https://roomos.cisco.com/doc/T
 
 What this SDK gives you:
 
-* Quick and easy to set up, just plug in the integration credentials get from Control Hub
-* Automatically handles OAuth and access tokens for you, including refreshing the token
+* Quick and easy to set up, just plug in the OAuth details you get from Control Hub
+* Automatically handles access tokens for you, including refreshing it on time
 * Object-oriented API, no need to deal with HTTP calls
 * Access device data:
   * Querying for status
@@ -40,22 +40,24 @@ Show a message on the device screen each time the people count changes:
 const connect = require('workspace-integrations');
 
 // You get this when you deploy and activate the integration on ControlHub > Workspaces > Integrations
-const creds = {
+const config = {
   clientId: "C12ba...",
   clientSecret: "fdbcd00...",
   jwt: "eyJraWQiOiJQSnM..."
   deployment: 'longpolling',
 };
 
-connect(creds)
-  .then(integration => onConnect)
-  .catch(() => console.log('Something went wrong'));
-
-function onConnect(integration) {
-  integration.xapi.event.on('RoomAnalytics PeopleCount Current', (deviceId, name, value) => {
-    const msg = `Number of people in the room: ${value}`;
-    showMessageOnScreen(integration.xapi, deviceId, msg);
-  };
+async function init() {
+  try {
+    const integration = await connect(config);
+    integration.xapi.event.on('RoomAnalytics PeopleCount Current', (deviceId, path, value) => {
+      const msg = `Number of people in the room: ${value}`;
+      showMessageOnScreen(integration.xapi, deviceId, msg);
+    };
+  }
+  catch(e) {
+    console.log('Something went wrong', e);
+  }
 }
 
 function showMessageOnScreen(xapi, deviceId, text) {
@@ -65,6 +67,8 @@ function showMessageOnScreen(xapi, deviceId, text) {
    };
    xapi.command(deviceId, 'UserInterface Message Alert Display', args);
 }
+
+init();
 ```
 
 Be aware that any status, event or command used in a workspace integration also needs to be specified in the manifest. Specifying it in code is not enough be itself, and the SDK will not throw any errors if you for example subscribe to a status change that is not listed in the manifest.
@@ -207,7 +211,7 @@ const port = 80;
 // This is the public URL you manage.
 const url = 'https://acme.com';
 
-const creds = {
+const config = {
   clientId: 'xxx',
   clientSecret: 'yyy',
   jwt: 'zzz',
@@ -243,7 +247,7 @@ function onConnect(_integration) {
   integration.xapi.status.on('', (device, path, data) => console.log('SDK status:', path, data, device));
 }
 
-connect(creds)
+connect(config)
   .then(onConnect)
   .catch(e => console.log('Error!', e))
 ```

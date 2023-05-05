@@ -1,11 +1,12 @@
 # TODO
 
-Refactor
+## Before version 1.0
 
-- Host docs on Github pages
+- Separate readme on reference page, focus on `connect` method
 - Add log library
 
-TODO
+## Later
+
 - add support for ignoring sync updates in sdk
 - add an easy way for consumer to use token etc and use webex apis not supported by - - add some helper function for common stuff such as
   - showing alert on screen
