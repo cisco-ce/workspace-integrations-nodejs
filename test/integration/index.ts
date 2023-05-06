@@ -155,17 +155,25 @@ async function run() {
   const creds = await import('./creds.json');
   console.log('Connecting integration and starting tests...');
   const integration = await connect(creds as IntegrationConfig);
-  await orgHasWorkspaces(integration);
-  await orgHasDevices(integration);
-  await orgHasTestDevice(integration);
-  await canGetAppInfo(integration);
-  await deviceCanAdjustVolumeAndReadIt(integration);
-  await deviceCanAdjustDefaultVolumeAndReadIt(integration);
-  await errorOnInvalidXapis(integration);
-  await getsStandbyNotifications(integration);
-  await canReceiveEvents(integration);
-  await canRefreshToken(integration);
-  await canUseCustomApis(integration);
+  const tests = [
+    orgHasWorkspaces,
+    orgHasDevices,
+    orgHasTestDevice,
+    canGetAppInfo,
+    deviceCanAdjustVolumeAndReadIt,
+    deviceCanAdjustDefaultVolumeAndReadIt,
+    errorOnInvalidXapis,
+    getsStandbyNotifications,
+    canReceiveEvents,
+    canRefreshToken,
+    canUseCustomApis,
+  ];
+
+  let n = 0;
+  for (const test of tests) {
+    console.log(`Test ${++n}/${tests.length}: ${test.name}`);
+    await test(integration);
+  }
   console.log('✅ All integration tests succeeded');
 }
 
