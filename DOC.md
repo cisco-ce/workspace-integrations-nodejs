@@ -5,7 +5,7 @@ on GitHub.
 
 # Getting started
 
-To connect your workspace integration to Webex, you need to use the [connect](./types/connect.html) function, and provide it your integration `Deployment config`. This will provide you an [Integration](./interfaces/Integration.html) object that you can use to access the devices and the Webex APIs.
+To connect your workspace integration to Webex, you need to use the {@link connect} function, and provide it your integration {@link IntegrationConfig}. This will provide you an {@link Integration} object that you can use to access the devices and the Webex APIs.
 
 ```
 const config = {

@@ -37,7 +37,7 @@ export type LogLevel = 'error' | 'warn' | 'info' | 'verbose';
 
 /**
  * Your configs for initialising your Workspace Integration.
- * Must containt client id and secret, which you get when deploying the integraition in Control,
+ * Must containt client id and secret, which you get when deploying the integration in Control Hub,
  * as well as the JSON Web Token (jwt) which you get when you activate it.
  */
 export interface IntegrationConfig {
