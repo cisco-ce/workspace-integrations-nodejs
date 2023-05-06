@@ -5,6 +5,7 @@ import DevicesImpl from './apis/devices';
 import WorkspacesImpl from './apis/workspaces';
 import XapiImpl from './apis/xapi';
 import { OAuthDetails } from './http';
+import log from './logger';
 
 class IntegrationImpl implements Integration {
   private http: Http;
@@ -57,6 +58,7 @@ class IntegrationImpl implements Integration {
   }
 
   processNotifications(notifications: DataObject[]) {
+    log.verbose(`Got ${notifications.length} notifications`);
     notifications.forEach((not) => this.xapi.processNotification(not));
   }
 
@@ -66,13 +68,15 @@ class IntegrationImpl implements Integration {
     const jwt = parseJwt(options.jwt);
     const { oauthUrl, refreshToken, appUrl } = jwt;
 
-    const tokenData = await Http.getAccessToken({ clientId, clientSecret, oauthUrl, refreshToken });
+    const tokenData = await Http.createAccessToken({ clientId, clientSecret, oauthUrl, refreshToken });
+    log.info('Got initial access token');
 
     const appInfo = await Http.initIntegration({
       accessToken: tokenData.access_token,
       appUrl,
       notifications,
     });
+    log.info('Successfully initated integration');
 
     const { access_token, expires_in } = tokenData;
     const oauth = { clientId, clientSecret, oauthUrl, refreshToken };
@@ -86,6 +90,7 @@ class IntegrationImpl implements Integration {
 
     // TODO move to constructor
     const timeToRefresh = expires_in - 60 * 15;
+    log.verbose(`Fetching new token on ${new Date(Date.now() + (timeToRefresh * 1000))}`);
     // console.log('token will be refreshed in ', (timeToRefresh / 60).toFixed(0), 'minutes');
     setTimeout(() => integration.refreshToken(), timeToRefresh * 1000);
 
@@ -96,7 +101,7 @@ class IntegrationImpl implements Integration {
     const { clientId, clientSecret, oauthUrl, refreshToken } = this.oauth;
 
     try {
-      const { access_token, expires_in } = await Http.getAccessToken({
+      const { access_token, expires_in } = await Http.createAccessToken({
         clientId,
         clientSecret,
         oauthUrl,
@@ -104,9 +109,12 @@ class IntegrationImpl implements Integration {
       });
       this.http.setAccessToken(access_token);
       const nextTime = expires_in - 60 * 15;
-      // console.log('got new token', access_token, 'next in ', nextTime, 'sec');
+      log.info('Fetched new access token');
+      log.verbose(`Fetching new token on ${new Date(Date.now() + (nextTime * 1000))}`);
+
       setTimeout(() => this.refreshToken(), nextTime * 1000);
     } catch (e) {
+      log.error('Unable to refresh token');
       if (this.errorHandler) {
         this.errorHandler('Not able to refresh token. ' + (e instanceof Error && e.message));
       }

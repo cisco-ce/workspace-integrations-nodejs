@@ -1,8 +1,7 @@
 import Http from '../http';
-
 import { toTree, removePath, pathMatch, isStr, isObj, emptyObj } from '../util';
-
 import { DataObject, EventListener, StatusListener, Notification, XAPI } from '../types';
+import logger from '../logger';
 
 class XapiImpl implements XAPI {
   private eventListeners: Array<{ path: string; callback: EventListener }>;
@@ -45,6 +44,7 @@ class XapiImpl implements XAPI {
       }
     },
     on: (path: string, callback: StatusListener) => {
+      logger.info('Subscribe to xStatus ' + path);
       this.statusListeners.push({ path, callback });
     },
   };
@@ -83,6 +83,7 @@ class XapiImpl implements XAPI {
 
   event = {
     on: (path: string, callback: EventListener) => {
+      logger.info('Subscribing to xEvent ' + path);
       this.eventListeners.push({ path, callback });
     },
   };

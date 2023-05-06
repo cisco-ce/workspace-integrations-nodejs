@@ -30,6 +30,12 @@ interface Webhook {
 }
 
 /**
+ * Error level works in an expanding way, eg 'error' will only show errors,
+ * 'warn' will show warnings and errrors, etc.
+ */
+export type LogLevel = 'error' | 'warn' | 'info' | 'verbose';
+
+/**
  * Your configs for initialising your Workspace Integration. The clientId, clientSecret and jwt is
  * found when you deploy and active the integration in Control Hub.
  */
@@ -55,6 +61,11 @@ export interface Deployment {
    * Public URL endpoint to send signed JWT actions, such as health check, app update, deactivation etc
    */
   actionsUrl?: string;
+
+  /**
+   * Which info to show from the SDK. Default is error only.
+   */
+  logLevel?: LogLevel;
 }
 
 export interface Notification {
@@ -206,7 +217,6 @@ export interface Http {
    */
   get(partialUrl: string): Promise<any>;
   fullUrl(partialUrl: string): string;
-  getAccessToken(): string;
 }
 
 export interface XAPI {

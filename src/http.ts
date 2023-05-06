@@ -7,7 +7,8 @@
 import nodefetch from 'node-fetch';
 import { urlJoin } from 'url-join-ts';
 
-import { DataObject, Http } from './types';
+import { DataObject, Http, Deployment } from './types';
+import logger from './logger';
 
 let dryMode = false;
 const httpLog: { url: string; options: DataObject }[] = [];
@@ -45,7 +46,7 @@ async function fetch(url: string, options: DataObject) {
   if (!res.ok) {
     throw new Error(`Fetch failed: ${res.status} ${res.statusText}`);
   }
-
+  logger.verbose(`[${options.method || 'GET'}: ${url}`);
   return await res.json();
 }
 
@@ -101,15 +102,11 @@ class HttpImpl implements Http {
     this.accessToken = token;
   }
 
-  getAccessToken(): string {
-    return this.accessToken;
-  }
-
   fullUrl(partialUrl: string) {
     return urlJoin(this.baseUrl, partialUrl);
   }
 
-  static getAccessToken(oauth: OAuthDetails) {
+  static createAccessToken(oauth: OAuthDetails) {
     const { clientId, clientSecret, oauthUrl, refreshToken } = oauth;
     const headers = {
       'Content-Type': 'application/json',
@@ -139,12 +136,17 @@ class HttpImpl implements Http {
     };
 
     if (notifications === 'webhook') {
+      logger.info('Subscribing to notifications with web hooks');
       body.webhook = webhook;
       body.actionsUrl = actionsUrl;
     } else if (notifications === 'longpolling') {
+      logger.info('Subscribing to notifications with long polling');
       body.queue = {
         state: 'enabled',
       };
+    }
+    else {
+      logger.info('Not subscribing to notifications');
     }
 
     const options = {
@@ -161,17 +163,13 @@ class HttpImpl implements Http {
     return get(this.accessToken, url);
   }
 
-  getLocations = async (accessToken: string, appUrl: string) => {
-    const res = await get(accessToken, appUrl);
-    return res.publicLocationIds;
-  };
-
   pollDeviceData = (url: string) => {
     const headers = header(this.accessToken);
     return fetch(url, { headers });
   };
 
   xCommand = (deviceId: string, command: string, args?: StringObject, multiline?: string) => {
+    logger.info('Invoking xCommand ' + command);
     const url = urlJoin(this.baseUrl, 'xapi/command', command);
     const body: any = {
       deviceId,
@@ -196,16 +194,19 @@ class HttpImpl implements Http {
   };
 
   xStatus = (deviceId: string, path: string) => {
+    logger.info('Getting xStatus ' + path);
     const url = urlJoin(this.baseUrl, '/xapi/status/', `?deviceId=${deviceId}&name=${path}`);
     return get(this.accessToken, url);
   };
 
   xConfig = (deviceId: string, path: string) => {
+    logger.info('Getting xConfig ' + path);
     const url = urlJoin(this.baseUrl, '/deviceConfigurations/', `?deviceId=${deviceId}&key=${path}`);
     return get(this.accessToken, url);
   };
 
   xConfigSet = (deviceId: string, configs: Config[]) => {
+    logger.info('Setting xConfig ' + (configs.length === 1 ? configs[0].path : '(multiple)'));
     const url = urlJoin(this.baseUrl, '/deviceConfigurations/', `?deviceId=${deviceId}`);
     const headers = {
       Authorization: 'Bearer ' + this.accessToken,
@@ -227,11 +228,13 @@ class HttpImpl implements Http {
   };
 
   getWorkspace = (accessToken: string, workspaceId: string) => {
+    logger.info('Fetching workspace');
     const url = urlJoin(this.baseUrl, '/workspaces/', workspaceId);
     return get(accessToken, url);
   };
 
   deviceDetails = (accessToken: string, deviceId: string) => {
+    logger.info('Fetching device details');
     const url = urlJoin(this.baseUrl, '/devices/', deviceId);
     return get(accessToken, url);
   };
