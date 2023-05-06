@@ -30,7 +30,8 @@
     "preversion": "npm run lint",
     "build": "tsc",
     "doc": "typedoc --out docs src/types.ts --readme DOC.md --customCss ./doc.css",
-    "clean": "tsc --build --clean"
+    "clean": "tsc --build --clean",
+    "integration-test": "ts-node test/integration"
   },
   "dependencies": {
     "node-fetch": "^2.6.7",

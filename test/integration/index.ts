@@ -15,8 +15,6 @@
 import connect from '../../src';
 import { Deployment, Integration } from '../../src/types';
 import { sleep } from '../../src/util';
-// @ts-ignore
-import fetch from 'node-fetch';
 
 // test will use this tag and use the first device with it for hot testing
 const testTag = 'wi-demo';
@@ -174,13 +172,14 @@ async function run() {
 async function go() {
   try {
     await run();
+    // @ts-ignore
+    process.exit(0);
   }
   catch(e) {
     console.log('Test failed: ', e);
     console.log('🚨 Integration test failed');
-  }
-  finally {
-    process.exit();
+    // @ts-ignore
+    process.exit(1);
   }
 }
 
