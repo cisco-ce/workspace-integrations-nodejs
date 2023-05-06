@@ -1,8 +1,8 @@
-import { Deployment, Integration, connect } from './types';
+import { IntegrationConfig, Integration, connect } from './types';
 import IntegrationImpl from './integration';
 import log from './logger';
 
-const connect: connect = async (creds: Deployment): Promise<Integration> => {
+const connect: connect = async (creds: IntegrationConfig): Promise<Integration> => {
   if (!creds) {
     throw new Error('Not able to connect. You must provide credentials.');
   }

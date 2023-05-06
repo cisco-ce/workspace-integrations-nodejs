@@ -18,13 +18,15 @@
 <section class="tsd-panel tsd-comment">
 <div class="tsd-comment tsd-typography"><p>A workspace is a location that can contain zero, one or many devices,
 typically a meeting room, huddle room, or reception.</p>
+<p>Module is a wrapper for the
+<a href="https://developer.webex.com/docs/api/v1/workspaces">Webex Workspaces API</a>.</p>
 </div></section>
 <section class="tsd-panel tsd-hierarchy">
 <h4>Hierarchy</h4>
 <ul class="tsd-hierarchy">
 <li><span class="target">Workspaces</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations/blob/394c397/src/types.ts#L151">types.ts:151</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations/blob/2439347/src/types.ts#L243">types.ts:243</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -42,6 +44,9 @@ typically a meeting room, huddle room, or reception.</p>
 <ul class="tsd-signatures">
 <li class="tsd-signature tsd-anchor-link" id="getWorkspace.getWorkspace-1"><span class="tsd-kind-call-signature">get<wbr/>Workspace</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">workspaceId</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="Workspace.html" class="tsd-signature-type tsd-kind-interface">Workspace</a><span class="tsd-signature-symbol">&gt;</span><a href="#getWorkspace.getWorkspace-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Get workspace details.
+Wrapper for <a href="https://developer.webex.com/docs/api/v1/workspaces/get-workspace-details">https://developer.webex.com/docs/api/v1/workspaces/get-workspace-details</a> for more</p>
+</div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
@@ -49,12 +54,14 @@ typically a meeting room, huddle room, or reception.</p>
 <h5><span class="tsd-kind-parameter">workspaceId</span>: <span class="tsd-signature-type">string</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="Workspace.html" class="tsd-signature-type tsd-kind-interface">Workspace</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations/blob/394c397/src/types.ts#L153">types.ts:153</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations/blob/2439347/src/types.ts#L256">types.ts:256</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="getWorkspaces" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Workspaces</span><a href="#getWorkspaces" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures">
 <li class="tsd-signature tsd-anchor-link" id="getWorkspaces.getWorkspaces-1"><span class="tsd-kind-call-signature">get<wbr/>Workspaces</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">filters</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="Workspace.html" class="tsd-signature-type tsd-kind-interface">Workspace</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><a href="#getWorkspaces.getWorkspaces-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Find workspaces in the org.</p>
+</div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
@@ -62,7 +69,7 @@ typically a meeting room, huddle room, or reception.</p>
 <h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">filters</span>: <a href="../types/DataObject.html" class="tsd-signature-type tsd-kind-type-alias">DataObject</a></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="Workspace.html" class="tsd-signature-type tsd-kind-interface">Workspace</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations/blob/394c397/src/types.ts#L152">types.ts:152</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations/blob/2439347/src/types.ts#L250">types.ts:250</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
@@ -89,14 +96,15 @@ typically a meeting room, huddle room, or reception.</p>
 <ul class="tsd-small-nested-navigation">
 <li><a href="AppInfo.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-interface)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6" id="icon-256-path"></rect><path d="M9.51 16V15.016H11.298V8.224H9.51V7.24H14.19V8.224H12.402V15.016H14.19V16H9.51Z" fill="var(--color-text)" id="icon-256-text"></path></svg><span>App<wbr/>Info</span></a></li>
 <li><a href="Config.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg><span>Config</span></a></li>
-<li><a href="Deployment.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg><span>Deployment</span></a></li>
 <li><a href="Device.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg><span>Device</span></a></li>
 <li><a href="Devices.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg><span>Devices</span></a></li>
 <li><a href="Event.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg><span>Event</span></a></li>
 <li><a href="Http.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg><span>Http</span></a></li>
 <li><a href="Integration.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg><span>Integration</span></a></li>
+<li><a href="IntegrationConfig.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg><span>Integration<wbr/>Config</span></a></li>
 <li><a href="Notification.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg><span>Notification</span></a></li>
 <li><a href="Status.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg><span>Status</span></a></li>
+<li><a href="Webhook.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg><span>Webhook</span></a></li>
 <li><a href="Workspace.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg><span>Workspace</span></a></li>
 <li><a href="Workspaces.html" class="current"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg><span>Workspaces</span></a></li>
 <li><a href="XAPI.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg><span>XAPI</span></a></li>
@@ -104,8 +112,9 @@ typically a meeting room, huddle room, or reception.</p>
 <li><a href="../types/DataObject.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-4194304-path"></use><use href="#icon-4194304-text"></use></svg><span>Data<wbr/>Object</span></a></li>
 <li><a href="../types/ErrorHandler.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-4194304-path"></use><use href="#icon-4194304-text"></use></svg><span>Error<wbr/>Handler</span></a></li>
 <li><a href="../types/EventListener.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-4194304-path"></use><use href="#icon-4194304-text"></use></svg><span>Event<wbr/>Listener</span></a></li>
-<li><a href="../types/ReadyHandler.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-4194304-path"></use><use href="#icon-4194304-text"></use></svg><span>Ready<wbr/>Handler</span></a></li>
+<li><a href="../types/LogLevel.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-4194304-path"></use><use href="#icon-4194304-text"></use></svg><span>Log<wbr/>Level</span></a></li>
 <li><a href="../types/StatusListener.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-4194304-path"></use><use href="#icon-4194304-text"></use></svg><span>Status<wbr/>Listener</span></a></li>
+<li><a href="../types/XapiPath.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-4194304-path"></use><use href="#icon-4194304-text"></use></svg><span>Xapi<wbr/>Path</span></a></li>
 <li><a href="../types/connect.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-4194304-path"></use><use href="#icon-4194304-text"></use></svg><span>connect</span></a></li></ul></nav></div></div></div>
 <div class="tsd-generator">
 <p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div>

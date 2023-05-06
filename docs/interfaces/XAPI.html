@@ -15,12 +15,21 @@
 <li><a href="../modules.html">workspace-integrations</a></li>
 <li><a href="XAPI.html">XAPI</a></li></ul>
 <h1>Interface XAPI</h1></div>
+<section class="tsd-panel tsd-comment">
+<div class="tsd-comment tsd-typography"><p>The API of the Cisco collaboration devices (RoomOS).</p>
+<p>Read more on <a href="https://roomos.cisco.com/doc/TechDocs/Introduction">roomos.cisco.com</a>.</p>
+<p>All xAPIS are accessed with a path, for example <code>Call.Disconnect</code>, <code>Audio.Volume</code> etc. Find the
+the xAPIs that you need in the <a href="https://roomos.cisco.com/xapi">xAPI section</a> and copy the path
+from the snippet section.</p>
+<p>Status, commands and events that you use needs to be specified in the manifest, but this does
+not apply for configurations (for historical reasons).</p>
+</div></section>
 <section class="tsd-panel tsd-hierarchy">
 <h4>Hierarchy</h4>
 <ul class="tsd-hierarchy">
 <li><span class="target">XAPI</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations/blob/394c397/src/types.ts#L212">types.ts:212</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations/blob/2439347/src/types.ts#L125">types.ts:125</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -39,22 +48,22 @@
 <h3 class="tsd-anchor-link"><span>command</span><a href="#command" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" id="icon-anchor-a"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" id="icon-anchor-b"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" id="icon-anchor-c"></path></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">command</span><span class="tsd-signature-symbol">:</span> <a href="../types/Command.html" class="tsd-signature-type tsd-kind-type-alias">Command</a></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations/blob/394c397/src/types.ts#L213">types.ts:213</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations/blob/2439347/src/types.ts#L126">types.ts:126</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="config" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>config</span><a href="#config" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">config</span><span class="tsd-signature-symbol">:</span> <a href="Config.html" class="tsd-signature-type tsd-kind-interface">Config</a></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations/blob/394c397/src/types.ts#L216">types.ts:216</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations/blob/2439347/src/types.ts#L129">types.ts:129</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="event" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>event</span><a href="#event" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">event</span><span class="tsd-signature-symbol">:</span> <a href="Event.html" class="tsd-signature-type tsd-kind-interface">Event</a></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations/blob/394c397/src/types.ts#L215">types.ts:215</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations/blob/2439347/src/types.ts#L128">types.ts:128</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="status" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>status</span><a href="#status" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">status</span><span class="tsd-signature-symbol">:</span> <a href="Status.html" class="tsd-signature-type tsd-kind-interface">Status</a></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations/blob/394c397/src/types.ts#L214">types.ts:214</a></li></ul></aside></section></section></div>
+<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations/blob/2439347/src/types.ts#L127">types.ts:127</a></li></ul></aside></section></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
@@ -83,14 +92,15 @@
 <ul class="tsd-small-nested-navigation">
 <li><a href="AppInfo.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-interface)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6" id="icon-256-path"></rect><path d="M9.51 16V15.016H11.298V8.224H9.51V7.24H14.19V8.224H12.402V15.016H14.19V16H9.51Z" fill="var(--color-text)" id="icon-256-text"></path></svg><span>App<wbr/>Info</span></a></li>
 <li><a href="Config.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg><span>Config</span></a></li>
-<li><a href="Deployment.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg><span>Deployment</span></a></li>
 <li><a href="Device.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg><span>Device</span></a></li>
 <li><a href="Devices.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg><span>Devices</span></a></li>
 <li><a href="Event.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg><span>Event</span></a></li>
 <li><a href="Http.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg><span>Http</span></a></li>
 <li><a href="Integration.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg><span>Integration</span></a></li>
+<li><a href="IntegrationConfig.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg><span>Integration<wbr/>Config</span></a></li>
 <li><a href="Notification.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg><span>Notification</span></a></li>
 <li><a href="Status.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg><span>Status</span></a></li>
+<li><a href="Webhook.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg><span>Webhook</span></a></li>
 <li><a href="Workspace.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg><span>Workspace</span></a></li>
 <li><a href="Workspaces.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg><span>Workspaces</span></a></li>
 <li><a href="XAPI.html" class="current"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg><span>XAPI</span></a></li>
@@ -98,8 +108,9 @@
 <li><a href="../types/DataObject.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-4194304-path"></use><use href="#icon-4194304-text"></use></svg><span>Data<wbr/>Object</span></a></li>
 <li><a href="../types/ErrorHandler.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-4194304-path"></use><use href="#icon-4194304-text"></use></svg><span>Error<wbr/>Handler</span></a></li>
 <li><a href="../types/EventListener.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-4194304-path"></use><use href="#icon-4194304-text"></use></svg><span>Event<wbr/>Listener</span></a></li>
-<li><a href="../types/ReadyHandler.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-4194304-path"></use><use href="#icon-4194304-text"></use></svg><span>Ready<wbr/>Handler</span></a></li>
+<li><a href="../types/LogLevel.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-4194304-path"></use><use href="#icon-4194304-text"></use></svg><span>Log<wbr/>Level</span></a></li>
 <li><a href="../types/StatusListener.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-4194304-path"></use><use href="#icon-4194304-text"></use></svg><span>Status<wbr/>Listener</span></a></li>
+<li><a href="../types/XapiPath.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-4194304-path"></use><use href="#icon-4194304-text"></use></svg><span>Xapi<wbr/>Path</span></a></li>
 <li><a href="../types/connect.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-4194304-path"></use><use href="#icon-4194304-text"></use></svg><span>connect</span></a></li></ul></nav></div></div></div>
 <div class="tsd-generator">
 <p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div>

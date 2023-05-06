@@ -13,7 +13,7 @@
  * `ts-node test/integration`
  */
 import connect from '../../src';
-import { Deployment, Integration } from '../../src/types';
+import { IntegrationConfig, Integration } from '../../src/types';
 import { sleep } from '../../src/util';
 
 // test will use this tag and use the first device with it for hot testing
@@ -154,7 +154,7 @@ async function run() {
   // @ts-ignore
   const creds = await import('./creds.json');
   console.log('Connecting integration and starting tests...');
-  const integration = await connect(creds as Deployment);
+  const integration = await connect(creds as IntegrationConfig);
   await orgHasWorkspaces(integration);
   await orgHasDevices(integration);
   await orgHasTestDevice(integration);

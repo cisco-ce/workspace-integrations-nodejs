@@ -7,7 +7,7 @@
 import nodefetch from 'node-fetch';
 import { urlJoin } from 'url-join-ts';
 
-import { DataObject, Http, Deployment } from './types';
+import { DataObject, Http } from './types';
 import logger from './logger';
 
 let dryMode = false;

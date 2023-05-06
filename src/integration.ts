@@ -1,4 +1,4 @@
-import { Integration, ErrorHandler, Devices, Deployment, DataObject, Workspaces, AppInfo } from './types';
+import { Integration, ErrorHandler, Devices, IntegrationConfig, DataObject, Workspaces, AppInfo } from './types';
 import { parseJwt, sleep } from './util';
 import Http from './http';
 import DevicesImpl from './apis/devices';
@@ -62,7 +62,7 @@ class IntegrationImpl implements Integration {
     notifications.forEach((not) => this.xapi.processNotification(not));
   }
 
-  static async connect(options: Deployment) {
+  static async connect(options: IntegrationConfig) {
     const { clientId, clientSecret, notifications } = options;
 
     const jwt = parseJwt(options.jwt);

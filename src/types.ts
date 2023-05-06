@@ -5,12 +5,12 @@
  *
  * Throws an exception if unable to connect.
  */
-export type connect = (options: Deployment) => Promise<Integration>;
+export type connect = (options: IntegrationConfig) => Promise<Integration>;
 
 /**
- * Defines a public web hook where Webex will send notifications to you.
+ * Defines a public web hook where Webex will send notifications to you for status changes and events on devices.
  */
-interface Webhook {
+export interface Webhook {
   /** Must be https */
   targetUrl: string;
 
@@ -36,10 +36,11 @@ interface Webhook {
 export type LogLevel = 'error' | 'warn' | 'info' | 'verbose';
 
 /**
- * Your configs for initialising your Workspace Integration. The clientId, clientSecret and jwt is
- * found when you deploy and active the integration in Control Hub.
+ * Your configs for initialising your Workspace Integration.
+ * Must containt client id and secret, which you get when deploying the integraition in Control,
+ * as well as the JSON Web Token (jwt) which you get when you activate it.
  */
-export interface Deployment {
+export interface IntegrationConfig {
   clientId: string;
   clientSecret: string;
   /** Base64 encoded, as copied from Control Hub when activated. */
@@ -55,6 +56,8 @@ export interface Deployment {
    * - none: you won't receive any notifications
    */
   notifications: 'webhook' | 'longpolling' | 'none';
+
+  /** Required if you set {@link notifications} to `webhook`. */
   webhook?: Webhook;
 
   /**
@@ -68,6 +71,11 @@ export interface Deployment {
   logLevel?: LogLevel;
 }
 
+/**
+ * A notification sent to your integration from Webex, either when an xStatus changes or when
+ * an xEvent occurs. Remember that you will only receive notifications for APIs you have set
+ * in your manifest.
+ */
 export interface Notification {
   appId: string;
   deviceId: string;
@@ -89,19 +97,67 @@ export type EventListener = (deviceId: string, path: string, event: DataObject, 
  */
 export type StatusListener = (deviceId: string, path: string, value: DataObject, data: Notification) => void;
 
-/**
- * Invoke a command on a Cisco device. Returns result as a promise.
- */
-export type Command = (deviceId: string, path: string, params?: DataObject, multiline?: string) => Promise<DataObject>;
 
+/**
+ * All xAPIs are defined by a path in a tree fashion, eg:
+ *
+ * - xCommand Call Disconnect
+ * - xConfiguration Audio DefaultVolume
+ * - xStatus Audio Volume
+ * - xEvent UserInterface Extensions Widget Action
+ *
+ * In this SDK, the type (command, event etc) is not necessary because it's given by the context.
+ * You can also use . or space as path separator (`Call.Disconnect` or `Call Disconnect`).
+ */
+export type XapiPath = string;
+
+/**
+ * The API of the Cisco collaboration devices (RoomOS).
+ *
+ * Read more on [roomos.cisco.com](https://roomos.cisco.com/doc/TechDocs/Introduction).
+ *
+ * All xAPIS are accessed with a path, for example `Call.Disconnect`, `Audio.Volume` etc. Find the
+ * the xAPIs that you need in the [xAPI section](https://roomos.cisco.com/xapi) and copy the path
+ * from the snippet section.
+ *
+ * Status, commands and events that you use needs to be specified in the manifest, but this does
+ * not apply for configurations (for historical reasons).
+ */
+export interface XAPI {
+  command: Command;
+  status: Status;
+  event: Event;
+  config: Config;
+}
+
+/**
+ * Invoke a command on a Cisco device. Commands are typically non-persistent actions that users do
+ * from the user interface, such as starting a call, changing the volume etc. Also advanced
+ * configurations such as saving macros and setting custom wallpaper can be commands.
+ *
+ * Some commands such as Phonebook search also returns results back to the user, this is provided
+ * as a promise result.
+ *
+ * @param multiline For commands that accept large blobs of content, such as wallpaper image,
+ * macro content, booking XML etc.
+ */
+export type Command = (deviceId: string, path: XapiPath, params?: DataObject, multiline?: string) => Promise<DataObject>;
+
+/**
+ * A generic dictionary object (JSON-like)
+ */
 export type DataObject = Record<string, any>;
 
 /**
  * Device statuses are typicially states, sensor data etc that can change at any time.
+ * There are two ways to get status info:
+ * 1. Query them (`get`)
+ * 2. Subscribe to them (`on`). In this case you will be notified whenever a status changes.
+ * Note: Only a few statuses actually support notifications.
  */
 export interface Status {
-  get: (deviceId: string, path: string) => Promise<DataObject | number | string>;
-  on: (path: string, listener: StatusListener) => void;
+  get: (deviceId: string, path: XapiPath) => Promise<DataObject | number | string>;
+  on: (path: XapiPath, listener: StatusListener) => void;
 }
 
 /**
@@ -111,16 +167,31 @@ export interface Status {
  * see Control Hub > Workspace integrations for an updated list.
  */
 export interface Event {
-  on: (path: string, listener: EventListener) => void;
+  on: (path: XapiPath, listener: EventListener) => void;
 }
 
+/**
+ * Device configurations (xConfigs) are typically permanent settings that are set by admins,
+ * such as default volume, wallpapers, digital signage, network settings, security policies etc.
+ *
+ * Find and read more about them on
+ * [roomos.cisco.com](https://roomos.cisco.com/xapi/?search=***&Type=Configuration).
+ *
+ * Scopes required: `spark-admin:devices_read` and `spark-admin:devices_write`
+ *
+ * The module is a wrapper fot for the
+ * [Device Configurations API](https://developer.webex.com/docs/api/v1/device-configurations).
+ *
+ * It is not possible to subscribe to config notifications. Also, unlike device status and events,
+ * you do not need to add the specific configs to the manifest.
+ */
 export interface Config {
-  get: (deviceId: string, path: string) => Promise<DataObject | number | string>;
+  get: (deviceId: string, path: XapiPath) => Promise<DataObject | number | string>;
 
   /**
    * Requires the spark-admin:devices-write scope
    */
-  set: (deviceId: string, path: string, value: string | number) => Promise<DataObject>;
+  set: (deviceId: string, path: XapiPath, value: string | number) => Promise<DataObject>;
 
   /**
    * Set multiple configs on a device with a single HTTP call. Requires the
@@ -155,15 +226,40 @@ export interface Integration {
   xapi: XAPI;
 }
 
+export interface Http {
+  /**
+  *
+  * @param partialUrl URL without the https://webexapis.com/v1/ part
+  */
+  get(partialUrl: string): Promise<any>;
+}
+
 /**
  * A workspace is a location that can contain zero, one or many devices,
  * typically a meeting room, huddle room, or reception.
+ *
+ * Module is a wrapper for the
+ * [Webex Workspaces API](https://developer.webex.com/docs/api/v1/workspaces).
  */
 export interface Workspaces {
+
+  /**
+   * Find workspaces in the org.
+   *
+   * @param filter See query parameters on [here](https://developer.webex.com/docs/api/v1/workspaces/list-workspaces)
+   */
   getWorkspaces(filters?: DataObject): Promise<Workspace[]>;
+
+  /**
+   * Get workspace details.
+   * Wrapper for https://developer.webex.com/docs/api/v1/workspaces/get-workspace-details for more
+   */
   getWorkspace(workspaceId: string): Promise<Workspace>;
 }
 
+/**
+ * A Workspace is typically a room. It can contain zero, one or several Cisco devices.
+ */
 export interface Workspace {
   id: string;
   orgId: string;
@@ -177,6 +273,9 @@ export interface Workspace {
   hotdeskingStatus: 'on' | 'off';
 }
 
+/**
+ * A Cisco collaboration device. Must belong to one and only one workspace.
+ */
 export interface Device {
   id: string;
   displayName: string;
@@ -210,25 +309,12 @@ export interface Devices {
   getDevice(deviceId: string): Promise<Device>;
 }
 
-export interface Http {
-  /**
-   *
-   * @param partialUrl URL without the https://webexapis.com/v1/ part
-   */
-  get(partialUrl: string): Promise<any>;
-  fullUrl(partialUrl: string): string;
-}
-
-export interface XAPI {
-  command: Command;
-  status: Status;
-  event: Event;
-  config: Config;
-}
-
 export type ErrorHandler = (error: string) => any;
-export type ReadyHandler = (xapi: XAPI) => any;
 
+/**
+ * Info about your integration. Contains much of the information provided by the manifest.
+ * In particular, use this to check which optional scopes and xAPI's the admin has acccepted.
+ */
 export interface AppInfo {
   id: string;
   manifestVersion: number;
