@@ -199,7 +199,7 @@ The integration is hosted on a public site (must be https), and receives the dev
 
 You can choose which level the SDK reports logs at. The default level is `error`, so it's only errors that are shown in the console, but if you want to see more of what is happening, you can change it in your config:
 
-```
+```js
 const config = {
   appId: '...',
   logLevel: 'info', //

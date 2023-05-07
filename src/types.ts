@@ -139,7 +139,7 @@ export interface XAPI {
  * as a promise result.
  *
  * @param multiline For commands that accept large blobs of content, such as wallpaper image,
- * macro content, booking XML etc.
+ * macro content, booking XML etc. *
  */
 export type Command = (deviceId: string, path: XapiPath, params?: DataObject, multiline?: string) => Promise<DataObject>;
 
