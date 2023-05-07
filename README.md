@@ -6,9 +6,15 @@ Node.js SDK for creating [Webex Workspace Integrations](https://developer.webex.
 
 The workspace integrations is a cloud based framework that lets you connect to the Cisco devices, receive sensor data, invoke commands, read status values and update configs in a secure and controlled manner, without installing anything on the devices.
 
+> **Warning**
+> This SDK is in progress and not yet at version 1.0. Changes in the API must be expected.
+> Also, there may be errors and typos in examples and documentation.
+> Be sure to use the Github Issues to give feedback.
+
+
 The SDK is designed to be similar to the [macros](https://roomos.cisco.com/doc/TechDocs/MacroTutorial) and [JSXAPI](https://github.com/cisco-ce/jsxapi) syntax, so developers that are experienced with that can easily start using Workspace Integrations too.
 
-What this SDK gives you:
+## Features
 
 * Quick and easy to set up, just plug in the OAuth details you get from Control Hub
 * Automatically handles access tokens for you, including refreshing it on time
@@ -22,12 +28,6 @@ What this SDK gives you:
 
 [See full API reference here](https://cisco-ce.github.io/workspace-integrations/).
 
-
-<div style="background-color: #ffecc2; border-radius: 5px; padding: 1em; color: #333">
-This SDK is in progress and not yet at version 1.0. Changes in the API must be expected.
-Also, there may be errors and typos in examples and documentation.
-Be sure to use the Github Issues to give feedback.
-</div>
 
 ## Installation
 
