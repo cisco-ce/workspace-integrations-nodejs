@@ -188,6 +188,19 @@ The integration is itself responsible for continuously asking Webex for updates.
 
 The integration is hosted on a public site (must be https), and receives the device data as web hooks from Webex. Typically needed if you want to provide a public integration that customers can pay for and use, without hosting anything themselves.
 
+## Log level
+
+You can choose which level the SDK reports logs at. The default level is `error`, so it's only errors that are shown in the console, but if you want to see more of what is happening, you can change it in your config:
+
+```
+const config = {
+  appId: '...',
+  logLevel: 'info', //
+}
+
+connect(config);
+```
+
 ## Web hooks
 
 It is also possible to use the web hook deployment model with the SDK. In this case, you need to provide the web server yourself, then feed the incoming web hook data from Webex to the SDK using `integration.processNotifications()`. The SDK will then deliver the events and status update to your listeners, exactly in the same way as with long polling.

@@ -2,13 +2,12 @@
 
 ## Before version 1.0
 
-- Separate readme on reference page, focus on `connect` method
-- Add log library
+- Test web hook example
 
 ## Later
 
 - add support for ignoring sync updates in sdk
-- add an easy way for consumer to use token etc and use webex apis not supported by - - add some helper function for common stuff such as
+- helper function for common stuff such as
   - showing alert on screen
   - dialing
   - sending webex message

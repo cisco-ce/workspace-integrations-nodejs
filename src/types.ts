@@ -216,8 +216,20 @@ export interface Config {
  */
 export interface Integration {
   getAppInfo(): AppInfo;
+  /**
+   * Sets an error handler on the integration, so you are notified when something goes wrong.
+   * This will typically be called if the SDK is not able to refresh the access token
+   * eg due to network issues or if Webex is not available.
+   */
   onError(handler: ErrorHandler): any;
-  processNotifications(notification: DataObject[]): void;
+
+  /**
+   * Takes a list of events from Webex and checks if you have event listeners registered that
+   * match the incoming notification, and if so deliver it.
+   *
+   * @param notifications The payload (list of messages) from an incoming Webex web hook
+   */
+  processNotifications(notifications: DataObject[]): any;
   refreshToken(): void;
   webexApi(partialUrl: string, method?: string, body?: any, contentType?: string): Promise<any>;
 
