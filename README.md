@@ -22,10 +22,12 @@ What this SDK gives you:
 
 [See full API reference here](https://cisco-ce.github.io/workspace-integrations/).
 
-> **Warning**
-> This SDK is in progress and not yet at version 1.0. Changes in the API must be expected.
-> Also, there may be errors and typos in examples and documentation.
-> Be sure to use the Github Issues to give feedback.
+
+<div style="background-color: #ffecc2; border-radius: 5px; padding: 1em; color: #333">
+This SDK is in progress and not yet at version 1.0. Changes in the API must be expected.
+Also, there may be errors and typos in examples and documentation.
+Be sure to use the Github Issues to give feedback.
+</div>
 
 ## Installation
 

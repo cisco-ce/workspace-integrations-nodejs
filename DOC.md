@@ -12,7 +12,7 @@ const config = {
   clientId: "C12ba...",
   clientSecret: "fdbcd00...",
   jwt: "eyJraWQiOiJQSnM..."
-  deployment: 'longpolling',
+  notifications: 'longpolling',
 };
 
 connect(config).then(async (integration) => {
