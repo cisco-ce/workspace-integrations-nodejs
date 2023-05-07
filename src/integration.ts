@@ -7,6 +7,23 @@ import XapiImpl from './apis/xapi';
 import { OAuthDetails } from './http';
 import log from './logger';
 
+function validateConfig(config: IntegrationConfig) {
+  if (!config.clientId || !config.clientSecret || !config.jwt) {
+    throw Error('Missing clientId, clientSecret or jwt in config');
+  }
+
+  const jwt = parseJwt(config.jwt);
+  if (!jwt.oauthUrl || !jwt.webexapisBaseUrl) {
+    throw Error('jwt does not containt the expected data. Please provide it exactly as you copy it when activating it on Control Hub.');
+  }
+  const known = ['clientId', 'clientSecret', 'jwt', 'notifications', 'logLevel', 'webhook', 'actionsUrl'];
+  Object.keys(config).forEach((key) => {
+    if (!known.includes(key)) {
+      log.error('Unknown config: ' + key);
+    }
+  });
+}
+
 class IntegrationImpl implements Integration {
   private http: Http;
   public devices: Devices;
@@ -63,6 +80,7 @@ class IntegrationImpl implements Integration {
   }
 
   static async connect(options: IntegrationConfig) {
+    validateConfig(options);
     const { clientId, clientSecret, notifications } = options;
 
     const jwt = parseJwt(options.jwt);
