@@ -42,7 +42,7 @@ const config = {
   clientId: "C12ba...",
   clientSecret: "fdbcd00...",
   jwt: "eyJraWQiOiJQSnM..."
-  deployment: 'longpolling',
+  notifications: 'longpolling',
 };
 
 async function init() {
@@ -226,7 +226,7 @@ const config = {
   clientId: 'xxx',
   clientSecret: 'yyy',
   jwt: 'zzz',
-  deployment: 'webhook',
+  notifications: 'webhook',
   webhook: {
     targetUrl: url + "/api/webhooks", // you can choose the route yourself
     type: "hmac_signature",
@@ -237,7 +237,7 @@ const config = {
 
 let integration;
 
-// the route here must be the same as you specify in deployment above
+// the route here must be the same as you specify in webhook above
 app.all('/api/webhooks', (req, res) => {
   const { method, body, headers } = req;
   if (integration) {
