@@ -86,14 +86,19 @@ class HttpImpl implements Http {
     if (contentType) {
       headers['Content-Type'] = contentType;
     }
+
     const options: DataObject = {
       method,
       headers,
     };
+
     if (body) {
       options.body = JSON.stringify(body);
     }
-    const url = urlJoin(this.baseUrl, partialUrl);
+
+    const url = partialUrl.startsWith('https://')
+      ? partialUrl
+      : urlJoin(this.baseUrl, partialUrl);
 
     return fetch(url, options);
   }
