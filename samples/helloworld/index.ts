@@ -1,6 +1,6 @@
 // const wi = require('workspace-integrations');
 import connect from '../../src/index';
-import { Deployment, Integration } from '../../src/types';
+import { IntegrationConfig, Integration } from '../../src/types';
 
 // @ts-ignore
 import(process.env.CREDS)
@@ -12,7 +12,7 @@ function showAlertOnDevice(integration: Integration, deviceId: string, text: str
     Text: text, Duration: 5 });
 }
 
-async function start(creds: Deployment) {
+async function start(creds: IntegrationConfig) {
   let integration: Integration;
   try {
     integration = await connect(creds);
