@@ -26,7 +26,7 @@ The SDK is designed to be similar to the [macros](https://roomos.cisco.com/doc/T
   * Subscribing to events and status changes
 * Support for both long polling and web hook for events and status updates
 
-[See full API reference here](https://cisco-ce.github.io/workspace-integrations/).
+[See full API reference here](https://cisco-ce.github.io/workspace-integrations-nodejs/).
 
 
 ## Installation
