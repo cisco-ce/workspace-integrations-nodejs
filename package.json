@@ -6,7 +6,7 @@
   "license": "ISC",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "homepage": "https://github.com/cisco-ce/workspace-integrations",
+  "homepage": "https://github.com/cisco-ce/workspace-integrations-nodejs#readme",
   "keywords": [
     "Webex",
     "Cisco",
@@ -17,7 +17,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/cisco-ce/workspace-integrations"
+    "url": "https://github.com/cisco-ce/workspace-integrations-nodejs"
   },
   "files": [
     "lib/**/*"
