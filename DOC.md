@@ -11,6 +11,8 @@ For a general introduction to Workspace Integrations, see [the overview guide](h
 To connect your workspace integration to Webex, you need to use the {@link connect} function, and provide it your {@link IntegrationConfig}. This will give you an {@link Integration} object that you can use to access the devices and the Webex APIs.
 
 ```js
+const connect = require('workspace-integrations');
+
 const config = {
   clientId: "C12ba...",
   clientSecret: "fdbcd00...",
