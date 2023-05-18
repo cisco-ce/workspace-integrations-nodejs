@@ -55,7 +55,7 @@ const config = {
 async function init() {
   try {
     const integration = await connect(config);
-    integration.xapi.event.on('RoomAnalytics PeopleCount Current', (deviceId, path, value) => {
+    integration.xapi.status.on('RoomAnalytics PeopleCount Current', (deviceId, path, value) => {
       const msg = `Number of people in the room: ${value}`;
       showMessageOnScreen(integration.xapi, deviceId, msg);
     });
