@@ -58,7 +58,7 @@ async function init() {
     integration.xapi.event.on('RoomAnalytics PeopleCount Current', (deviceId, path, value) => {
       const msg = `Number of people in the room: ${value}`;
       showMessageOnScreen(integration.xapi, deviceId, msg);
-    };
+    });
   }
   catch(e) {
     console.log('Something went wrong', e);
