@@ -5,3 +5,4 @@ wip/
 creds.json
 .vscode
 config.json
+.env

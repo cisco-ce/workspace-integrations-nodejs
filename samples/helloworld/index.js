@@ -1,16 +1,13 @@
-const fs = require('fs');
-const path = require('path');
+require('dotenv').config({ path: __dirname + '/.env' });
 const connect = require('workspace-integrations').default;
 
-let config;
-try {
-  const file = path.join(__dirname, './config.json');
-  config = JSON.parse(fs.readFileSync(file));
-}
-catch(e) {
-  console.log('You need to provide a config.json file in the sample folder with OAuth details.');
-  process.exit(1);
-}
+const config = {
+  clientId: process.env.CLIENT_ID,
+  clientSecret: process.env.CLIENT_SECRET,
+  jwt: process.env.JWT,
+  notifications: 'longpolling',
+  logLevel: 'info',
+};
 
 start(config);
 
@@ -28,7 +25,7 @@ async function start(creds) {
     // console.log('connected!', await integration.getAppInfo());
   }
   catch(e) {
-    console.log('Not able to connect', e);
+    console.log('Not able to connect', e.message);
     return;
   }
 

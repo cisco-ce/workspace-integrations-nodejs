@@ -34,6 +34,7 @@
     "integration-test": "ts-node test/integration"
   },
   "dependencies": {
+    "dotenv": "^16.0.3",
     "node-fetch": "^2.6.7",
     "npmlog": "^7.0.1",
     "url-join-ts": "^1.0.5"
