@@ -14,7 +14,9 @@ function validateConfig(config: IntegrationConfig) {
 
   const jwt = parseJwt(config.jwt);
   if (!jwt.oauthUrl || !jwt.webexapisBaseUrl) {
-    throw Error('jwt does not containt the expected data. Please provide it exactly as you copy it when activating it on Control Hub.');
+    throw Error(
+      'jwt does not containt the expected data. Please provide it exactly as you copy it when activating it on Control Hub.',
+    );
   }
   const known = ['clientId', 'clientSecret', 'jwt', 'notifications', 'logLevel', 'webhook', 'actionsUrl'];
   Object.keys(config).forEach((key) => {
@@ -108,7 +110,7 @@ class IntegrationImpl implements Integration {
 
     // TODO move to constructor
     const timeToRefresh = expires_in - 60 * 15;
-    log.verbose(`Fetching new token on ${new Date(Date.now() + (timeToRefresh * 1000))}`);
+    log.verbose(`Fetching new token on ${new Date(Date.now() + timeToRefresh * 1000)}`);
     // console.log('token will be refreshed in ', (timeToRefresh / 60).toFixed(0), 'minutes');
     setTimeout(() => integration.refreshToken(), timeToRefresh * 1000);
 
@@ -128,7 +130,7 @@ class IntegrationImpl implements Integration {
       this.http.setAccessToken(access_token);
       const nextTime = expires_in - 60 * 15;
       log.info('Fetched new access token');
-      log.verbose(`Fetching new token on ${new Date(Date.now() + (nextTime * 1000))}`);
+      log.verbose(`Fetching new token on ${new Date(Date.now() + nextTime * 1000)}`);
 
       setTimeout(() => this.refreshToken(), nextTime * 1000);
     } catch (e) {

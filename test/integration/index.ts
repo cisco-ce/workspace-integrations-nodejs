@@ -12,7 +12,7 @@
  * To run (install ts-node globally):
  * `ts-node test/integration`
  */
-import connect from '../../src';
+import { connect } from '../../src';
 import { IntegrationConfig, Integration } from '../../src/types';
 import { sleep } from '../../src/util';
 

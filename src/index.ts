@@ -13,4 +13,4 @@ const connect: connect = async (creds: IntegrationConfig): Promise<Integration> 
   return integration;
 };
 
-export default connect;
+export { connect };

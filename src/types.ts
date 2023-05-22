@@ -97,7 +97,6 @@ export type EventListener = (deviceId: string, path: string, event: DataObject, 
  */
 export type StatusListener = (deviceId: string, path: string, value: DataObject, data: Notification) => void;
 
-
 /**
  * All xAPIs are defined by a path in a tree fashion, eg:
  *
@@ -141,7 +140,12 @@ export interface XAPI {
  * @param multiline For commands that accept large blobs of content, such as wallpaper image,
  * macro content, booking XML etc. *
  */
-export type Command = (deviceId: string, path: XapiPath, params?: DataObject, multiline?: string) => Promise<DataObject>;
+export type Command = (
+  deviceId: string,
+  path: XapiPath,
+  params?: DataObject,
+  multiline?: string,
+) => Promise<DataObject>;
 
 /**
  * A generic dictionary object (JSON-like)
@@ -254,7 +258,6 @@ export interface Http {
  * [Webex Workspaces API](https://developer.webex.com/docs/api/v1/workspaces).
  */
 export interface Workspaces {
-
   /**
    * Find workspaces in the org.
    *

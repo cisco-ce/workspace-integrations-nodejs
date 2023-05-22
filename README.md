@@ -42,7 +42,7 @@ npm install --save workspace-integrations
 Show a message on the device screen each time the people count changes:
 
 ```js
-const connect = require('workspace-integrations').default;
+const { connect } = require('workspace-integrations');
 
 // You get this when you deploy and activate the integration on ControlHub > Workspaces > Integrations
 const config = {
@@ -217,7 +217,7 @@ The following example shows how to do this with a simple Express web server, but
 ```js
 const express = require('express');
 const bodyParser = require('body-parser');
-const connect = require('workspace-integrations');
+const { connect } = require('workspace-integrations');
 
 const app = express();
 

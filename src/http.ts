@@ -96,9 +96,7 @@ class HttpImpl implements Http {
       options.body = JSON.stringify(body);
     }
 
-    const url = partialUrl.startsWith('https://')
-      ? partialUrl
-      : urlJoin(this.baseUrl, partialUrl);
+    const url = partialUrl.startsWith('https://') ? partialUrl : urlJoin(this.baseUrl, partialUrl);
 
     return fetch(url, options);
   }
@@ -149,8 +147,7 @@ class HttpImpl implements Http {
       body.queue = {
         state: 'enabled',
       };
-    }
-    else {
+    } else {
       logger.info('Not subscribing to notifications');
     }
 

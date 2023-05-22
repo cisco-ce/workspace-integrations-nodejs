@@ -25,6 +25,6 @@ const logger = {
   verbose(message: string) {
     log.verbose(prefix, message);
   },
-}
+};
 
 export default logger;

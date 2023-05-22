@@ -1,5 +1,5 @@
 require('dotenv').config({ path: __dirname + '/.env' });
-const connect = require('workspace-integrations').default;
+const { connect } = require('workspace-integrations');
 
 const config = {
   clientId: process.env.CLIENT_ID,
