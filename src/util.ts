@@ -99,8 +99,11 @@ function atob(base64: string) {
 }
 
 function parseJwt(jwt: string) {
-  const payloadB64 = jwt.split('.')[1];
-  return JSON.parse(atob(payloadB64));
+  const [header, payload, signature] = jwt.split('.');
+  if (payload) {
+    throw new Error('activationCode is not valid JWT');
+  }
+  return JSON.parse(atob(payload));
 }
 
 export { toTree, removePath, sleep, shortName, pathMatch, isStr, isObj, isFun, parseJwt, toUrlParams, emptyObj };
