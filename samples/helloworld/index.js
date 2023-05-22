@@ -1,19 +1,26 @@
-// const wi = require('workspace-integrations');
-import connect from '../../src/index';
-import { IntegrationConfig, Integration } from '../../src/types';
+const fs = require('fs');
+const path = require('path');
+const connect = require('workspace-integrations').default;
 
-// @ts-ignore
-import(process.env.CREDS)
-  .then(c => start(c))
-  .catch(() => console.log('You need to specify credentials file'));
+let config;
+try {
+  const file = path.join(__dirname, './config.json');
+  config = JSON.parse(fs.readFileSync(file));
+}
+catch(e) {
+  console.log('You need to provide a config.json file in the sample folder with OAuth details.');
+  process.exit(1);
+}
 
-function showAlertOnDevice(integration: Integration, deviceId: string, text: string) {
+start(config);
+
+function showAlertOnDevice(integration, deviceId, text) {
   return integration.xapi.command(deviceId, 'UserInterface.Message.Alert.Display', {
     Text: text, Duration: 5 });
 }
 
-async function start(creds: IntegrationConfig) {
-  let integration: Integration;
+async function start(creds) {
+  let integration;
   try {
     integration = await connect(creds);
     integration.onError(console.error);

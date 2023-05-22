@@ -41,6 +41,7 @@
   "devDependencies": {
     "@types/events": "^3.0.0",
     "@types/npmlog": "^4.1.4",
+    "install-self": "^1.0.0-beta.7",
     "prettier": "^2.8.8",
     "tslint": "^6.1.3",
     "tslint-config-prettier": "^1.18.0",

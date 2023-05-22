@@ -2,7 +2,13 @@
 
 ## Before version 1.0
 
+- import connect -> import { connect }
+- jwt -> activationCode
+- Test added examples
 - Test web hook example
+- Check if/why bogus jwt doesn't throw error
+- Warn if user tries to subscribe to status/event notifications that WI doesn't support
+- Add the same samples as the java sdk
 
 ## Later
 
@@ -21,8 +27,9 @@
 
 * Call satisfaction survey
 * Detect heads in room, if above certain level show warning and send webex message
-* UI extension panel to order coffee, snacks to room. Send webex or MS Teams message (including provisioning ui extension?)
 * Show sensor data for room (noise, air quality, …)
+
+* UI extension panel to order coffee, snacks to room. Send webex or MS Teams message (including provisioning ui extension?)
 * Quick dial
 * Control a Philips hue light
 * How is this room utilized (show head count plot for whole week)
