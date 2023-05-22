@@ -1,11 +1,11 @@
 {
   "name": "workspace-integrations",
   "version": "0.5.0",
-  "description": "Webex Workspace Integrations SDK",
+  "description": "Webex Workspace Integrations NodeJS SDK",
   "author": "Tore Bjolseth <Cisco>",
   "license": "ISC",
   "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "types": "lib/types.d.ts",
   "homepage": "https://github.com/cisco-ce/workspace-integrations-nodejs#readme",
   "keywords": [
     "Webex",
