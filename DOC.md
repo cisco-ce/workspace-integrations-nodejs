@@ -16,7 +16,7 @@ const { connect } = require('workspace-integrations');
 const config = {
   clientId: "C12ba...",
   clientSecret: "fdbcd00...",
-  jwt: "eyJraWQiOiJQSnM..."
+  activationCode: "eyJraWQiOiJQSnM..."
   notifications: 'longpolling',
 };
 

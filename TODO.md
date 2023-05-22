@@ -2,8 +2,6 @@
 
 ## Before version 1.0
 
-- import connect -> import { connect }
-- jwt -> activationCode
 - Test added examples
 - Test web hook example
 - Check if/why bogus jwt doesn't throw error

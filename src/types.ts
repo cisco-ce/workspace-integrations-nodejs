@@ -38,13 +38,13 @@ export type LogLevel = 'error' | 'warn' | 'info' | 'verbose';
 /**
  * Your configs for initialising your Workspace Integration.
  * Must containt client id and secret, which you get when deploying the integration in Control Hub,
- * as well as the JSON Web Token (jwt) which you get when you activate it.
+ * as well as the JSON Web Token (activationCode) which you get when you activate it.
  */
 export interface IntegrationConfig {
   clientId: string;
   clientSecret: string;
   /** Base64 encoded, as copied from Control Hub when activated. */
-  jwt: string;
+  activationCode: string;
 
   /**
    * How you want your integration to receive device notifications such as events

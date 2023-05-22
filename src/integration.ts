@@ -8,17 +8,17 @@ import { OAuthDetails } from './http';
 import log from './logger';
 
 function validateConfig(config: IntegrationConfig) {
-  if (!config.clientId || !config.clientSecret || !config.jwt) {
-    throw Error('Missing clientId, clientSecret or jwt in config');
+  if (!config.clientId || !config.clientSecret || !config.activationCode) {
+    throw Error('Missing clientId, clientSecret or activationCode in config');
   }
 
-  const jwt = parseJwt(config.jwt);
+  const jwt = parseJwt(config.activationCode);
   if (!jwt.oauthUrl || !jwt.webexapisBaseUrl) {
     throw Error(
-      'jwt does not containt the expected data. Please provide it exactly as you copy it when activating it on Control Hub.',
+      'activationCode does not containt the expected data. Please provide it exactly as you copy it when activating it on Control Hub.',
     );
   }
-  const known = ['clientId', 'clientSecret', 'jwt', 'notifications', 'logLevel', 'webhook', 'actionsUrl'];
+  const known = ['clientId', 'clientSecret', 'activationCode', 'notifications', 'logLevel', 'webhook', 'actionsUrl'];
   Object.keys(config).forEach((key) => {
     if (!known.includes(key)) {
       log.error('Unknown config: ' + key);
@@ -36,9 +36,9 @@ class IntegrationImpl implements Integration {
   private appInfo: AppInfo;
   private oauth: OAuthDetails;
 
-  constructor(appInfo: AppInfo, accessToken: string, jwt: DataObject, oauth: OAuthDetails) {
+  constructor(appInfo: AppInfo, accessToken: string, activationCode: DataObject, oauth: OAuthDetails) {
     this.appInfo = appInfo;
-    this.http = new Http(jwt.webexapisBaseUrl, accessToken);
+    this.http = new Http(activationCode.webexapisBaseUrl, accessToken);
     this.devices = new DevicesImpl(this.http);
     this.workspaces = new WorkspacesImpl(this.http);
     this.xapi = new XapiImpl(this.http);
@@ -85,7 +85,7 @@ class IntegrationImpl implements Integration {
     validateConfig(options);
     const { clientId, clientSecret, notifications } = options;
 
-    const jwt = parseJwt(options.jwt);
+    const jwt = parseJwt(options.activationCode);
     const { oauthUrl, refreshToken, appUrl } = jwt;
 
     const tokenData = await Http.createAccessToken({ clientId, clientSecret, oauthUrl, refreshToken });

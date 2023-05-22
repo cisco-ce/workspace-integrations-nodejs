@@ -48,7 +48,7 @@ const { connect } = require('workspace-integrations');
 const config = {
   clientId: "C12ba...",
   clientSecret: "fdbcd00...",
-  jwt: "eyJraWQiOiJQSnM..."
+  activationCode: "eyJraWQiOiJQSnM..."
   notifications: 'longpolling',
 };
 
@@ -232,7 +232,7 @@ const url = 'https://acme.com';
 const config = {
   clientId: 'xxx',
   clientSecret: 'yyy',
-  jwt: 'zzz',
+  activationCode: 'zzz',
   notifications: 'webhook',
   webhook: {
     targetUrl: url + "/api/webhooks", // you can choose the route yourself

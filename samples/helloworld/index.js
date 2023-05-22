@@ -4,7 +4,7 @@ const { connect } = require('workspace-integrations');
 const config = {
   clientId: process.env.CLIENT_ID,
   clientSecret: process.env.CLIENT_SECRET,
-  jwt: process.env.JWT,
+  activationCode: process.env.ACTIVATION_CODE,
   notifications: 'longpolling',
   logLevel: 'info',
 };

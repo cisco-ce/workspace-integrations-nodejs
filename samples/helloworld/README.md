@@ -16,7 +16,7 @@ cd wi-helloworld
 npm init -y
 npm install --save workspace-integrations
 
-CLIENT_ID=<..> CLIENT_SECRET=<..> JWT=<..> node ./index.js
+CLIENT_ID=<..> CLIENT_SECRET=<..> ACTIVATION_CODE=<..> node ./index.js
 # You can also put the env variables above in a .env file instead in the same directory
 ```
 
