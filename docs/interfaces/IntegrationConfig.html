@@ -18,14 +18,14 @@
 <section class="tsd-panel tsd-comment">
 <div class="tsd-comment tsd-typography"><p>Your configs for initialising your Workspace Integration.
 Must containt client id and secret, which you get when deploying the integration in Control Hub,
-as well as the JSON Web Token (jwt) which you get when you activate it.</p>
+as well as the JSON Web Token (activationCode) which you get when you activate it.</p>
 </div></section>
 <section class="tsd-panel tsd-hierarchy">
 <h4>Hierarchy</h4>
 <ul class="tsd-hierarchy">
 <li><span class="target">IntegrationConfig</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations-nodejs/blob/60b9cba/src/types.ts#L43">types.ts:43</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations-nodejs/blob/e3a6d55/src/types.ts#L43">types.ts:43</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -34,9 +34,9 @@ as well as the JSON Web Token (jwt) which you get when you activate it.</p>
 <section class="tsd-index-section">
 <h3 class="tsd-index-heading">Properties</h3>
 <div class="tsd-index-list"><a href="IntegrationConfig.html#actionsUrl" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="#FF984D" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12" id="icon-1024-path"></rect><path d="M9.354 16V7.24H12.174C12.99 7.24 13.638 7.476 14.118 7.948C14.606 8.412 14.85 9.036 14.85 9.82C14.85 10.604 14.606 11.232 14.118 11.704C13.638 12.168 12.99 12.4 12.174 12.4H10.434V16H9.354ZM10.434 11.428H12.174C12.646 11.428 13.022 11.284 13.302 10.996C13.59 10.7 13.734 10.308 13.734 9.82C13.734 9.324 13.59 8.932 13.302 8.644C13.022 8.356 12.646 8.212 12.174 8.212H10.434V11.428Z" fill="var(--color-text)" id="icon-1024-text"></path></svg><span>actions<wbr/>Url?</span></a>
+<a href="IntegrationConfig.html#activationCode" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>activation<wbr/>Code</span></a>
 <a href="IntegrationConfig.html#clientId" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>client<wbr/>Id</span></a>
 <a href="IntegrationConfig.html#clientSecret" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>client<wbr/>Secret</span></a>
-<a href="IntegrationConfig.html#jwt" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>jwt</span></a>
 <a href="IntegrationConfig.html#logLevel" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>log<wbr/>Level?</span></a>
 <a href="IntegrationConfig.html#notifications" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>notifications</span></a>
 <a href="IntegrationConfig.html#webhook" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>webhook?</span></a>
@@ -49,31 +49,31 @@ as well as the JSON Web Token (jwt) which you get when you activate it.</p>
 <div class="tsd-comment tsd-typography"><p>Public URL endpoint to send signed JWT actions, such as health check, app update, deactivation etc</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations-nodejs/blob/60b9cba/src/types.ts#L66">types.ts:66</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations-nodejs/blob/e3a6d55/src/types.ts#L66">types.ts:66</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member"><a id="activationCode" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>activation<wbr/>Code</span><a href="#activationCode" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">activation<wbr/>Code</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+<div class="tsd-comment tsd-typography"><p>Base64 encoded, as copied from Control Hub when activated.</p>
+</div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations-nodejs/blob/e3a6d55/src/types.ts#L47">types.ts:47</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="clientId" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>client<wbr/>Id</span><a href="#clientId" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">client<wbr/>Id</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations-nodejs/blob/60b9cba/src/types.ts#L44">types.ts:44</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations-nodejs/blob/e3a6d55/src/types.ts#L44">types.ts:44</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="clientSecret" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>client<wbr/>Secret</span><a href="#clientSecret" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">client<wbr/>Secret</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations-nodejs/blob/60b9cba/src/types.ts#L45">types.ts:45</a></li></ul></aside></section>
-<section class="tsd-panel tsd-member"><a id="jwt" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><span>jwt</span><a href="#jwt" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
-<div class="tsd-signature"><span class="tsd-kind-property">jwt</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-<div class="tsd-comment tsd-typography"><p>Base64 encoded, as copied from Control Hub when activated.</p>
-</div><aside class="tsd-sources">
-<ul>
-<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations-nodejs/blob/60b9cba/src/types.ts#L47">types.ts:47</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations-nodejs/blob/e3a6d55/src/types.ts#L45">types.ts:45</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="logLevel" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>log<wbr/>Level</span><a href="#logLevel" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">log<wbr/>Level</span><span class="tsd-signature-symbol">?:</span> <a href="../types/LogLevel.html" class="tsd-signature-type tsd-kind-type-alias">LogLevel</a></div>
 <div class="tsd-comment tsd-typography"><p>Which info to show from the SDK. Default is error only.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations-nodejs/blob/60b9cba/src/types.ts#L71">types.ts:71</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations-nodejs/blob/e3a6d55/src/types.ts#L71">types.ts:71</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="notifications" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>notifications</span><a href="#notifications" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">notifications</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;none&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;webhook&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;longpolling&quot;</span></div>
@@ -87,14 +87,14 @@ to get notifications.</li>
 </ul>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations-nodejs/blob/60b9cba/src/types.ts#L58">types.ts:58</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations-nodejs/blob/e3a6d55/src/types.ts#L58">types.ts:58</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="webhook" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>webhook</span><a href="#webhook" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">webhook</span><span class="tsd-signature-symbol">?:</span> <a href="Webhook.html" class="tsd-signature-type tsd-kind-interface">Webhook</a></div>
 <div class="tsd-comment tsd-typography"><p>Required if you set <a href="IntegrationConfig.html#notifications" class="tsd-kind-property">notifications</a> to <code>webhook</code>.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations-nodejs/blob/60b9cba/src/types.ts#L61">types.ts:61</a></li></ul></aside></section></section></div>
+<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations-nodejs/blob/e3a6d55/src/types.ts#L61">types.ts:61</a></li></ul></aside></section></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
@@ -115,9 +115,9 @@ to get notifications.</li>
 <div class="tsd-accordion-details">
 <ul>
 <li><a href="#actionsUrl" class=""><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>actions<wbr/>Url</span></a></li>
+<li><a href="#activationCode" class=""><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>activation<wbr/>Code</span></a></li>
 <li><a href="#clientId" class=""><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>client<wbr/>Id</span></a></li>
 <li><a href="#clientSecret" class=""><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>client<wbr/>Secret</span></a></li>
-<li><a href="#jwt" class=""><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>jwt</span></a></li>
 <li><a href="#logLevel" class=""><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>log<wbr/>Level</span></a></li>
 <li><a href="#notifications" class=""><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>notifications</span></a></li>
 <li><a href="#webhook" class=""><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>webhook</span></a></li></ul></div></details></div>
