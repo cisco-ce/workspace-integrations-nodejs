@@ -2,9 +2,10 @@
 
 ## Before version 1.0
 
+- Make typescript auto complete actually work
 - Test added examples
 - Test web hook example
-- Check if/why bogus jwt doesn't throw error
+- Add guide on how to get started with examples (including control hub part)
 - Warn if user tries to subscribe to status/event notifications that WI doesn't support
 - Add the same samples as the java sdk
 
