@@ -10,8 +10,9 @@ import { urlJoin } from 'url-join-ts';
 import { DataObject, Http } from './types';
 import logger from './logger';
 
-let dryMode = false;
-const httpLog: { url: string; options: DataObject }[] = [];
+// For interceptinng all http calls (for testing etc):
+type Interceptor = (url: string, options: DataObject) => any;
+let dryHandler: Interceptor | null = null;
 
 interface Config {
   path: string;
@@ -38,9 +39,8 @@ function header(accessToken: string) {
 
 // Modify fetch to throw error if http result is not 2xx, and return json always
 async function fetch(url: string, options: DataObject) {
-  if (dryMode) {
-    httpLog.push({ url, options });
-    return;
+  if (dryHandler) {
+    return dryHandler(url, options);
   }
   const res = await nodefetch(url, options);
   if (!res.ok) {
@@ -68,12 +68,8 @@ class HttpImpl implements Http {
     this.accessToken = accessToken;
   }
 
-  static setDryMode(dry: boolean) {
-    dryMode = dry;
-  }
-
-  static history() {
-    return httpLog;
+  static setDryMode(handler: Interceptor) {
+    dryHandler = handler;
   }
 
   webexApi(

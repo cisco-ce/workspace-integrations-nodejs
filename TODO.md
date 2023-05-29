@@ -2,6 +2,7 @@
 
 ## Before version 1.0
 
+- Add typescript types to index file (so no separate file is required for import)
 - Make typescript auto complete actually work
 - Test added examples
 - Test web hook example
@@ -17,6 +18,7 @@
   - dialing
   - sending webex message
 - Support user agent similar to toms sdk
+- Full xapi completion (see jsxapi for proxy generation)
 
 * Optionally discard full sync messages
 * Optionally discard status updates/events (>5 sec) messages?

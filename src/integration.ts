@@ -9,12 +9,12 @@ import log from './logger';
 
 function validateConfig(config: IntegrationConfig) {
   if (!config.clientId || !config.clientSecret || !config.activationCode) {
-    throw new Error('Missing clientId, clientSecret or activationCode in config');
+    throw new TypeError('Missing clientId, clientSecret or activationCode in config');
   }
 
   const jwt = parseJwt(config.activationCode);
   if (!jwt.oauthUrl || !jwt.webexapisBaseUrl) {
-    throw new Error(
+    throw new TypeError(
       'activationCode does not containt the expected data. Please provide it exactly as you copy it when activating it on Control Hub.',
     );
   }
@@ -82,7 +82,6 @@ class IntegrationImpl implements Integration {
   }
 
   static async connect(options: IntegrationConfig) {
-    console.log('init', options);
     validateConfig(options);
     const { clientId, clientSecret, notifications } = options;
 
