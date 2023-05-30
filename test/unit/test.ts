@@ -1,9 +1,5 @@
 /**
  * TODO Tests
- * - subscribe to event, inject message, verify callback
- * - subscribe to status, inject message, verify callback
- * - get xconfig, verify http call
- * - set xconfig, verify http call
  * - set multiple xconfig, verify http call
  */
 import { connect } from '../../src/index';
@@ -17,12 +13,15 @@ const testdata = JSON.parse(readFileSync(__dirname + '/testdata.json').toString(
 
 let lastHttpCall = { url: '', options: {} };
 
-// mock implementation of cloud services
+// dummy base url, checks that the webex apis arent hard coded but read from jwt
 const baseUrl = 'https://acme.com';
+
 const http = new HttpImpl(baseUrl, 'XXX');
+// mock implementation of cloud services
 HttpImpl.setDryMode((url, options) => {
   lastHttpCall = { url, options };
 
+  // console.log(url);
   if (url.startsWith(baseUrl + '/devices')) {
     return { items: [] };
   }
@@ -31,8 +30,19 @@ HttpImpl.setDryMode((url, options) => {
       result: { something: 'something' },
     };
   }
+  else if (url.startsWith(baseUrl + '/deviceConfigurations')) {
+    return {
+      items:
+      {
+        'Audio.DefaultVolume': {
+          value: 33,
+        },
+      },
+    };
+  }
 });
 
+// useful when adding tests, to copy correct http call to testdata.json
 function printLastCall() {
   console.log(JSON.stringify(lastHttpCall, null, 2));
 }
@@ -120,5 +130,15 @@ describe('xAPI', () => {
       done();
     });
     xapi.processNotification(testdata.notifications.event);
+  });
+
+  it('can set a config', async () => {
+    await xapi.config.set(deviceId, 'Audio.DefaultVolume', 33);
+    expect(lastHttpCall).toEqual(testdata.http.setXapiConfig);
+  });
+
+  it('can get a config', async () => {
+    await xapi.config.get(deviceId, 'Audio.DefaultVolume');
+    expect(lastHttpCall).toEqual(testdata.http.getXapiConfig);
   });
 });
