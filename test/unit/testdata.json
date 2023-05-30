@@ -73,6 +73,39 @@
         "body": "{\"deviceId\":\"12345\",\"arguments\":{\"Email\":\"santa@cisco.com\"},\"body\":\"On vacation\"}"
       }
     }
+  },
+  "notifications": {
+    "status": {
+      "type": "status",
+      "deviceId": "1234",
+      "workspaceId": "5678",
+      "orgId": "0000",
+      "appId": "1111",
+      "timestamp": "2023-05-30T12:09:39.637Z",
+      "changes": {
+        "updated": {
+          "RoomAnalytics.PeopleCount.Current": 2
+        },
+        "removed": []
+      },
+      "isFullSync": false
+    },
+    "event": {
+      "type": "events",
+      "deviceId": "1234",
+      "workspaceId": "5678",
+      "orgId": "8888",
+      "appId": "000000",
+      "timestamp": "2023-05-30T12:10:43.670Z",
+      "events": [
+        {
+          "key": "UserInterface.Message.Prompt.Response",
+          "value": [
+            null
+          ],
+          "timestamp": "2023-05-30T12:10:43.670Z"
+        }
+      ]
+    }
   }
 }
-
