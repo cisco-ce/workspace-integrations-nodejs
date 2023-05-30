@@ -23,6 +23,55 @@
         "method": "PATCH",
         "body": "{\"provisioningState\":\"completed\"}"
       }
+    },
+    "getDevices": {
+      "url": "https://acme.com/devices?max=999&start=0&",
+      "options": {
+        "headers": {
+          "Authorization": "Bearer XXX",
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    "getDevice": {
+      "url": "https://acme.com/devices/1234567",
+      "options": {
+        "headers": {
+          "Authorization": "Bearer XXX",
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    "getXapiStatus": {
+      "url": "https://acme.com/xapi/status/?deviceId=12345&name=RoomAnalytics.*",
+      "options": {
+        "headers": {
+          "Authorization": "Bearer XXX",
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    "invokeXapiCommand": {
+      "url": "https://acme.com/xapi/command/Dial",
+      "options": {
+        "headers": {
+          "Authorization": "Bearer XXX",
+          "Content-Type": "application/json"
+        },
+        "method": "POST",
+        "body": "{\"deviceId\":\"12345\",\"arguments\":{\"Number\":\"chuck@cisco.com\"}}"
+      }
+    },
+    "invokeXapiCommandWithMultiline": {
+      "url": "https://acme.com/xapi/command/CustomStatus.Set",
+      "options": {
+        "headers": {
+          "Authorization": "Bearer XXX",
+          "Content-Type": "application/json"
+        },
+        "method": "POST",
+        "body": "{\"deviceId\":\"12345\",\"arguments\":{\"Email\":\"santa@cisco.com\"},\"body\":\"On vacation\"}"
+      }
     }
   }
 }

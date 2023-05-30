@@ -16,6 +16,8 @@ import { connect } from '../../src';
 import { IntegrationConfig, Integration } from '../../src/types';
 import { sleep } from '../../src/util';
 
+require('dotenv').config({ path: __dirname + '/.env' });
+
 // test will use this tag and use the first device with it for hot testing
 const testTag = 'wi-demo';
 
@@ -151,10 +153,15 @@ async function canUseCustomApis(int: Integration) {
 }
 
 async function run() {
-  // @ts-ignore
-  const creds = await import('./creds.json');
+  const config = {
+    clientId: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
+    activationCode: process.env.ACTIVATION_CODE,
+    notifications: 'longpolling',
+  };
+
   console.log('Connecting integration and starting tests...');
-  const integration = await connect(creds as IntegrationConfig);
+  const integration = await connect(config as IntegrationConfig);
   const tests = [
     orgHasWorkspaces,
     orgHasDevices,

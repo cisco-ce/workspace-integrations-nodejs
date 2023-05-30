@@ -2,6 +2,7 @@
 
 ## Before version 1.0
 
+- Add unit tests
 - Add typescript types to index file (so no separate file is required for import)
 - Make typescript auto complete actually work
 - Test added examples
