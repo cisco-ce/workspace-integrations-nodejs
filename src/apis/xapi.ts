@@ -75,6 +75,18 @@ class XapiImpl implements XAPI {
       return await this.http.xConfigSet(deviceId, [{ path: name, value }]);
     },
 
+    /**
+     * Set multiple configs in one go. Provide each config as key/value pair. Eg:
+     *
+     * ```js
+     * const configs = {
+     *   'Audio.Ultrasound.MaxVolume': 0,
+     *   'Audio.DefaultVolume': 33,
+     *   'Audio.SoundsAndAlerts.RingVolume': 66,
+     * };
+     * await integration.xapi.config.setMany(device, configs);
+     * ```
+     */
     setMany: async (deviceId: string, values: DataObject) => {
       const list = Object.entries(values).map(([p, value]) => ({ path: p, value }));
       return await this.http.xConfigSet(deviceId, list);

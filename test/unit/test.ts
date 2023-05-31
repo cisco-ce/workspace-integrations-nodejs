@@ -137,6 +137,16 @@ describe('xAPI', () => {
     expect(lastHttpCall).toEqual(testdata.http.setXapiConfig);
   });
 
+  it('can set multiple configs', async () => {
+    const configs = {
+      'Audio.Ultrasound.MaxVolume': 0,
+      'Audio.DefaultVolume': 33,
+      'Audio.SoundsAndAlerts.RingVolume': 66,
+    };
+    await xapi.config.setMany(deviceId, configs);
+    expect(lastHttpCall).toEqual(testdata.http.setXapiConfigMultiple);
+  });
+
   it('can get a config', async () => {
     await xapi.config.get(deviceId, 'Audio.DefaultVolume');
     expect(lastHttpCall).toEqual(testdata.http.getXapiConfig);
