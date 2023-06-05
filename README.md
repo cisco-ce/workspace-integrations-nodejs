@@ -304,7 +304,7 @@ Behind the scenes, the SDK automatically:
 
 Please be aware of the following limitations:
 
-* There's a limited set of statuses and events you can subscribe to, such as room analytics and user interface extensions actions (see Control Hub for the full list) - though you can still query all of them.
+* There's a limited set of statuses and events you can subscribe to, such as room analytics and user interface extensions events (you can see the up-to-date list on [Control Hub](https://xapi-a.wbx2.com/xapi/api/apps/supportedSubscriptions) or in the [Manifest editor](https://cisco-ce.github.io/workspace-integrations-editor/)). For the statuses, you can still query all of them.
 
 * On personal devices, you cannot use APIs that are listed as privacy impacting (see roomos.cisco.com/xapi to verify the APIs).
 
