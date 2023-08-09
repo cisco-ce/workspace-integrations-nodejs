@@ -83,7 +83,7 @@ class IntegrationImpl implements Integration {
 
   static async connect(options: IntegrationConfig) {
     validateConfig(options);
-    const { clientId, clientSecret, notifications } = options;
+    const { clientId, clientSecret, notifications, webhook, actionsUrl } = options;
 
     const jwt = parseJwt(options.activationCode);
     const { oauthUrl, refreshToken, appUrl } = jwt;
@@ -95,6 +95,8 @@ class IntegrationImpl implements Integration {
       accessToken: tokenData.access_token,
       appUrl,
       notifications,
+      webhook,
+      actionsUrl,
     });
     log.info('Successfully initated integration');
 
