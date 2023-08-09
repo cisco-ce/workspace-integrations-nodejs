@@ -93,17 +93,4 @@ function toUrlParams(object: StringObject) {
   return list.join('&');
 }
 
-function atob(base64: string) {
-  // @ts-ignore
-  return Buffer.from(base64, 'base64').toString('ascii');
-}
-
-function parseJwt(jwt: string) {
-  const [header, payload, signature] = jwt.split('.');
-  if (!payload) {
-    throw new Error('activationCode is not valid JWT');
-  }
-  return JSON.parse(atob(payload));
-}
-
-export { toTree, removePath, sleep, shortName, pathMatch, isStr, isObj, isFun, parseJwt, toUrlParams, emptyObj };
+export { toTree, removePath, sleep, shortName, pathMatch, isStr, isObj, isFun, toUrlParams, emptyObj };
