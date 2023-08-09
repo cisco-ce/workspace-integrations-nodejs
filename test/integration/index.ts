@@ -13,7 +13,7 @@
  * `ts-node test/integration`
  */
 import { connect } from '../../src';
-import { IntegrationConfig, Integration } from '../../src/types';
+import { IntegrationConfig, Integration, Device } from '../../src/types';
 import { sleep } from '../../src/util';
 
 require('dotenv').config({ path: __dirname + '/.env' });
@@ -44,7 +44,7 @@ async function orgHasDevices(int: Integration) {
 }
 
 async function orgHasTestDevice(int: Integration) {
-  const list = await int.devices.getDevices({ tag: testTag });
+  const list = await int.devices.getDevices({ tag: testTag, connectionStatus: 'connected' });
   assert(list.length, 'Org has test device');
   return list[0];
 }
@@ -56,7 +56,7 @@ async function canGetAppInfo(int: Integration) {
 }
 
 async function deviceCanAdjustVolumeAndReadIt(int: Integration) {
-  const device = await orgHasTestDevice(int);
+  const device = await orgHasTestDevice(int) as Device;
   const original = (await int.xapi.status.get(device.id, 'Audio.Volume')) as number;
   await int.xapi.command(device.id, 'Audio.Volume.Set', { Level: 33 });
   const check = (await int.xapi.status.get(device.id, 'Audio.Volume')) as number;
@@ -65,7 +65,7 @@ async function deviceCanAdjustVolumeAndReadIt(int: Integration) {
 }
 
 async function deviceCanAdjustDefaultVolumeAndReadIt(int: Integration) {
-  const device = await orgHasTestDevice(int);
+  const device = await orgHasTestDevice(int) as Device;
   const original = (await int.xapi.config.get(device.id, 'Audio.DefaultVolume')) as number;
   await int.xapi.config.set(device.id, 'Audio.DefaultVolume', 33);
   const custom = (await int.xapi.config.get(device.id, 'Audio.DefaultVolume')) as number;
@@ -74,7 +74,7 @@ async function deviceCanAdjustDefaultVolumeAndReadIt(int: Integration) {
 }
 
 async function canReceiveEvents(int: Integration) {
-  const device = await orgHasTestDevice(int);
+  const device = await orgHasTestDevice(int) as Device;
   let event: any;
   int.xapi.event.on('UserInterface.Message.Prompt.Response', (_, __, _event) => {
     event = _event;
@@ -95,7 +95,7 @@ async function canReceiveEvents(int: Integration) {
 }
 
 async function getsStandbyNotifications(int: Integration) {
-  const device = await orgHasTestDevice(int);
+  const device = await orgHasTestDevice(int) as Device;
   await int.xapi.command(device.id, 'Standby.Deactivate');
   await sleep(2000);
   let lastState;
@@ -110,7 +110,7 @@ async function getsStandbyNotifications(int: Integration) {
 }
 
 async function errorOnInvalidXapis(int: Integration) {
-  const device = await orgHasTestDevice(int);
+  const device = await orgHasTestDevice(int) as Device;
   let thrown = true;
   try {
     await int.xapi.command(device.id, 'Self.Destruct');
@@ -141,7 +141,7 @@ async function errorOnInvalidXapis(int: Integration) {
 }
 
 async function canRefreshToken(int: Integration) {
-  const device = await orgHasTestDevice(int);
+  const device = await orgHasTestDevice(int) as Device;
   await int.xapi.status.get(device.id, 'Audio.Volume');
   await int.refreshToken();
   await int.xapi.status.get(device.id, 'Audio.Volume');
