@@ -153,10 +153,16 @@ async function canUseCustomApis(int: Integration) {
 }
 
 async function run() {
+  const {CLIENT_ID, CLIENT_SECRET, OAUTH_URL, REFRESH_TOKEN, WEBEXAPIS_BASE_URL, APP_URL } = process.env;
   const config = {
-    clientId: process.env.CLIENT_ID,
-    clientSecret: process.env.CLIENT_SECRET,
-    activationCode: process.env.ACTIVATION_CODE,
+    clientId: CLIENT_ID,
+    clientSecret: CLIENT_SECRET,
+    activationCode: {
+      oauthUrl: OAUTH_URL,
+      refreshToken: REFRESH_TOKEN,
+      webexapisBaseUrl: WEBEXAPIS_BASE_URL,
+      appUrl: APP_URL,
+    },
     notifications: 'longpolling',
   };
 

@@ -43,8 +43,14 @@ export type LogLevel = 'error' | 'warn' | 'info' | 'verbose';
 export interface IntegrationConfig {
   clientId: string;
   clientSecret: string;
-  /** Base64 encoded, as copied from Control Hub when activated. */
-  activationCode: string;
+
+  /* You find these configs by decoding the activation code you get from Control Hub */
+  activationCode: {
+    oauthUrl: string,
+    refreshToken: string,
+    webexapisBaseUrl: string,
+    appUrl: string,
+  }
 
   /**
    * How you want your integration to receive device notifications such as events

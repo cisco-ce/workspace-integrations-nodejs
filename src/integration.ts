@@ -1,5 +1,5 @@
 import { Integration, ErrorHandler, Devices, IntegrationConfig, DataObject, Workspaces, AppInfo } from './types';
-import { parseJwt, sleep } from './util';
+import { sleep } from './util';
 import Http from './http';
 import DevicesImpl from './apis/devices';
 import WorkspacesImpl from './apis/workspaces';
@@ -12,7 +12,7 @@ function validateConfig(config: IntegrationConfig) {
     throw new TypeError('Missing clientId, clientSecret or activationCode in config');
   }
 
-  const jwt = parseJwt(config.activationCode);
+  const jwt = config.activationCode;
   if (!jwt.oauthUrl || !jwt.webexapisBaseUrl) {
     throw new TypeError(
       'activationCode does not containt the expected data. Please provide it exactly as you copy it when activating it on Control Hub.',
@@ -83,10 +83,9 @@ class IntegrationImpl implements Integration {
 
   static async connect(options: IntegrationConfig) {
     validateConfig(options);
-    const { clientId, clientSecret, notifications, webhook, actionsUrl } = options;
+    const { clientId, clientSecret, notifications, webhook, actionsUrl, activationCode } = options;
 
-    const jwt = parseJwt(options.activationCode);
-    const { oauthUrl, refreshToken, appUrl } = jwt;
+    const { oauthUrl, refreshToken, appUrl } = activationCode;
 
     const tokenData = await Http.createAccessToken({ clientId, clientSecret, oauthUrl, refreshToken });
     log.info('Got initial access token');
@@ -103,7 +102,7 @@ class IntegrationImpl implements Integration {
     const { access_token, expires_in } = tokenData;
     const oauth = { clientId, clientSecret, oauthUrl, refreshToken };
 
-    const integration = new IntegrationImpl(appInfo, access_token, jwt, oauth);
+    const integration = new IntegrationImpl(appInfo, access_token, activationCode, oauth);
 
     // TODO move to constructor
     if (notifications === 'longpolling') {

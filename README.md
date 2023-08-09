@@ -48,7 +48,12 @@ const { connect } = require('workspace-integrations');
 const config = {
   clientId: "C12ba...",
   clientSecret: "fdbcd00...",
-  activationCode: "eyJraWQiOiJQSnM..."
+  activationCode: {
+    oauthUrl: '...',
+    refreshToken: '...',
+    webexapisBaseUrl: '...',
+    appUrl: '...',
+  },
   notifications: 'longpolling',
 };
 
