@@ -57,6 +57,7 @@ async function canGetAppInfo(int: Integration) {
 
 async function deviceCanAdjustVolumeAndReadIt(int: Integration) {
   const device = await orgHasTestDevice(int) as Device;
+  console.log('Using device:', device.displayName, device.product, device.connectionStatus, device.upgradeChannel, device.primarySipUrl);
   const original = (await int.xapi.status.get(device.id, 'Audio.Volume')) as number;
   await int.xapi.command(device.id, 'Audio.Volume.Set', { Level: 33 });
   const check = (await int.xapi.status.get(device.id, 'Audio.Volume')) as number;
