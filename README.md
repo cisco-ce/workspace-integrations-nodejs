@@ -37,14 +37,43 @@ Install as any npm package:
 npm install --save workspace-integrations
 ```
 
-## Getting started
+## Prelude: Adding and activating an integration
 
-Show a message on the device screen each time the people count changes:
+Before you are able to run an integration towards Webex, you will need to add and activate it in Control Hub. The basic steps of this is:
+
+* Add integration
+* Copy and save the app id and app secret
+* Activate the integration
+* Copy and save the activation code (JSON Web Token)
+
+Once you have the activation code, you can use this SDK to decode and verify it. Decoding is necessary to get the last configs (refresh tokens, app urls etc), and verifying is recommended for security reasons:
+
+cd to the folder where you installed the workspace-integrations sdk, and do:
+
+```
+jwt-decode <activation-code>
+```
+
+You should now get back something like:
+
+```
+🎉 JWT Successfully verified. Copy and paste the data below for connecting your integration:
+
+{
+  "oauthUrl": "https://webexapis.com/v1/access_token",
+  "appUrl": "https://xapi-a.wbx2.com/xapi/api/organizations/4590eb6a...",
+  "webexapisBaseUrl": "https://webexapis.com/v1",
+  "refreshToken": "NmRlOGIw..."
+}
+```
+
+NOTE: **jwt-decode** is just a command-line tool that the SDK provides for your convenience. IF you want, you can decode and validate
+the JWT yourself, eg on [https://jwt.io](https://jwt.io).
+
+Now you need to combine the data you've copied to a config that looks like this, for connecting the
+integration:
 
 ```js
-const { connect } = require('workspace-integrations');
-
-// You get this when you deploy and activate the integration on ControlHub > Workspaces > Integrations
 const config = {
   clientId: "C12ba...",
   clientSecret: "fdbcd00...",
@@ -55,6 +84,19 @@ const config = {
     appUrl: '...',
   },
   notifications: 'longpolling',
+};
+```
+
+## Getting started
+
+Show a message on the device screen each time the people count changes:
+
+```js
+const { connect } = require('workspace-integrations');
+
+// See above on how to find these values:
+const config = {
+  clientId: "C12ba...",
 };
 
 async function init() {
@@ -281,6 +323,28 @@ connect(config)
 
 The SDK has TypeScript definitions and should work out of the box. If you are using vanilla JS and not TypeScript, you should still be able to get auto completions in Visual Studio Code or any other editors that support the `.d.ts` type definitions.
 
+<!--
+## Integration lifecycle
+
+During the lifetime of an integration, there may be general changes that your integration needs to know about, such as:
+
+* A manifest update has been approved (eg giving the integration access to more APIs)
+* The integration is deactivated
+* The *appUrl* or *region* changes (typically when a customer is moved to a different region)
+
+For details about these events, see https://developer.webex.com/docs/workspace-integration-technical-details#management.
+
+If your integration is using web hooks, these notifications are sent sent to the **actionUrl**. If you are using long polling,
+you can subscribe to these events with the action listener:
+
+```js
+integration.onActionEvent(event => {
+  console.log('a lifecycle event occured:', event);
+});
+```
+
+It is up to your integration how to respond to these events. If it is a private integration, perhaps you just want to log it or alert the admin and restart (and possibly re-activate) your integration manually. If it's a public integration with strong uptime requirements, you  may need to react to this changes live and update your apps credentials.
+-->
 
 ## Custom Webex API calls
 
