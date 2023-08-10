@@ -21,3 +21,11 @@ CLIENT_ID=<..> CLIENT_SECRET=<..> ACTIVATION_CODE=<..> node ./index.js
 ```
 
 Your integration should now start up and show a 'Hello World' message on the screen of the device you tagged.
+
+## Running from within this library
+
+If you want to run this sample from within the library (typically if you are a developer on the SDK), you first need to do:
+```
+npx install-self
+```
+This will make `require 'workspace-integrations'` work also from within the library itself.

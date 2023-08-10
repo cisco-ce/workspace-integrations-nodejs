@@ -1,10 +1,16 @@
 require('dotenv').config({ path: __dirname + '/.env' });
 const { connect } = require('workspace-integrations');
 
+const { env } = process;
 const config = {
-  clientId: process.env.CLIENT_ID,
-  clientSecret: process.env.CLIENT_SECRET,
-  activationCode: process.env.ACTIVATION_CODE,
+  clientId: env.CLIENT_ID,
+  clientSecret: env.CLIENT_SECRET,
+  activationCode: {
+    oauthUrl: env.OAUTH_URL,
+    refreshToken: env.REFRESH_TOKEN,
+    webexapisBaseUrl: env.WEBEXAPIS_BASE_URL,
+    appUrl: env.APP_URL,
+  },
   notifications: 'longpolling',
   logLevel: 'info',
 };

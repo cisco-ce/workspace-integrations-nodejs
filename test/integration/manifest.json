@@ -1,10 +1,10 @@
 {
   "id": "b743980a-a072-4179-b57b-91b9292543ac",
-  "manifestVersion": "33",
-  "displayName": "Hello World",
+  "manifestVersion": 35,
+  "displayName": "Workspace Integrations Automatic SDK test",
   "vendor": "Webex Labs",
   "email": "workspace-integrations-feedback@cisco.com",
-  "description": "Hello World example for workspace integrations SDK",
+  "description": "Used for testing workspace integration node SDK. Runs only for a few devices (location based). Contact: Tore Bjolseth (tbjolset@cisco.com)",
   "descriptionUrl": "",
   "availability": "org_private",
   "tocUrl": "",
@@ -74,6 +74,10 @@
       },
       {
         "path": "UserInterface.Message.Prompt.Response",
+        "access": "required"
+      },
+      {
+        "path": "UserInterface.Message.Alert.Clear",
         "access": "required"
       }
     ],
