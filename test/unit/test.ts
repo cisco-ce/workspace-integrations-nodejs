@@ -54,6 +54,8 @@ describe('Connecting integration', () => {
     }
     // expected, since connect will fail when not getting an access key
     catch {}
+    console.log('ACTUAL', lastHttpCall);
+    console.log('EXPECTED', testdata.http.createAccessToken)
     expect(lastHttpCall).toEqual(testdata.http.createAccessToken);
   });
 

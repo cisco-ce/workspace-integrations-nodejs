@@ -2,12 +2,17 @@
   "config": {
     "clientId": "000000000",
     "clientSecret": "11111111111",
-    "activationCode": "eyJraWQiOiJQSnM0QldBb3pBbjduZWY0MUdsV0FDRVYiLCJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJzdWIiOiJZMmx6WTI5emNHRnlhem92TDNWeWJqcFVSVUZOT25WekxXVmhjM1F0TWw5aEwwOVNSMEZPU1ZwQlZFbFBUaTgwTlRrd1pXSTJZUzB5WTJFeUxUUXpPVFF0WW1NeU55MDVZalkzTVdObE1tWmxOek09Iiwib2F1dGhVcmwiOiJodHRwczovL3dlYmV4YXBpcy5jb20vdjEvYWNjZXNzX3Rva2VuIiwib3JnTmFtZSI6IkNWVEcgbGFicyIsImFwcFVybCI6Imh0dHBzOi8veGFwaS1hLndieDIuY29tL3hhcGkvYXBpL29yZ2FuaXphdGlvbnMvNDU5MGViNmEtMmNhMi00Mzk0LWJjMjctOWI2NzFjZTJmZTczL2FwcHMvYjc0Mzk4MGEtYTA3Mi00MTc5LWI1N2ItOTFiOTI5MjU0M2FjIiwibWFuaWZlc3RVcmwiOiJodHRwczovL3hhcGktYS53YngyLmNvbS94YXBpL2FwaS9vcmdhbml6YXRpb25zLzQ1OTBlYjZhLTJjYTItNDM5NC1iYzI3LTliNjcxY2UyZmU3My9hcHBNYW5pZmVzdHMvYjc0Mzk4MGEtYTA3Mi00MTc5LWI1N2ItOTFiOTI5MjU0M2FjIiwiYXBwSWQiOiJiNzQzOTgwYS1hMDcyLTQxNzktYjU3Yi05MWI5MjkyNTQzYWMiLCJleHBpcnlUaW1lIjoiMjAyMy0wNC0yOFQxMTo0MzowOS40OTg1MDJaIiwiYWN0aW9uIjoicHJvdmlzaW9uIiwid2ViZXhhcGlzQmFzZVVybCI6Imh0dHBzOi8vd2ViZXhhcGlzLmNvbS92MSIsInNjb3BlcyI6InNwYXJrLWFkbWluOmRldmljZXNfcmVhZCxzcGFyazp4YXBpX3N0YXR1c2VzLHNwYXJrLWFkbWluOndvcmtzcGFjZXNfcmVhZCxzcGFyazp4YXBpX2NvbW1hbmRzIiwicmVnaW9uIjoidXMtZWFzdC0yX2EiLCJpYXQiOjE2ODI1OTU3ODksImp0aSI6IkZtVmdBLVF5VGNldE0xNXAzSU1DbkE9PSIsInJlZnJlc2hUb2tlbiI6IlhYWCIsInhhcGlBY2Nlc3MiOiJ7XCJjb21tYW5kc1wiOltcIlVzZXJJbnRlcmZhY2UuTWVzc2FnZS5BbGVydC5EaXNwbGF5XCJdLFwic3RhdHVzZXNcIjpbXCJSb29tQW5hbHl0aWNzLlBlb3BsZUNvdW50LkN1cnJlbnRcIl0sXCJldmVudHNcIjpbXX0ifQ==._1Kyzx6zZENqxnH09HoIs4aUXKI634xbUeEp-6NgXAZzZiUHjOklBjt-GTdVwj378Qi_wFgrAVl3Spj6n6fFdg",
+    "activationCode": {
+      "oauthUrl": "https://acme.com/oauth",
+      "refreshToken": "XXX",
+      "webexapisBaseUrl": "https://acme.com/apis",
+      "appUrl": "https://acme.com/app"
+    },
     "notifications": "none"
   },
   "http": {
     "createAccessToken": {
-      "url": "https://webexapis.com/v1/access_token",
+      "url": "https://acme.com/oauth",
       "options": {
         "headers": {
           "Content-Type": "application/json"
