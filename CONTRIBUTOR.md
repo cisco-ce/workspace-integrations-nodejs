@@ -2,9 +2,14 @@
 
 This article is written for developers that want to contribute to the development of the SDK itself.
 
-## Testing your changes locally
+A few general notes to remember:
 
-Make sure you run `npm run lint` and `npm run test` first.
+* Run `npm run build` after doing changes in `.ts` files for the changes to take effect, if you are running samples to test.
+* Run `npm test` and `npm lint` before pushing changes.
+* Do `npm run doc` to update auto-generated docs.
+* Do `git push` as when publishing a new version to npm, so GitHub and npmjs.com are in sync.
+
+## Testing your changes locally
 
 To test your changes locally before publishing, it's recommended to:
 
@@ -22,14 +27,14 @@ Once you have finished your changes, tested it and also run the integration test
 * **Minor** - Compatible new features -	Increment the middle digit and reset last digit to zero	1.1.0
 * **Major** - Changes that break backward compatibility	- Increment the first digit and reset middle and last digits to zero	2.0.0
 
-From command line do either `npm version major`, `npm version minor` or `npm version patch`, depending on your changes. Follow the instructions to log in. Then, to finally push the changes to npmjs.com, type `npm publish`.
+From command line do either `npm version major`, `npm version minor` or `npm version patch`, depending on your changes. Then, to finally push the changes to npmjs.com, type `npm publish`. Follow the instructions to log in.
 
 Your updates should now be available to external users. Head over to [npmjs.com](https://www.npmjs.com/package/workspace-integrations) and verify that it reflects the newer version.
 
 ## Running the samples
 
 The samples in the `samples/`` folder are written in such a way that users can copy/paste them from external npm packages.
-This means that the SDK there needs to be required the normal way:
+This means that the SDK there needs to be imported the normal way:
 
 ```
 const integration = require('workspace-integrations);
@@ -47,6 +52,7 @@ This will create a reference in `node_modules`, making it possible to simply run
 node samples/helloworld
 ```
 
+You will need to do this again every time you've done stuff that updates `package.json`, such as `npm install -S xxx`.
+
 Remember that you also need to provide the deployment config.
 
-Also, remember to run `npm run build` after doing changes in `.ts` files for the changes to take effect in the samples.
