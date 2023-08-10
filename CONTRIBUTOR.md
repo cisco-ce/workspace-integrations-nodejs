@@ -4,11 +4,13 @@ This article is written for developers that want to contribute to the developmen
 
 ## Testing your changes locally
 
+Make sure you run `npm run lint` and `npm run test` first.
+
 To test your changes locally before publishing, it's recommended to:
 
-* Create a local NPM dummy app that uses your changes
-* In the SDK lib, type `npm link`
-* In the dummy app, type `npm link workspace-integrations` to use your local version of the SDK instead of the official one
+* Create a local NPM dummy app that uses the SDK and specifically your changes
+* In the SDK lib folder, type `npm link`
+* In the dummy app folder, type `npm link workspace-integrations` to install your local version of the SDK
 
 When you are done, you can type `npm unlink` to tidy up.
 
@@ -20,7 +22,7 @@ Once you have finished your changes, tested it and also run the integration test
 * **Minor** - Compatible new features -	Increment the middle digit and reset last digit to zero	1.1.0
 * **Major** - Changes that break backward compatibility	- Increment the first digit and reset middle and last digits to zero	2.0.0
 
-From command line do either `npm major`, `npm minor` or `npm patch`, depending on your changes. Follow the instructions to log in. Then, to finally push the changes to npmjs.com, type `npm publish`.
+From command line do either `npm version major`, `npm version minor` or `npm version patch`, depending on your changes. Follow the instructions to log in. Then, to finally push the changes to npmjs.com, type `npm publish`.
 
 Your updates should now be available to external users. Head over to [npmjs.com](https://www.npmjs.com/package/workspace-integrations) and verify that it reflects the newer version.
 

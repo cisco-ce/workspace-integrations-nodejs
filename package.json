@@ -1,6 +1,6 @@
 {
   "name": "workspace-integrations",
-  "version": "0.5.3",
+  "version": "0.6.0",
   "description": "Webex Workspace Integrations NodeJS SDK",
   "author": "Tore Bjolseth <Cisco>",
   "license": "ISC",
