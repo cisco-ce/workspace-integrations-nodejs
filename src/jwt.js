@@ -32,9 +32,10 @@ async function validate(jwtToken) {
 
 async function decodeAndVerify(jwtToken) {
   try {
-    return validate(jwtToken);
+    return await validate(jwtToken);
   }
   catch(e) {
+    console.log(e.message);
     return false;
   }
 }
