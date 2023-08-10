@@ -70,7 +70,12 @@ describe('Connecting integration', () => {
     const invalidConfig = {
       clientId: '',
       clientSecret: '',
-      activationCode: '',
+      activationCode: {
+        oauthUrl: '',
+        refreshToken: '',
+        appUrl: '',
+        webexapisBaseUrl: '',
+      },
       notifications: 'none' as 'none',
     };
     const emptyConfig = {} as IntegrationConfig;
