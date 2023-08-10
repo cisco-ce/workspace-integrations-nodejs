@@ -25,7 +25,7 @@ as well as the JSON Web Token (activationCode) which you get when you activate i
 <ul class="tsd-hierarchy">
 <li><span class="target">IntegrationConfig</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations-nodejs/blob/79db82f/src/types.ts#L43">types.ts:43</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations-nodejs/blob/da2d145/src/types.ts#L43">types.ts:43</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -49,31 +49,40 @@ as well as the JSON Web Token (activationCode) which you get when you activate i
 <div class="tsd-comment tsd-typography"><p>Public URL endpoint to send signed JWT actions, such as health check, app update, deactivation etc</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations-nodejs/blob/79db82f/src/types.ts#L66">types.ts:66</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations-nodejs/blob/da2d145/src/types.ts#L72">types.ts:72</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="activationCode" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>activation<wbr/>Code</span><a href="#activationCode" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
-<div class="tsd-signature"><span class="tsd-kind-property">activation<wbr/>Code</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-<div class="tsd-comment tsd-typography"><p>Base64 encoded, as copied from Control Hub when activated.</p>
-</div><aside class="tsd-sources">
+<div class="tsd-signature"><span class="tsd-kind-property">activation<wbr/>Code</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span><br/><span>    </span><span class="tsd-kind-property">appUrl</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">oauthUrl</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">refreshToken</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">webexapisBaseUrl</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span><br/><span class="tsd-signature-symbol">}</span></div>
+<div class="tsd-type-declaration">
+<h4>Type declaration</h4>
+<ul class="tsd-parameters">
+<li class="tsd-parameter">
+<h5><span class="tsd-kind-property">app<wbr/>Url</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5></li>
+<li class="tsd-parameter">
+<h5><span class="tsd-kind-property">oauth<wbr/>Url</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5></li>
+<li class="tsd-parameter">
+<h5><span class="tsd-kind-property">refresh<wbr/>Token</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5></li>
+<li class="tsd-parameter">
+<h5><span class="tsd-kind-property">webexapis<wbr/>Base<wbr/>Url</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5></li></ul></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations-nodejs/blob/79db82f/src/types.ts#L47">types.ts:47</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations-nodejs/blob/da2d145/src/types.ts#L48">types.ts:48</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="clientId" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>client<wbr/>Id</span><a href="#clientId" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">client<wbr/>Id</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations-nodejs/blob/79db82f/src/types.ts#L44">types.ts:44</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations-nodejs/blob/da2d145/src/types.ts#L44">types.ts:44</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="clientSecret" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>client<wbr/>Secret</span><a href="#clientSecret" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">client<wbr/>Secret</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations-nodejs/blob/79db82f/src/types.ts#L45">types.ts:45</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations-nodejs/blob/da2d145/src/types.ts#L45">types.ts:45</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="logLevel" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>log<wbr/>Level</span><a href="#logLevel" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">log<wbr/>Level</span><span class="tsd-signature-symbol">?:</span> <a href="../types/LogLevel.html" class="tsd-signature-type tsd-kind-type-alias">LogLevel</a></div>
 <div class="tsd-comment tsd-typography"><p>Which info to show from the SDK. Default is error only.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations-nodejs/blob/79db82f/src/types.ts#L71">types.ts:71</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations-nodejs/blob/da2d145/src/types.ts#L77">types.ts:77</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="notifications" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>notifications</span><a href="#notifications" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">notifications</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;none&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;webhook&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;longpolling&quot;</span></div>
@@ -87,14 +96,14 @@ to get notifications.</li>
 </ul>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations-nodejs/blob/79db82f/src/types.ts#L58">types.ts:58</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations-nodejs/blob/da2d145/src/types.ts#L64">types.ts:64</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="webhook" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>webhook</span><a href="#webhook" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">webhook</span><span class="tsd-signature-symbol">?:</span> <a href="Webhook.html" class="tsd-signature-type tsd-kind-interface">Webhook</a></div>
 <div class="tsd-comment tsd-typography"><p>Required if you set <a href="IntegrationConfig.html#notifications" class="tsd-kind-property">notifications</a> to <code>webhook</code>.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations-nodejs/blob/79db82f/src/types.ts#L61">types.ts:61</a></li></ul></aside></section></section></div>
+<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations-nodejs/blob/da2d145/src/types.ts#L67">types.ts:67</a></li></ul></aside></section></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
