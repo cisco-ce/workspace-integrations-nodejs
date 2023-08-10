@@ -39,6 +39,8 @@
   },
   "dependencies": {
     "dotenv": "^16.0.3",
+    "jsonwebtoken": "^9.0.1",
+    "jwks-rsa": "^3.0.1",
     "node-fetch": "^2.6.7",
     "npmlog": "^7.0.1",
     "url-join-ts": "^1.0.5"
