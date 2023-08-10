@@ -302,6 +302,7 @@ export interface Device {
   displayName: string;
   workspaceId: string;
   workspaceLocationId: string;
+  placeId: string;
   orgId: string;
   product: string;
   /**
@@ -318,11 +319,17 @@ export interface Device {
   /** Network connectivity type (LAN, wifi, ...) */
   activeInterface: string;
   primarySipUrl: string;
+  sipUrls: string[];
   errorCodes: string[];
   serial: string;
   software: string;
   upgradeChannel: string;
   connectionStatus: 'connected' | 'disconnected' | 'connected_with_issues' | string;
+  created: string;
+  firstSeen: string;
+  lastSeen: string;
+  capabilities: string[];
+  permissions: string[];
 }
 
 export interface Devices {
