@@ -46,7 +46,10 @@ Before you are able to run an integration towards Webex, you will need to add an
 * Activate the integration
 * Copy and save the activation code (JSON Web Token)
 
-Once you have the activation code, you can use this SDK to decode and verify it. Decoding is necessary to get the last configs (refresh tokens, app urls etc), and verifying is recommended for security reasons:
+Once you have the activation code, you can use this SDK to decode and verify it. Decoding is necessary to get the last configs (refresh tokens, app urls etc), and verifying is recommended for security reasons.
+
+**jwt-decode** is just a command-line tool that the SDK provides for your convenience. IF you want, you can decode and validate
+the JWT yourself, eg on [https://jwt.io](https://jwt.io).
 
 cd to the folder where you installed the workspace-integrations sdk, and do:
 
@@ -67,8 +70,7 @@ You should now get back something like:
 }
 ```
 
-NOTE: **jwt-decode** is just a command-line tool that the SDK provides for your convenience. IF you want, you can decode and validate
-the JWT yourself, eg on [https://jwt.io](https://jwt.io).
+You can just type `jwt-decode` to get help and more output options.
 
 Now you need to combine the data you've copied to a config that looks like this, for connecting the
 integration:
@@ -378,6 +380,10 @@ Please be aware of the following limitations:
 * On personal devices, you cannot use APIs that are listed as privacy impacting (see roomos.cisco.com/xapi to verify the APIs).
 
 * If your integration has been allowed for only certain locations, you will still be able to list all the devices in the org and manipulate configs, but only invoke commands and statuses for the device in the allowed locations. Other devices will return 403 Forbidden.
+
+## Contributing to the SDK
+
+This SDK is an open source project and contributions are of course welcome! See [the contributor article](./CONTRIBUTOR.md) for more info.
 
 ## Useful resources
 
