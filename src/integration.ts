@@ -1,4 +1,4 @@
-import { Integration, ErrorHandler, Devices, IntegrationConfig, DataObject, Workspaces, AppInfo } from './types';
+import { Integration, ActionHandler, ErrorHandler, Devices, IntegrationConfig, DataObject, Workspaces, AppInfo } from './types';
 import { sleep } from './util';
 import Http from './http';
 import DevicesImpl from './apis/devices';
@@ -32,6 +32,7 @@ class IntegrationImpl implements Integration {
   public workspaces: Workspaces;
   public xapi: XapiImpl;
 
+  private actionHandler: ActionHandler | null = null;
   private errorHandler: ErrorHandler | null = null;
   private appInfo: AppInfo;
   private oauth: OAuthDetails;
@@ -47,6 +48,10 @@ class IntegrationImpl implements Integration {
 
   onError(handler: ErrorHandler) {
     this.errorHandler = handler;
+  }
+
+  onAction(handler: ActionHandler) {
+    this.actionHandler = handler;
   }
 
   getAppInfo() {
@@ -78,7 +83,14 @@ class IntegrationImpl implements Integration {
 
   processNotifications(notifications: DataObject[]) {
     log.verbose(`Got ${notifications.length} notifications`);
-    notifications.forEach((not) => this.xapi.processNotification(not));
+    notifications.forEach((n) => {
+      if (n.action && this.actionHandler) {
+        this.actionHandler(n);
+      }
+      else {
+        this.xapi.processNotification(n);
+      }
+    });
   }
 
   static async connect(options: IntegrationConfig) {
@@ -97,7 +109,7 @@ class IntegrationImpl implements Integration {
       webhook,
       actionsUrl,
     });
-    log.info('Successfully initated integration');
+    log.info('Successfully initiated integration');
 
     const { access_token, expires_in } = tokenData;
     const oauth = { clientId, clientSecret, oauthUrl, refreshToken };
