@@ -20,7 +20,7 @@
     "url": "https://github.com/cisco-ce/workspace-integrations-nodejs"
   },
   "bin": {
-    "jwt-decode": "./src/cli.js"
+    "jwt-decode": "./lib/cli.js"
   },
   "files": [
     "lib/**/*"

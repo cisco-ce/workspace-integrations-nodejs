@@ -6,6 +6,7 @@ import WorkspacesImpl from './apis/workspaces';
 import XapiImpl from './apis/xapi';
 import { OAuthDetails } from './http';
 import log from './logger';
+import { decodeAndVerify } from './jwt';
 
 function validateConfig(config: IntegrationConfig) {
   if (!config.clientId || !config.clientSecret || !config.activationCode) {
@@ -61,6 +62,10 @@ class IntegrationImpl implements Integration {
 
   ping() {
     return this.http.ping(this.appUrl);
+  }
+
+  decodeJwt(jwt: string): DataObject {
+    return decodeAndVerify(jwt);
   }
 
   async pollData() {

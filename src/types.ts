@@ -250,6 +250,14 @@ export interface Integration {
   refreshToken(): void;
   webexApi(partialUrl: string, method?: string, body?: any, contentType?: string): Promise<any>;
 
+  /**
+   * Helper function for decoding a JSON Web Token.
+   * Throws error if not valid.
+   *
+   * @param jwt B64-encoded JWT string, as received from Webex
+   */
+  decodeJwt(jwt: string): DataObject;
+
   devices: Devices;
   workspaces: Workspaces;
   xapi: XAPI;
