@@ -234,6 +234,13 @@ export interface Integration {
   onError(handler: ErrorHandler): any;
 
   /**
+   * Checks the state of the integration. Checks that it's able to talk to Webex,
+   * implying that the access token is valid etc.
+   * @returns Promise containing the http response from Webex
+   */
+  ping(): Promise<any>;
+
+  /**
    * Takes a list of events from Webex and checks if you have event listeners registered that
    * match the incoming notification, and if so deliver it.
    *

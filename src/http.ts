@@ -105,6 +105,11 @@ class HttpImpl implements Http {
     return urlJoin(this.baseUrl, partialUrl);
   }
 
+  ping(appUrl: string) {
+    return get(this.accessToken, appUrl);
+  }
+
+
   static createAccessToken(oauth: OAuthDetails) {
     const { clientId, clientSecret, oauthUrl, refreshToken } = oauth;
     const headers = {

@@ -35,6 +35,7 @@ class IntegrationImpl implements Integration {
   private errorHandler: ErrorHandler | null = null;
   private appInfo: AppInfo;
   private oauth: OAuthDetails;
+  private appUrl: string;
 
   constructor(appInfo: AppInfo, accessToken: string, activationCode: DataObject, oauth: OAuthDetails) {
     this.appInfo = appInfo;
@@ -43,6 +44,7 @@ class IntegrationImpl implements Integration {
     this.workspaces = new WorkspacesImpl(this.http);
     this.xapi = new XapiImpl(this.http);
     this.oauth = oauth;
+    this.appUrl = activationCode.appUrl;
   }
 
   onError(handler: ErrorHandler) {
@@ -55,6 +57,10 @@ class IntegrationImpl implements Integration {
 
   webexApi(partialUrl: string, method?: string, body?: any, contentType?: string): Promise<any> {
     return this.http.webexApi(partialUrl, method, body, contentType);
+  }
+
+  ping() {
+    return this.http.ping(this.appUrl);
   }
 
   async pollData() {
