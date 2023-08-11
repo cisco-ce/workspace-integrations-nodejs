@@ -226,6 +226,7 @@ export interface Config {
  */
 export interface Integration {
   getAppInfo(): AppInfo;
+
   /**
    * Sets an error handler on the integration, so you are notified when something goes wrong.
    * This will typically be called if the SDK is not able to refresh the access token
@@ -239,6 +240,12 @@ export interface Integration {
    * @returns Promise containing the http response from Webex
    */
   ping(): Promise<any>;
+
+  /**
+   * Sets an action handler, so you are notified when there are important
+   * action notifications such as if the integration manifest was updated.
+   */
+  onAction(handler: ActionHandler): any;
 
   /**
    * Takes a list of events from Webex and checks if you have event listeners registered that
@@ -353,6 +360,8 @@ export interface Devices {
 }
 
 export type ErrorHandler = (error: string) => any;
+
+export type ActionHandler = (action: DataObject) => any;
 
 /**
  * Info about your integration. Contains much of the information provided by the manifest.

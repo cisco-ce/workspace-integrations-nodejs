@@ -12,6 +12,8 @@ const keyUrls: {[index: string]: string}  = {
   'us-gov-west-1_a1': 'https://xapi.gov.ciscospark.com/jwks',
 };
 
+const defaultRegion = 'us-east-2_a';
+
 async function getKey(jwksUri: string, kid: string) {
   const client = new JwksClient({
     jwksUri,
@@ -25,16 +27,17 @@ async function getKey(jwksUri: string, kid: string) {
 async function validate(jwtToken: string) {
   const decoded = decode(jwtToken, { complete: true });
   if (!decoded) {
-    throw new Error('Not able to decode jwtToken');
+    throw new Error('Not able to decode JWT');
   }
   const { header, payload } = decoded;
-  if (typeof payload !== 'object' || typeof header === 'object') {
-    throw new Error('Unexpected Jwt result');
+  if (typeof payload !== 'object' || typeof header !== 'object') {
+    throw new Error('Not able to decode JWT');
   }
   const { kid } = header;
   const { region } = payload;
-  const keyUrl = keyUrls[region];
-  if (kid) {
+
+  const keyUrl = keyUrls[region || defaultRegion];
+  if (!kid) {
     throw new Error('Not able to find kid');
   }
 
@@ -48,6 +51,7 @@ export async function decodeAndVerify(jwtToken: string) {
     return await validate(jwtToken);
   }
   catch(e) {
+    // console.log(e);
     console.log(e instanceof Error ? e.message : e);
     return false;
   }
