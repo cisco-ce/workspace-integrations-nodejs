@@ -31,6 +31,14 @@ From command line do either `npm version major`, `npm version minor` or `npm ver
 
 Your updates should now be available to external users. Head over to [npmjs.com](https://www.npmjs.com/package/workspace-integrations) and verify that it reflects the newer version.
 
+## Integration test
+
+The SDK includes an integration test that tests some very basic functionality. This requires an integration to be added to an org,
+and at least one connected device in that org contains a `wi-demo` tag.
+
+To run it, create an integration in an org with the manifest in the integration test folder, add the tag to a device and run
+`npm run integration-test`.
+
 ## Running the samples
 
 The samples in the `samples/`` folder are written in such a way that users can copy/paste them from external npm packages.
