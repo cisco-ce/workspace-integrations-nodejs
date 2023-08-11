@@ -28,6 +28,7 @@ async function start(creds) {
     integration = await connect(creds);
     integration.onError(console.error);
     console.log('connected!');
+    integration.onAction(action => console.log('🔥 App update:', action));
     // console.log('connected!', await integration.getAppInfo());
   }
   catch(e) {
