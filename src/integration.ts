@@ -108,12 +108,12 @@ class IntegrationImpl implements Integration {
     if (!this.actionHandler) return;
 
     const { jwt } = action;
-    try {
-      const res = await decodeAndVerify(jwt) as DataObject;
+    const res = await decodeAndVerify(jwt) as DataObject;
+    if (res) {
       this.actionHandler(res);
     }
-    catch(e) {
-      log.error('Not able to decode action notification');
+    else {
+      log.error('Not able to verify action message!');
     }
   }
 
