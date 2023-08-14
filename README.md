@@ -54,7 +54,7 @@ the JWT yourself, eg on [https://jwt.io](https://jwt.io).
 cd to the folder where you installed the workspace-integrations sdk, and do:
 
 ```
-jwt-decode <activation-code>
+npx jwt-decode <activation-code>
 ```
 
 You should now get back something like:
