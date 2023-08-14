@@ -34,7 +34,22 @@ async function validate(jwtToken: string) {
     throw new Error('Not able to decode JWT');
   }
   const { kid } = header;
-  const { region } = payload;
+  const { region, expiryTime, iat } = payload;
+
+  if (expiryTime) {
+    const expiry = new Date(expiryTime);
+    const now = new Date();
+    if (now.getTime() > expiry.getTime()) {
+      throw new Error('JWT expired');
+    }
+  }
+  else {
+    const fiveMinutesAgo = Date.now() - 5 * 60 * 1000;
+    const expiry = iat ? iat * 1000 : 0;
+    if (expiry < fiveMinutesAgo) {
+      throw new Error('JWT iat too old');
+    }
+  }
 
   const keyUrl = keyUrls[region || defaultRegion];
   if (!kid) {

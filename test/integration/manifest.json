@@ -1,6 +1,6 @@
 {
   "id": "b743980a-a072-4179-b57b-91b9292543ac",
-  "manifestVersion": 35,
+  "manifestVersion": 40,
   "displayName": "Workspace Integrations Automatic SDK test",
   "vendor": "Webex Labs",
   "email": "workspace-integrations-feedback@cisco.com",
@@ -74,10 +74,6 @@
       },
       {
         "path": "UserInterface.Message.Prompt.Response",
-        "access": "required"
-      },
-      {
-        "path": "UserInterface.Message.Alert.Clear",
         "access": "required"
       }
     ],
