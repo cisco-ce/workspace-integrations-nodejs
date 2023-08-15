@@ -12,6 +12,8 @@ const keyUrls: {[index: string]: string}  = {
   'us-gov-west-1_a1': 'https://xapi.gov.ciscospark.com/jwks',
 };
 
+const inMemoryJti = new Set();
+
 const defaultRegion = 'us-east-2_a';
 
 async function getKey(jwksUri: string, kid: string) {
@@ -34,7 +36,14 @@ async function validate(jwtToken: string) {
     throw new Error('Not able to decode JWT');
   }
   const { kid } = header;
-  const { region, expiryTime, iat } = payload;
+  const { region, expiryTime, iat, jti } = payload;
+
+  if (!jti || inMemoryJti.has(jti)) {
+    throw new Error('JWT jti not valid');
+  }
+  else {
+    inMemoryJti.add(jti);
+  }
 
   if (expiryTime) {
     const expiry = new Date(expiryTime);
