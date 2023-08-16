@@ -355,6 +355,23 @@ export interface Device {
 }
 
 export interface Devices {
+
+  /**
+   * Find all devices, optionally matching the filter.
+   *
+   * The filter parameters are defined on
+   * https://developer.webex.com/docs/api/v1/devices/list-devices.
+   *
+   * Example:
+   * ```js
+   * integration.devices.getDevices({ connectionStatus: 'connected', tag: 'sales-department' })
+   * ```
+   *
+   * Note that this method may also return devices that are not in the location the integration
+   * is approved for.
+   *
+   * @param filters Object containing the key/value pairs as in the Webex Devices API
+   */
   getDevices(filters?: DataObject): Promise<Device[]>;
   getDevice(deviceId: string): Promise<Device>;
 }
