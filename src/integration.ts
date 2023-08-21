@@ -16,7 +16,7 @@ function validateConfig(config: IntegrationConfig) {
   const jwt = config.activationCode;
   if (!jwt.oauthUrl || !jwt.webexapisBaseUrl) {
     throw new TypeError(
-      'activationCode does not containt the expected data. Please provide it exactly as you copy it when activating it on Control Hub.',
+      'activationCode does not contain the expected data. Please decode it and provide the required attributes as a JSON object.'
     );
   }
   const known = ['clientId', 'clientSecret', 'activationCode', 'notifications', 'logLevel', 'webhook', 'actionsUrl'];

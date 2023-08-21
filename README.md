@@ -284,11 +284,11 @@ const config = {
   activationCode: 'zzz',
   notifications: 'webhook',
   webhook: {
-    targetUrl: url + "/api/webhooks", // you can choose the route yourself
-    type: "hmac_signature",
-    secret: "somethingmorethan20chars"
+    targetUrl: `${url}/api/webhooks`, // you can choose the route yourself
+    type: 'hmac_signature',
+    secret: 'somethingmorethan20chars'
   },
-  actionsUrl: url + "/api/webexnotify", // (optional) you can choose the route yourself
+  actionsUrl: `${url}/api/webexnotify`, // you can choose the route yourself
 };
 
 let integration;
@@ -303,7 +303,7 @@ app.all('/api/webhooks', (req, res) => {
   res.send('ok');
 });
 
-app.listen(port, () => console.log('http server on port', port));
+app.listen(port, () => console.log(`http server on port ${port}`));
 
 function onConnect(_integration) {
   console.log('connected, xapi ready');
@@ -341,7 +341,7 @@ you can subscribe to these events with the action listener:
 
 ```js
 integration.onActionEvent(event => {
-  console.log('a lifecycle event occured:', event);
+  console.log('a lifecycle event occurred:', event);
 });
 ```
 
