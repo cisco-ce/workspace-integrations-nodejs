@@ -166,7 +166,7 @@ export type DataObject = Record<string, any>;
  * Note: Only a few statuses actually support notifications.
  */
 export interface Status {
-  get: (deviceId: string, path: XapiPath) => Promise<DataObject | number | string>;
+  get: (deviceId: string, path: XapiPath, allowEmpty: boolean) => Promise<DataObject | number | string>;
   on: (path: XapiPath, listener: StatusListener) => void;
 }
 

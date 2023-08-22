@@ -27,7 +27,7 @@ class XapiImpl implements XAPI {
   }
 
   status = {
-    get: async (deviceId: string, path: string) => {
+    get: async (deviceId: string, path: string, allowEmpty: boolean) => {
       if (!isStr(deviceId) || !isStr(path)) {
         throw new Error('xStatus: missing deviceId or path');
       }
@@ -35,8 +35,11 @@ class XapiImpl implements XAPI {
       const res = await this.http.xStatus(deviceId, name);
 
       const answer = res?.result;
-      if (emptyObj(answer)) {
+      if (emptyObj(answer) && !allowEmpty) {
         throw new Error('xStatus not found. Did you include the API in the manifest?');
+      }
+      if (emptyObj(answer) && allowEmpty) {
+        return false;
       }
 
       if (answer) {
