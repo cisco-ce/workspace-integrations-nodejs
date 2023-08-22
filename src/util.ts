@@ -28,6 +28,7 @@ function removePath(path: string, object: any) {
   const paths = path.replace(/ /g, '.').split('.');
   let res = object;
   paths.forEach((key) => {
+    if (key.match(/\[.\]$/)) { key = key.slice(0, -3) };
     if (key !== '*') {
       res = res[key];
     }
