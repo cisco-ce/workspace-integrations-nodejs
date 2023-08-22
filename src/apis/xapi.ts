@@ -27,7 +27,7 @@ class XapiImpl implements XAPI {
   }
 
   status = {
-    get: async (deviceId: string, path: string, allowEmpty: boolean) => {
+    get: async (deviceId: string, path: string, allowEmpty: boolean = false) => {
       if (!isStr(deviceId) || !isStr(path)) {
         throw new Error('xStatus: missing deviceId or path');
       }
