@@ -5,7 +5,7 @@ This article is written for developers that want to contribute to the developmen
 A few general notes to remember:
 
 * Run `npm run build` after doing changes in `.ts` files for the changes to take effect, if you are running samples to test.
-* Run `npm test` and `npm lint` before pushing changes.
+* Run `npm run test` and `npm run lint` before pushing changes.
 * Do `npm run doc` to update auto-generated docs.
 * Do `git push` as when publishing a new version to npm, so GitHub and npmjs.com are in sync.
 
