@@ -129,7 +129,7 @@ class XapiImpl implements XAPI {
         // console.log('event', shortName(deviceId), path, JSON.toString(event), timestamp);
       });
     } else if (type === 'healthCheck') {
-      console.log('xapi: got healt check message');
+      console.log('xapi: got health check message');
     } else {
       // console.log('Received unknown notifications', type, data);
       // handle: type: 'action', add listener for it

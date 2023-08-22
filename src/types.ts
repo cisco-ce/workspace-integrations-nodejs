@@ -31,13 +31,13 @@ export interface Webhook {
 
 /**
  * Error level works in an expanding way, eg 'error' will only show errors,
- * 'warn' will show warnings and errrors, etc.
+ * 'warn' will show warnings and errors, etc.
  */
 export type LogLevel = 'error' | 'warn' | 'info' | 'verbose';
 
 /**
  * Your configs for initialising your Workspace Integration.
- * Must containt client id and secret, which you get when deploying the integration in Control Hub,
+ * Must contain client id and secret, which you get when deploying the integration in Control Hub,
  * as well as the JSON Web Token (activationCode) which you get when you activate it.
  */
 export interface IntegrationConfig {
@@ -159,7 +159,7 @@ export type Command = (
 export type DataObject = Record<string, any>;
 
 /**
- * Device statuses are typicially states, sensor data etc that can change at any time.
+ * Device statuses are typically states, sensor data etc that can change at any time.
  * There are two ways to get status info:
  * 1. Query them (`get`)
  * 2. Subscribe to them (`on`). In this case you will be notified whenever a status changes.
@@ -171,7 +171,7 @@ export interface Status {
 }
 
 /**
- * Device events are typicially events that occur at a singular point in time and don't last
+ * Device events are typically events that occur at a singular point in time and don't last
  * long, such as incoming button press on a UI extension, incoming call, system boot etc.
  * Workspace integrations only support a subset of all events,
  * see Control Hub > Workspace integrations for an updated list.
@@ -382,7 +382,7 @@ export type ActionHandler = (action: DataObject) => any;
 
 /**
  * Info about your integration. Contains much of the information provided by the manifest.
- * In particular, use this to check which optional scopes and xAPI's the admin has acccepted.
+ * In particular, use this to check which optional scopes and xAPI's the admin has accepted.
  */
 export interface AppInfo {
   id: string;
