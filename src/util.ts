@@ -25,13 +25,27 @@ function sleep(ms: number) {
 }
 
 function removePath(path: string, object: any) {
+  // always return array if wildcard search used
+  const retArray = path.includes('[*]');
   const paths = path.replace(/ /g, '.').split('.');
   let res = object;
   paths.forEach((key) => {
+    // remove index for path match
+    if (key.match(/\[.\]$/)) { key = key.slice(0, -3) };
     if (key !== '*') {
-      res = res[key];
+      if (Array.isArray(res)) {
+        const output: any[] = [];
+        res.forEach((i) => {
+          output.push(i[key]);
+        })
+        res = output;
+      } else {
+          res = res[key];
+      }
     }
   });
+  // remove array for single result if not a wildcard search
+  if (Array.isArray(res) && res.length === 1 && !retArray) return res[0];
   return res;
 }
 
