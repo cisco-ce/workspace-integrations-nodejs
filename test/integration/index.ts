@@ -88,17 +88,17 @@ async function canReceiveEvents(int: Integration) {
     Duration: 10,
   };
   await int.xapi.command(device.id, 'UserInterface.Message.Prompt.Display', choices);
-  await sleep(2000);
+  await sleep(3000);
   const response = { FeedbackId: choices.FeedbackId, OptionId: 1 };
   await int.xapi.command(device.id, 'UserInterface.Message.Prompt.Response', response);
-  await sleep(2000);
+  await sleep(3000);
   equal(event?.FeedbackId, choices.FeedbackId, 'Got correct prompt event');
 }
 
 async function getsStandbyNotifications(int: Integration) {
   const device = await orgHasTestDevice(int) as Device;
   await int.xapi.command(device.id, 'Standby.Deactivate');
-  await sleep(2000);
+  await sleep(3000);
   let lastState;
   await int.xapi.status.on('Standby.State', (_, __, state) => {
     lastState = state;
@@ -106,8 +106,11 @@ async function getsStandbyNotifications(int: Integration) {
   const state = await int.xapi.status.get(device.id, 'Standby.State');
   equal(state, 'Off', 'Standby state off');
   await int.xapi.command(device.id, 'Standby.Activate');
-  await sleep(2000);
+  await sleep(3000);
   equal(lastState, 'Standby', 'Notified about standby change');
+  await sleep(1000);
+  await int.xapi.command(device.id, 'Standby.Deactivate');
+  await sleep(2000);
 }
 
 async function errorOnInvalidXapis(int: Integration) {
