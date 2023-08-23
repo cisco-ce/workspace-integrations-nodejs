@@ -166,7 +166,11 @@ export type DataObject = Record<string, any>;
  * Note: Only a few statuses actually support notifications.
  */
 export interface Status {
-  get: (deviceId: string, path: XapiPath, allowEmpty: boolean) => Promise<DataObject | number | string>;
+  /**
+   * allowEmpty: if set to true, returns empty array if path was not found, otherwise it throws error.
+   * Typically useful when working with dynamic lists.
+   */
+  get: (deviceId: string, path: XapiPath, allowEmpty?: boolean) => Promise<DataObject | number | string>;
   on: (path: XapiPath, listener: StatusListener) => void;
 }
 
