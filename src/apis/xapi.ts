@@ -116,6 +116,13 @@ class XapiImpl implements XAPI {
         });
         // console.log('status', `${shortName(deviceId)} => ${key}: ${value} (${timestamp})`);
       }
+      for (const path of data.changes.removed) {
+        this.statusListeners.forEach((listener) => {
+          if (pathMatch(path, listener.path)) {
+            listener.callback(deviceId, path, { ghost: true }, notification);
+          }
+        })
+      }
     } else if (type === 'events') {
       data.events.forEach((e: DataObject) => {
         const path = e.key;
@@ -135,6 +142,7 @@ class XapiImpl implements XAPI {
       // handle: type: 'action', add listener for it
     }
   }
+
 }
 
 export default XapiImpl;

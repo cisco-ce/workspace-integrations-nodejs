@@ -100,6 +100,10 @@ export type EventListener = (deviceId: string, path: string, event: DataObject, 
 /**
  * Called when a device has a status update that matches the path you are listening to.
  * Remember to add the path to the manifest xAPI status scope too.
+ *
+ * Note: if the status path you are listening to is removed (for dynamic lists such as
+ * xStatus Call[...], xStatus Conference Presentation LocalInstance[...] etc),
+ * the value param will be set to { ghost: true } to notify this
  */
 export type StatusListener = (deviceId: string, path: string, value: DataObject, data: Notification) => void;
 
