@@ -25,6 +25,9 @@
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Called when a device has a status update that matches the path you are listening to.
 Remember to add the path to the manifest xAPI status scope too.</p>
+<p>Note: if the status path you are listening to is removed (for dynamic lists such as
+xStatus Call[...], xStatus Conference Presentation LocalInstance[...] etc),
+the value param will be set to { ghost: true } to notify this</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -40,7 +43,7 @@ Remember to add the path to the manifest xAPI status scope too.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 <div class="tsd-comment tsd-typography"></div></li></ul></li></ul></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations-nodejs/blob/0ad6223/src/types.ts#L104">types.ts:104</a></li></ul></aside></div>
+<li>Defined in <a href="https://github.com/cisco-ce/workspace-integrations-nodejs/blob/099c69b/src/types.ts#L108">types.ts:108</a></li></ul></aside></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
