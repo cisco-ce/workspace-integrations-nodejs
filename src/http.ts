@@ -44,7 +44,7 @@ async function fetch(url: string, options: DataObject) {
   }
   const res = await nodefetch(url, options);
   if (!res.ok) {
-    throw new Error(`Fetch failed: ${res.status} ${res.statusText}`);
+    throw new Error(JSON.stringify(await res.json()));
   }
   logger.verbose(`[${options.method || 'GET'}: ${url}`);
   return await res.json();
