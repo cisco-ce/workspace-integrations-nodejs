@@ -381,6 +381,38 @@ Please be aware of the following limitations:
 
 * If your integration has been allowed for only certain locations, you will still be able to list all the devices in the org and manipulate configs, but only invoke commands and statuses for the device in the allowed locations. Other devices will return 403 Forbidden.
 
+* Personal devices will not send any events at all.
+
+## Clustered integrations
+
+For distributed use cases, the SDK supports a cluster-based architecture by allowing the integration to be serialized and deserialized.
+This means that you need to save the serialized state (which contains access tokens, refresh tokens etc) and provide this to your server
+node when activating them.
+
+Note that the application itself is now responsible for refreshing a token if it expires while no nodes are active. The serialized object
+contains a tokenExpiryTime string (ISO date) indicating when the access token expires.
+
+Here's an example of the functions you need to use:
+
+```js
+const { connect, deserialize, createAccessToken } = require('workspace-integrations');
+
+// normal connect call when initialising an org/app 
+const integration = await connect(yourActivationConfig);
+
+// serialize your org/app instance (JSON object that can be persisted):
+const savedIntegration = integration.serialize();
+
+// instantiate an integration object, it is now ready to use xapi etc immediately
+const integration = deserialize(savedIntegration)
+
+// If you need to refresh token yourself while no nodes are active
+// The clientId etc are found in the serialized state bundle: 
+const { access_token } = await createAccessToken(clientId, clientSecret, oauthUrl, refreshToken)
+```
+
+The clustered integration only makes sense when your application is using the web hook strategy.
+
 ## Contributing to the SDK
 
 This SDK is an open source project and contributions are of course welcome! See [the contributor article](./CONTRIBUTOR.md) for more info.

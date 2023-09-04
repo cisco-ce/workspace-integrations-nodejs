@@ -60,8 +60,8 @@ function get(accessToken: string, url: string) {
 }
 
 class HttpImpl implements Http {
-  private baseUrl: string = '';
-  private accessToken: string = '';
+  public baseUrl: string = '';
+  public accessToken: string = '';
 
   constructor(baseUrl: string, accessToken: string) {
     this.baseUrl = baseUrl;

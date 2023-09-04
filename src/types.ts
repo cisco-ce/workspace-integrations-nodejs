@@ -284,6 +284,9 @@ export interface Http {
    * @param partialUrl URL without the https://webexapis.com/v1/ part
    */
   get(partialUrl: string): Promise<any>;
+
+  accessToken: string;
+  baseUrl: string;
 }
 
 /**
