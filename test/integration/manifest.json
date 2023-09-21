@@ -1,6 +1,6 @@
 {
   "id": "b743980a-a072-4179-b57b-91b9292543ac",
-  "manifestVersion": 40,
+  "manifestVersion": 53,
   "displayName": "Workspace Integrations Automatic SDK test",
   "vendor": "Webex Labs",
   "email": "workspace-integrations-feedback@cisco.com",
@@ -49,6 +49,10 @@
       {
         "path": "Standby.State",
         "access": "required"
+      },
+      {
+        "path": "Call[*].*",
+        "access": "required"
       }
     ],
     "commands": [
@@ -74,6 +78,14 @@
       },
       {
         "path": "UserInterface.Message.Prompt.Response",
+        "access": "required"
+      },
+      {
+        "path": "Dial",
+        "access": "required"
+      },
+      {
+        "path": "Call.Disconnect",
         "access": "required"
       }
     ],
