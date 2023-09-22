@@ -35,6 +35,24 @@ export interface Webhook {
  */
 export type LogLevel = 'error' | 'warn' | 'info' | 'verbose';
 
+
+export interface AppConfig {
+  appId: string;
+  appSecret: string;
+  accessToken: string;
+  activationCode: ActivationCode;
+  tokenExpiryTime: string;
+  pollUrl?: string;
+}
+
+export interface ActivationCode {
+  oauthUrl: string,
+  refreshToken: string,
+  webexapisBaseUrl: string,
+  appUrl: string,
+}
+
+export type NotificationType = 'webhook' | 'longpolling' | 'none';
 /**
  * Your configs for initialising your Workspace Integration.
  * Must contain client id and secret, which you get when deploying the integration in Control Hub,
@@ -45,12 +63,7 @@ export interface IntegrationConfig {
   clientSecret: string;
 
   /* You find these configs by decoding the activation code you get from Control Hub */
-  activationCode: {
-    oauthUrl: string,
-    refreshToken: string,
-    webexapisBaseUrl: string,
-    appUrl: string,
-  }
+  activationCode: ActivationCode;
 
   /**
    * How you want your integration to receive device notifications such as events
@@ -61,7 +74,7 @@ export interface IntegrationConfig {
    *   to get notifications.
    * - none: you won't receive any notifications
    */
-  notifications: 'webhook' | 'longpolling' | 'none';
+  notifications: NotificationType;
 
   /** Required if you set {@link notifications} to `webhook`. */
   webhook?: Webhook;
@@ -233,7 +246,7 @@ export interface Config {
  * as well as long polling for notifications, when that method is used.
  */
 export interface Integration {
-  getAppInfo(): AppInfo;
+  getAppInfo(): Promise<AppInfo>;
 
   /**
    * Sets an error handler on the integration, so you are notified when something goes wrong.

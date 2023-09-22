@@ -1,10 +1,9 @@
-import { Integration, ActionHandler, ErrorHandler, Devices, IntegrationConfig, DataObject, Workspaces, AppInfo } from './types';
+import { AppConfig, Integration, ActionHandler, ErrorHandler, Devices, IntegrationConfig, DataObject, Workspaces, AppInfo } from './types';
 import { sleep } from './util';
 import Http from './http';
 import DevicesImpl from './apis/devices';
 import WorkspacesImpl from './apis/workspaces';
 import XapiImpl from './apis/xapi';
-import { OAuthDetails } from './http';
 import log from './logger';
 import { decodeAndVerify } from './jwt';
 
@@ -36,22 +35,27 @@ class IntegrationImpl implements Integration {
 
   private actionHandler: ActionHandler | null = null;
   private errorHandler: ErrorHandler | null = null;
-  private appInfo: AppInfo;
-  private oauth: OAuthDetails;
+  private appConfig: AppConfig;
   private appUrl: string;
-  private activationCode: DataObject;
 
-  constructor(appInfo: AppInfo, accessToken: string, activationCode: DataObject, oauth: OAuthDetails, tokenExpiryTime: string) {
-    this.appInfo = appInfo;
-    this.activationCode = activationCode;
+  constructor(appConfig: AppConfig) {
+    this.appConfig = appConfig;
+    const { activationCode, accessToken, pollUrl } = appConfig;
     this.http = new Http(activationCode.webexapisBaseUrl, accessToken);
     this.devices = new DevicesImpl(this.http);
     this.workspaces = new WorkspacesImpl(this.http);
     this.xapi = new XapiImpl(this.http);
-    this.oauth = oauth;
     this.appUrl = activationCode.appUrl;
-    this.tokenExpiryTime = tokenExpiryTime;
-    console.log('expiry', tokenExpiryTime);
+
+    this.tokenExpiryTime = appConfig.tokenExpiryTime;
+    const timeToExpiry = (new Date(this.tokenExpiryTime).getTime() - Date.now()) / 1000;
+    const timeToRefresh = timeToExpiry - 60 * 15;
+    log.verbose(`Fetching new token on ${new Date(Date.now() + timeToRefresh * 1000)}`);
+    setTimeout(() => this.refreshToken(), timeToRefresh * 1000);
+
+    if (pollUrl) {
+      this.pollData(pollUrl);
+    }
   }
 
   onError(handler: ErrorHandler) {
@@ -62,8 +66,8 @@ class IntegrationImpl implements Integration {
     this.actionHandler = handler;
   }
 
-  getAppInfo() {
-    return this.appInfo;
+  async getAppInfo() {
+    return this.ping() as Promise<AppInfo>;
   }
 
   webexApi(partialUrl: string, method?: string, body?: any, contentType?: string): Promise<any> {
@@ -79,25 +83,14 @@ class IntegrationImpl implements Integration {
   }
 
   serialize(): DataObject {
-    return {
-      appInfo: this.appInfo,
-      accessToken: this.http.accessToken,
-      activationCode: this.activationCode,
-      oauth: this.oauth,
-      tokenExpiryTime: this.tokenExpiryTime,
-    };
+    return this.appConfig;
   }
 
-  static deserialize(obj: DataObject) {
-    const { appInfo, accessToken, activationCode, oauth, tokenExpiryTime } = obj;
-    const int = new IntegrationImpl(appInfo, accessToken, activationCode, oauth, tokenExpiryTime);
-    // NOTE: This must be async, so integration is immediately ready to use
-    int.refreshToken();
-    return int;
+  static deserialize(obj: AppConfig) {
+    return new IntegrationImpl(obj);
   }
 
-  async pollData() {
-    const pollUrl = this.appInfo.queue?.pollUrl;
+  async pollData(pollUrl: string) {
     if (!pollUrl) return;
 
     while (true) {
@@ -159,32 +152,31 @@ class IntegrationImpl implements Integration {
     log.info('Successfully initiated integration');
 
     const { access_token, expires_in } = tokenData;
-    const oauth = { clientId, clientSecret, oauthUrl, refreshToken };
 
-    const expiry = new Date(Date.now() + (expires_in * 1000)).toISOString();
-    const integration = new IntegrationImpl(appInfo, access_token, activationCode, oauth, expiry);
+    const tokenExpiryTime = new Date(Date.now() + (expires_in * 1000)).toISOString();
+    const config = {
+      appId: clientId,
+      appSecret: clientSecret,
+      accessToken: access_token,
+      activationCode, tokenExpiryTime,
+    } as AppConfig;
 
-    // TODO move to constructor
     if (notifications === 'longpolling') {
-      integration.pollData();
+      config.pollUrl = appInfo.queue?.pollUrl;
     }
 
-    // TODO move to constructor
-    const timeToRefresh = expires_in - 60 * 15;
-    log.verbose(`Fetching new token on ${new Date(Date.now() + timeToRefresh * 1000)}`);
-    // console.log('token will be refreshed in ', (timeToRefresh / 60).toFixed(0), 'minutes');
-    setTimeout(() => integration.refreshToken(), timeToRefresh * 1000);
+    const integration = new IntegrationImpl(config);
 
     return integration;
   }
 
   async refreshToken() {
-    const { clientId, clientSecret, oauthUrl, refreshToken } = this.oauth;
+    const { oauthUrl, refreshToken } = this.appConfig.activationCode;
 
     try {
       const { access_token, expires_in } = await Http.createAccessToken({
-        clientId,
-        clientSecret,
+        clientId: this.appConfig.appId,
+        clientSecret: this.appConfig.appSecret,
         oauthUrl,
         refreshToken,
       });
