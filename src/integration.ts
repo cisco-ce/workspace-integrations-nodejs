@@ -86,7 +86,21 @@ class IntegrationImpl implements Integration {
     return this.appConfig;
   }
 
-  static deserialize(obj: AppConfig) {
+  static async deserialize(obj: AppConfig) {
+    const { tokenExpiryTime, activationCode } = obj;
+    const expired = new Date(tokenExpiryTime).getTime() <= Date.now();
+
+    if (expired) {
+      const { access_token, expires_in } = await Http.createAccessToken({
+        clientId: obj.appId,
+        clientSecret: obj.appSecret,
+        oauthUrl: activationCode.oauthUrl,
+        refreshToken: activationCode.refreshToken,
+      });
+      obj.accessToken = access_token;
+      obj.tokenExpiryTime = new Date(Date.now() + (expires_in * 1000)).toISOString();
+    }
+
     return new IntegrationImpl(obj);
   }
 
