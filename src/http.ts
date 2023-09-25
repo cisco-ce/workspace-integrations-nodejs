@@ -9,6 +9,7 @@ import { urlJoin } from 'url-join-ts';
 
 import { DataObject, Http } from './types';
 import logger from './logger';
+import { sleep } from './util';
 
 // For interceptinng all http calls (for testing etc):
 type Interceptor = (url: string, options: DataObject) => any;
@@ -42,7 +43,24 @@ async function fetch(url: string, options: DataObject) {
   if (dryHandler) {
     return dryHandler(url, options);
   }
-  const res = await nodefetch(url, options);
+
+  const RetryWait = 2000;
+  let res;
+  try {
+    res = await nodefetch(url, options);
+  }
+  catch(e) {
+    // we wait and try once more before failing (recover from intermittent network fail)
+    logger.warn('Network failure, retrying once');
+    await sleep(RetryWait);
+    try {
+      res = await nodefetch(url, options);
+    }
+    catch(e) {
+      throw(e);
+    }
+  }
+
   if (!res.ok) {
     throw new Error(JSON.stringify(await res.json()));
   }
