@@ -338,6 +338,7 @@ export interface Workspace {
   notes?: string;
   /** Whether the workspace supports hot desking or not */
   hotdeskingStatus: 'on' | 'off';
+  devicePlatform: string;
 }
 
 /**
@@ -376,6 +377,7 @@ export interface Device {
   lastSeen: string;
   capabilities: string[];
   permissions: string[];
+  devicePlatform: string;
 }
 
 export interface Devices {
