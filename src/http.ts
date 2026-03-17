@@ -62,7 +62,15 @@ async function fetch(url: string, options: DataObject) {
   }
 
   if (!res.ok) {
-    throw new Error(JSON.stringify(await res.json()));
+    const error = await res.json();
+    error.status = res.status;
+    if (res.status === 429) {
+      const retryAfter = res.headers.get('retry-after');
+      if (retryAfter) {
+        error.retryAfter = retryAfter;
+      }
+    }
+    throw new Error(JSON.stringify(error));
   }
   logger.verbose(`[${options.method || 'GET'}: ${url}`);
   return await res.json();
